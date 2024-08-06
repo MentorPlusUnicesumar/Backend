@@ -12,6 +12,7 @@ import {
 import { EnumTypeUser } from '../enums/user-type';
 import { EnumStatusUser } from '../enums/user-status';
 import { EstadoUF } from '../enums/enum-uf';
+import { IsCPF } from "class-validator-cpf";
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -53,6 +54,7 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   @IsString()
+  @IsCPF({message: 'Digite um CPF valido (ex: 123.456.789-00 ou 12345678900'})
   cpf: string;
 
   @IsArray()

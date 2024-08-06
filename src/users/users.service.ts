@@ -19,10 +19,18 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto): Promise<UserInterface | {}> {
     const validEmail = await this.findByEmail(createUserDto.email)
-    if (validEmail){
-      return {
-        error:`O email: ${createUserDto.email} já foi cadastrado`
-      }
+    const validCpf = await this.findByCpf(createUserDto.cpf)
+    const erros = {
+      error: []
+    }
+    if (validEmail ){
+      erros.error.push(`O email: ${createUserDto.email} ja foi cadastrado`)
+    }
+    if (validCpf){
+      erros.error.push(`O CPF: ${createUserDto.cpf} ja foi cadastrado`)
+    }
+    if (validCpf || validEmail){
+      return erros.error
     } else {
       createUserDto.senha = await this.userHash(createUserDto.senha);
       const user = new this.userModel(createUserDto);
@@ -32,6 +40,10 @@ export class UsersService {
 
   findByEmail(email: string) {
     return this.userModel.findOne({ email: email }).exec();
+  }
+
+  findByCpf(cpf: string) {
+    return this.userModel.findOne({ cpf: cpf }).exec();
   }
 
   findAll() {
