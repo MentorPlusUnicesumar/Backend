@@ -18,7 +18,8 @@ export class UsersService {
   }
 
   async create(createUserDto: CreateUserDto): Promise<UserInterface | {}> {
-    if (this.findByEmail(createUserDto.email)){
+    const validEmail = await this.findByEmail(createUserDto.email)
+    if (validEmail){
       return {
         error:`O email: ${createUserDto.email} já foi cadastrado`
       }
