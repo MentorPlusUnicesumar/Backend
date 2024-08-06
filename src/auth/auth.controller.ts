@@ -20,5 +20,4 @@ export class AuthController {
   findAll() {
     return [];
   }
-
 }

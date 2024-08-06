@@ -17,10 +17,16 @@ export class UsersService {
     return hash;
   }
 
-  async create(createUserDto: CreateUserDto): Promise<UserInterface> {
-    createUserDto.senha = await this.userHash(createUserDto.senha);
-    const user = new this.userModel(createUserDto);
-    return user.save();
+  async create(createUserDto: CreateUserDto): Promise<UserInterface | {}> {
+    if (this.findByEmail(createUserDto.email)){
+      return {
+        error:`O email: ${createUserDto.email} já foi cadastrado`
+      }
+    } else {
+      createUserDto.senha = await this.userHash(createUserDto.senha);
+      const user = new this.userModel(createUserDto);
+      return user.save();
+    }
   }
 
   findByEmail(email: string) {
