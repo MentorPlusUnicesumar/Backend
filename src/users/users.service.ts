@@ -23,6 +23,10 @@ export class UsersService {
     return user.save();
   }
 
+  findByEmail(email: string) {
+    return this.userModel.findOne({ email: email }).exec();
+  }
+
   findAll() {
     return this.userModel.find();
   }

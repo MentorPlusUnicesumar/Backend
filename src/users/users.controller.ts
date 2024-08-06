@@ -53,6 +53,25 @@ export class UsersController {
     }
   }
 
+  @Get('email')
+  findByEmail(@Body('email') email: string) {
+    try {
+      return this.usersService.findByEmail(email);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao buscar pelo email',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+
   @Get()
   findAll() {
     try {
