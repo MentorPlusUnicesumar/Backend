@@ -13,13 +13,16 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/decorator/auth.decorator';
+import { EnumTypeUser } from './enums/user-type';
+import { Roles } from 'src/auth/decorator/roles.decorator';
 
 @Controller('users')
+@Roles(EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Public()
   @Post()
+  @Public()
   create(@Body() createUserDto: CreateUserDto) {
     try {
       return this.usersService.create(createUserDto);
@@ -73,8 +76,8 @@ export class UsersController {
     }
   }
 
-
   @Get()
+  @Roles(EnumTypeUser.Admin)
   findAll() {
     try {
       return this.usersService.findAll();
@@ -93,11 +96,13 @@ export class UsersController {
   }
 
   @Get('id/:id')
+  @Roles(EnumTypeUser.Admin)
   findById(@Param('id') id: string) {
     return this.usersService.findById(id);
   }
 
   @Patch(':id')
+  @Roles(EnumTypeUser.Admin)
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
       return this.usersService.update(id, updateUserDto);
@@ -116,6 +121,7 @@ export class UsersController {
   }
 
   @Delete(':id')
+  @Roles(EnumTypeUser.Admin)
   remove(@Param('id') id: string) {
     try {
       return this.usersService.remove(id);

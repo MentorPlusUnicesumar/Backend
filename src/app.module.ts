@@ -4,6 +4,7 @@ import { UsersModule } from './users/users.module';
 import { ConfigModule } from '@nestjs/config';
 import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
+import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth/auth.guard';
 
 @Module({
@@ -14,9 +15,11 @@ import { AuthGuard } from './auth/auth.guard';
     MongooseModule.forRoot(process.env.DATABASE_URL),
     UsersModule,
     AuthModule,
+    JwtModule,
   ],
   controllers: [],
-  providers: [{
+  providers: [
+  {
     provide: APP_GUARD,
     useClass: AuthGuard,
   },],
