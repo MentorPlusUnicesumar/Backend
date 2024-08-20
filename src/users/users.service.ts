@@ -102,7 +102,7 @@ export class UsersService {
     } else {  
       return {
         result: 'Senha atual incorreta'
-      }
+      };
     }
   }
 
