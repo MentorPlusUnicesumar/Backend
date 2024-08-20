@@ -152,7 +152,7 @@ export class UsersController {
 
   @Post('password')
   @Public()
-  private redefinirSenha (@UserId() id: mongoose.Types.ObjectId, @Body() newSenhaUserDto) {
+  private redefinirSenha (@UserId() id: mongoose.Types.ObjectId, @Body() newSenhaUserDto: NewSenhaUserDto) {
     try {
       return this.usersService.resetPassword(id, newSenhaUserDto);
     } catch (error) {
