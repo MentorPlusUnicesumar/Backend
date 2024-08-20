@@ -96,13 +96,13 @@ export class UsersService {
         }
       } else {
         return {
-          result: 'As senhas n�o conferem'
+          result: 'As senhas não conferem'
         }
       }
     } else {  
       return {
         result: 'Senha atual incorreta'
-      };
+      }
     }
   }
 
