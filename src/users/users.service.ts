@@ -85,7 +85,7 @@ export class UsersService {
     console.log(isMath)
     if (isMath){
       if (newSenhaUserDto.novasenha == newSenhaUserDto.confirmasenha) {
-        newSenhaUserDto.novasenha = await this.userHash(newSenhaUserDto.novasenha)
+        newSenhaUserDto.novasenha = await this.userHash(newSenhaUserDto.novasenha);
         await this.userModel.findByIdAndUpdate(
           { _id: id },
           { $set: {senha: newSenhaUserDto.novasenha} },
