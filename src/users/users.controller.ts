@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  Put,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,15 +16,21 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumTypeUser } from './enums/user-type';
 import { Roles } from 'src/auth/decorator/roles.decorator';
+import { UserInterface } from './interface/user.interface';
+import { UserReturnInterface } from './dto/return-user.dto';
+import { UserId } from './decorator/user-id.dto';
+import { NewSenhaUserDto } from './dto/newsenha-user.dto';
+import mongoose from 'mongoose';
+
 
 @Controller('users')
-@Roles(EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado)
+@Roles(EnumTypeUser.Admin)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
   @Public()
-  create(@Body() createUserDto: CreateUserDto) {
+  private create(@Body() createUserDto: CreateUserDto): Promise<UserInterface | {}>  {
     try {
       return this.usersService.create(createUserDto);
     } catch (error) {
@@ -41,7 +48,8 @@ export class UsersController {
   }
 
   @Get('name')
-  findByName(@Body('name') name: string) {
+  @Roles(EnumTypeUser.Admin)
+  private findByName(@Body('name') name: string) {
     try {
       return this.usersService.findByName(name);
     } catch (error) {
@@ -59,7 +67,8 @@ export class UsersController {
   }
 
   @Get('email')
-  findByEmail(@Body('email') email: string) {
+  @Roles(EnumTypeUser.Admin)
+  private findByEmail(@Body('email') email: string) {
     try {
       return this.usersService.findByEmail(email);
     } catch (error) {
@@ -78,9 +87,11 @@ export class UsersController {
 
   @Get()
   @Roles(EnumTypeUser.Admin)
-  findAll() {
+  private async findAll(): Promise<UserReturnInterface | {}> {
     try {
-      return this.usersService.findAll();
+      return (await this.usersService.findAll()).map(
+        (userInterface) => new UserReturnInterface(userInterface)
+      );
     } catch (error) {
       throw new HttpException(
         {
@@ -97,13 +108,13 @@ export class UsersController {
 
   @Get('id/:id')
   @Roles(EnumTypeUser.Admin)
-  findById(@Param('id') id: string) {
+  private findById(@Param('id') id: string) {
     return this.usersService.findById(id);
   }
 
   @Patch(':id')
   @Roles(EnumTypeUser.Admin)
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+  private update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     try {
       return this.usersService.update(id, updateUserDto);
     } catch (error) {
@@ -122,7 +133,7 @@ export class UsersController {
 
   @Delete(':id')
   @Roles(EnumTypeUser.Admin)
-  remove(@Param('id') id: string) {
+  private remove(@Param('id') id: string) {
     try {
       return this.usersService.remove(id);
     } catch (error) {
@@ -130,6 +141,25 @@ export class UsersController {
         {
           status: HttpStatus.FORBIDDEN,
           error: 'Erro ao deletar o usuario',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Post('password')
+  @Public()
+  private redefinirSenha (@UserId() id: mongoose.Types.ObjectId, @Body() newSenhaUserDto) {
+    try {
+      return this.usersService.resetPassword(id, newSenhaUserDto);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao redefinir senha do usuario',
         },
         HttpStatus.FORBIDDEN,
         {

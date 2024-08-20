@@ -18,16 +18,15 @@ export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService, private reflector: Reflector) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    let token = ''
+    let token = '';
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
       context.getHandler(),
       context.getClass(),
     ]);
+    
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
-
 
     const requiredRoles = this.reflector.getAllAndOverride<EnumTypeUser[]>(ROLES_KEY, [
       context.getHandler(),
@@ -37,7 +36,7 @@ export class AuthGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    
+
     const {authorization} = context.switchToHttp().getRequest().headers;
     if (authorization) {
       token = authorization.split(' ')[1]
