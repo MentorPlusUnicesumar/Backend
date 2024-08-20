@@ -1,7 +1,13 @@
-import { Body, Controller, Post, HttpCode, HttpStatus, UseGuards, Get, Request } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Post,
+  HttpCode,
+  HttpStatus,
+  Get,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
-import { Public } from './decorator/auth.decorator';
 import { AuthInterface } from './interface/auth.interface';
 
 @Controller('auth')
@@ -20,7 +26,9 @@ export class AuthController {
   }
 
   @Post('refresh')
-  refreshToken(@Body() body: {refresh_token: string}): Promise<AuthInterface> {
+  refreshToken(
+    @Body() body: { refresh_token: string },
+  ): Promise<AuthInterface> {
     return this.authService.refreshToken(body);
   }
 }

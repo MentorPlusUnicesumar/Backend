@@ -15,16 +15,16 @@ export class UserReturnInterface {
   mentoriasAtivas: string[];
   fotos: string;
 
-    constructor(user: UserDocument ){
-      this.name = user.name;
-      this.email = user.email;
-      this.telefone = user.telefone;
-      this.typeUser = user.typeUser;
-      this.status = user.status;
-      this.cidade = user.cidade;
-      this.uf = user.uf;
-      this.cpf = user.cpf;
-      this.mentoriasAtivas = user.mentoriasAtivas;
-      this.fotos = user.fotos;
-    }
+  constructor(user: UserDocument) {
+    this.name = user.name;
+    this.email = user.email;
+    this.telefone = user.telefone;
+    this.typeUser = user.typeUser;
+    this.status = user.status;
+    this.cidade = user.cidade;
+    this.uf = user.uf;
+    this.cpf = user.cpf;
+    this.mentoriasAtivas = user.mentoriasAtivas;
+    this.fotos = user.fotos;
+  }
 }

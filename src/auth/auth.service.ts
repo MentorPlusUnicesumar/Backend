@@ -1,49 +1,53 @@
-import { Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
-import * as bycript from 'bcrypt'
+import * as bycript from 'bcrypt';
 import { LoginPayload } from 'src/auth/dto/login-payload.dto';
-import { AuthInterface } from './interface/auth.interface';
-import { User, UserDocument } from 'src/users/schema/user.schema';
+import { UserDocument } from 'src/users/schema/user.schema';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
-    private jwtService: JwtService
+    private jwtService: JwtService,
   ) {}
 
-  
-
-  async signIn( loginDto: LoginDto ) {
+  async signIn(loginDto: LoginDto) {
     const user = await this.usersService.findByEmail(loginDto.email);
 
-    const isMath = await bycript.compare(loginDto.senha, user.senha)
+    const isMath = await bycript.compare(loginDto.senha, user.senha);
 
     if (!user || !isMath) {
       throw new NotFoundException('Email ou senha invalidos');
     }
-    
+
     return this.gerarToken(user);
   }
-  
-  async refreshToken(body: {refresh_token: string}) {
-    const payload = await this.validarRefresh(body); 
+
+  async refreshToken(body: { refresh_token: string }) {
+    const payload = await this.validarRefresh(body);
     return this.gerarToken(payload);
   }
-  
-  private async gerarToken( user: UserDocument ) {
+
+  private async gerarToken(user: UserDocument) {
     return {
-      access_token: this.jwtService.sign({... new LoginPayload(user)}),
-      refresh_token: this.jwtService.sign({... new LoginPayload(user)}, {
-        secret: process.env.REFRESH_CONSTANTS_JWT,
-        expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
-      },),
+      access_token: this.jwtService.sign({ ...new LoginPayload(user) }),
+      refresh_token: this.jwtService.sign(
+        { ...new LoginPayload(user) },
+        {
+          secret: process.env.REFRESH_CONSTANTS_JWT,
+          expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,
+        },
+      ),
     };
   }
 
-  private async validarRefresh(body: { refresh_token: string}) {
+  private async validarRefresh(body: { refresh_token: string }) {
     const refreshToken = body.refresh_token;
     if (!refreshToken) {
       throw new NotFoundException('Usuário não encontrado');
