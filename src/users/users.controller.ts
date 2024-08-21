@@ -153,8 +153,8 @@ export class UsersController {
     }
   }
 
-  @Post('password')
-  @Public()
+  @Post('reset-password')
+  @Roles(EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado)
   private redefinirSenha(
     @UserId() id: mongoose.Types.ObjectId,
     @Body() newSenhaUserDto: NewSenhaUserDto,
