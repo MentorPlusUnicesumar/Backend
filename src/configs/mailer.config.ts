@@ -12,18 +12,18 @@ export const mailerConfig: MailerOptions = {
     },
   },
   transport: {
-    host: 'smtp.office365.com',
+    host: process.env.EMAIL_HOST,
     port: 587,
-    secure: false, // true para 465, false para outras portas
+    secure: false,
     auth: {
-      user: 'atendimento.mentorplus@hotmail.com',
-      pass: 'mentorado123',
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
     },
     tls: {
-      rejectUnauthorized: false, // Pode ser necess�rio para alguns servidores
+      rejectUnauthorized: false,
     },
   },
   defaults: {
-    from: '"No Reply" <atendimento.mentorplus@hotmail.com>', // Endere�o de e-mail padr�o
+    from: `"No Reply" <${process.env.EMAIL_USER}>`,
   },
 };
