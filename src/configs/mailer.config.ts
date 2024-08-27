@@ -11,5 +11,19 @@ export const mailerConfig: MailerOptions = {
       layoutsDir: path.resolve(__dirname, '..', '..', 'templates'),
     },
   },
-  transport: process.env.EMAIL_TRANSPORT,
+  transport: {
+    host: process.env.EMAIL_HOST,
+    port: 587,
+    secure: false,
+    auth: {
+      user: process.env.EMAIL_USER,
+      pass: process.env.EMAIL_PASS,
+    },
+    tls: {
+      rejectUnauthorized: false,
+    },
+  },
+  defaults: {
+    from: `"No Reply" <${process.env.EMAIL_USER}>`,
+  },
 };
