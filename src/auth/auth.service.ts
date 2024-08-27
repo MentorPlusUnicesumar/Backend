@@ -9,12 +9,14 @@ import { LoginDto } from './dto/login.dto';
 import * as bycript from 'bcrypt';
 import { LoginPayload } from 'src/auth/dto/login-payload.dto';
 import { UserDocument } from 'src/users/schema/user.schema';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
     private jwtService: JwtService,
+    private mailerService: MailerService,
   ) {}
 
   async signIn(loginDto: LoginDto) {
@@ -68,5 +70,22 @@ export class AuthService {
       }
       throw new UnauthorizedException(err.name);
     }
+  }
+
+  async sendRecoverPasswordEmail(email: string): Promise<void> {
+    const user = await this.usersService.findByEmail(email);
+
+    if (!user)
+      throw new NotFoundException('Não há usuário cadastrado com esse email.');
+
+    const mail = {
+      to: user.email,
+      subject: 'Recuperação de senha',
+      template: 'recover-password',
+      context: {
+        token: user.email,
+      },
+    };
+    await this.mailerService.sendMail(mail);
   }
 }
