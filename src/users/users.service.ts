@@ -7,6 +7,7 @@ import mongoose, { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
+import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -18,20 +19,20 @@ export class UsersService {
     return hash;
   }
 
-  async create(createUserDto: CreateUserDto){
-    const validEmail = await this.findByEmail(createUserDto.email)
-    const validCpf = await this.findByCpf(createUserDto.cpf)
+  async create(createUserDto: CreateUserDto) {
+    const validEmail = await this.findByEmail(createUserDto.email);
+    const validCpf = await this.findByCpf(createUserDto.cpf);
     const erros = {
-      error: []
+      error: [],
+    };
+    if (validEmail) {
+      erros.error.push(`O email: ${createUserDto.email} ja foi cadastrado`);
     }
-    if (validEmail ){
-      erros.error.push(`O email: ${createUserDto.email} ja foi cadastrado`)
+    if (validCpf) {
+      erros.error.push(`O CPF: ${createUserDto.cpf} ja foi cadastrado`);
     }
-    if (validCpf){
-      erros.error.push(`O CPF: ${createUserDto.cpf} ja foi cadastrado`)
-    }
-    if (validCpf || validEmail){
-      return erros.error
+    if (validCpf || validEmail) {
+      return erros.error;
     } else {
       createUserDto.senha = await this.userHash(createUserDto.senha);
       const user = new this.userModel(createUserDto);
@@ -47,7 +48,7 @@ export class UsersService {
     return this.userModel.findOne({ cpf: cpf }).exec();
   }
 
-  findAll(){
+  findAll() {
     return this.userModel.find();
   }
 
@@ -77,33 +78,58 @@ export class UsersService {
     return this.userModel.deleteOne({ _id: id });
   }
 
-  async resetPassword(id: mongoose.Types.ObjectId, newSenhaUserDto: NewSenhaUserDto) {
+  async resetPassword(
+    id: mongoose.Types.ObjectId,
+    newSenhaUserDto: NewSenhaUserDto,
+  ) {
     const user = await this.findById(id);
-    console.log(user)
-    console.log(newSenhaUserDto)
-    const isMath = await bcrypt.compare(newSenhaUserDto.senha, user.senha)
-    console.log(isMath)
-    if (isMath){
+    console.log(user);
+    console.log(newSenhaUserDto);
+    const isMath = await bcrypt.compare(newSenhaUserDto.senha, user.senha);
+    console.log(isMath);
+    if (isMath) {
       if (newSenhaUserDto.novasenha == newSenhaUserDto.confirmasenha) {
-        newSenhaUserDto.novasenha = await this.userHash(newSenhaUserDto.novasenha);
+        newSenhaUserDto.novasenha = await this.userHash(
+          newSenhaUserDto.novasenha,
+        );
         await this.userModel.findByIdAndUpdate(
           { _id: id },
-          { $set: {senha: newSenhaUserDto.novasenha} },
+          { $set: { senha: newSenhaUserDto.novasenha } },
           { new: true },
         );
         return {
-          result: 'Senha alterada com sucesso'
-        }
+          result: 'Senha alterada com sucesso',
+        };
       } else {
         return {
-          result: 'As senhas n�o conferem'
-        }
+          result: 'As senhas não conferem',
+        };
       }
-    } else {  
+    } else {
       return {
-        result: 'Senha atual incorreta'
-      }
+        result: 'Senha atual incorreta',
+      };
     }
   }
 
+  async changePassword(
+    id: mongoose.Types.ObjectId,
+    changePasswordDto: ChangePasswordDto,
+  ) {
+    if (changePasswordDto.senha == changePasswordDto.confirmasenha) {
+      changePasswordDto.senha = await this.userHash(changePasswordDto.senha);
+      await this.userModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: { senha: changePasswordDto.senha } },
+        { new: true },
+      );
+      return {
+        result: 'Senha alterada com sucesso',
+      };
+    } else {
+      return {
+        result: 'As senhas não conferem',
+      };
+    }
+  }
 }

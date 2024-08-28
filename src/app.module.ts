@@ -6,6 +6,8 @@ import { AuthModule } from './auth/auth.module';
 import { APP_GUARD } from '@nestjs/core';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth/auth.guard';
+import { mailerConfig } from './configs/mailer.config';
+import { MailerModule } from '@nestjs-modules/mailer';
 
 @Module({
   imports: [
@@ -13,15 +15,17 @@ import { AuthGuard } from './auth/auth.guard';
       isGlobal: true,
     }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
+    MailerModule.forRoot(mailerConfig),
     UsersModule,
     AuthModule,
     JwtModule,
   ],
   controllers: [],
   providers: [
-  {
-    provide: APP_GUARD,
-    useClass: AuthGuard,
-  },],
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
+    },
+  ],
 })
 export class AppModule {}
