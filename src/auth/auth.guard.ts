@@ -4,7 +4,7 @@ import { Reflector } from '@nestjs/core';
 import { IS_PUBLIC_KEY } from './decorator/auth.decorator';
 import { LoginPayload } from 'src/auth/dto/login-payload.dto';
 import { EnumTypeUser } from 'src/users/enums/user-type';
-import { ROLES_KEY } from 'src/auth/decorator/roles.decorator';
+import { ROLES_KEY, STATUS_KEY } from 'src/auth/decorator/roles.decorator';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 
 @Injectable()
