@@ -5,6 +5,7 @@ import { IS_PUBLIC_KEY } from './decorator/auth.decorator';
 import { LoginPayload } from 'src/auth/dto/login-payload.dto';
 import { EnumTypeUser } from 'src/users/enums/user-type';
 import { ROLES_KEY } from 'src/auth/decorator/roles.decorator';
+import { EnumStatusUser } from 'src/users/enums/user-status';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -28,8 +29,12 @@ export class AuthGuard implements CanActivate {
       ROLES_KEY,
       [context.getHandler(), context.getClass()],
     );
+    const requiredStatuses = this.reflector.getAllAndOverride<EnumStatusUser[]>(
+      STATUS_KEY,
+      [context.getHandler(), context.getClass()],
+    );
 
-    if (!requiredRoles) {
+    if (!requiredRoles && !requiredStatuses) {
       return true;
     }
 
@@ -48,6 +53,14 @@ export class AuthGuard implements CanActivate {
       return false;
     }
 
-    return requiredRoles.some((role) => role == loginPayload.typeUser);
+    const hasRequiredRole = requiredRoles
+      ? requiredRoles.some((role) => role == loginPayload.typeUser)
+      : true;
+
+    const hasRequiredStatus = requiredStatuses
+      ? requiredStatuses.some((status) => status == loginPayload.status)
+      : true;
+
+    return hasRequiredRole && hasRequiredStatus;
   }
 }
