@@ -7,6 +7,7 @@ import mongoose, { Model } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
+import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 
 @Injectable()
 export class UsersService {
@@ -101,8 +102,8 @@ export class UsersService {
         };
       } else {
         return {
-          result: 'As senhas não conferem'
-        }
+          result: 'As senhas não conferem',
+        };
       }
     } else {
       return {
@@ -111,5 +112,24 @@ export class UsersService {
     }
   }
 
-  
+  async changePassword(
+    id: mongoose.Types.ObjectId,
+    changePasswordDto: ChangePasswordDto,
+  ) {
+    if (changePasswordDto.senha == changePasswordDto.confirmasenha) {
+      changePasswordDto.senha = await this.userHash(changePasswordDto.senha);
+      await this.userModel.findByIdAndUpdate(
+        { _id: id },
+        { $set: { senha: changePasswordDto.senha } },
+        { new: true },
+      );
+      return {
+        result: 'Senha alterada com sucesso',
+      };
+    } else {
+      return {
+        result: 'As senhas não conferem',
+      };
+    }
+  }
 }
