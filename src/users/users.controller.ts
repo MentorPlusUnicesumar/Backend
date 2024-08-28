@@ -148,7 +148,6 @@ export class UsersController {
       );
     }
   }
-
   @Post('reset-password')
   private redefinirSenha(
     @UserId() id: mongoose.Types.ObjectId,
