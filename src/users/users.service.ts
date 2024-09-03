@@ -8,10 +8,15 @@ import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
+import { MailerService } from '@nestjs-modules/mailer';
 
 @Injectable()
 export class UsersService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name)
+    private userModel: Model<UserDocument>,
+    private mailerService: MailerService,
+  ) {}
 
   private async userHash(pass: string) {
     const saltOrRounds = 10;
@@ -36,12 +41,28 @@ export class UsersService {
     } else {
       createUserDto.senha = await this.userHash(createUserDto.senha);
       const user = new this.userModel(createUserDto);
+      const adminsEmail = (await this.findEmailAdmins()).map(
+        (admin) => admin.email,
+      );
+      const mail = {
+        to: adminsEmail,
+        subject: 'Novo usuário cadastrado',
+        template: 'new-user',
+      };
+      await this.mailerService.sendMail(mail);
       return user.save();
     }
   }
 
   findByEmail(email: string) {
     return this.userModel.findOne({ email: email }).exec();
+  }
+
+  findEmailAdmins() {
+    return this.userModel
+      .find({ typeUser: 'Admin', status: 'Aprovado' })
+      .select('email -_id')
+      .exec();
   }
 
   findByCpf(cpf: string) {

@@ -24,14 +24,17 @@ export class AuthService {
 
   async signIn(loginDto: LoginDto) {
     const user = await this.usersService.findByEmail(loginDto.email);
+    if (user.status === 'Aprovado') {
+      const isMath = await bycript.compare(loginDto.senha, user.senha);
 
-    const isMath = await bycript.compare(loginDto.senha, user.senha);
+      if (!user || !isMath) {
+        throw new NotFoundException('Email ou senha invalidos');
+      }
 
-    if (!user || !isMath) {
-      throw new NotFoundException('Email ou senha invalidos');
+      return this.gerarToken(user);
+    } else {
+      throw new UnauthorizedException('Usuário não aprovado');
     }
-
-    return this.gerarToken(user);
   }
 
   async refreshToken(body: { refresh_token: string }) {
@@ -81,23 +84,27 @@ export class AuthService {
     if (!user)
       throw new NotFoundException('Não há usuário cadastrado com esse email.');
 
-    const access_token = this.jwtService.sign(
-      { ...new LoginPayload(user) },
-      {
-        secret: process.env.RESEND_CONSTANTS_JWT,
-        expiresIn: process.env.RESEND_TOKEN_EXPIRES_IN,
-      },
-    );
+    if (user.status === 'Aprovado') {
+      const access_token = this.jwtService.sign(
+        { ...new LoginPayload(user) },
+        {
+          secret: process.env.RESEND_CONSTANTS_JWT,
+          expiresIn: process.env.RESEND_TOKEN_EXPIRES_IN,
+        },
+      );
 
-    const mail = {
-      to: user.email,
-      subject: 'Recuperação de senha',
-      template: 'recover-password',
-      context: {
-        token: access_token,
-      },
-    };
-    await this.mailerService.sendMail(mail);
+      const mail = {
+        to: user.email,
+        subject: 'Recuperação de senha',
+        template: 'recover-password',
+        context: {
+          token: access_token,
+        },
+      };
+      await this.mailerService.sendMail(mail);
+    } else {
+      throw new UnauthorizedException('Usuário não aprovado');
+    }
   }
 
   async changePassword(
@@ -119,10 +126,15 @@ export class AuthService {
     const id = await this.jwtService.decode(recoverToken)['_id'];
     const user = await this.usersService.findById(id);
     if (!user) throw new NotFoundException('Token inválido.');
-    try {
-      await this.changePassword(user.id, changePasswordDto);
-    } catch (error) {
-      throw error;
+
+    if (user.status === 'Aprovado') {
+      try {
+        await this.changePassword(user.id, changePasswordDto);
+      } catch (error) {
+        throw error;
+      }
+    } else {
+      throw new UnauthorizedException('Usuário não aprovado');
     }
   }
 }
