@@ -4,14 +4,12 @@ import {
   Post,
   HttpCode,
   HttpStatus,
-  Get,
   Patch,
   Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { AuthInterface } from './interface/auth.interface';
-import { ChangePasswordDto } from './dto/change-password.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -19,13 +17,9 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
+  // @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
   signIn(@Body() loginDto: LoginDto): Promise<AuthInterface> {
     return this.authService.signIn(loginDto);
-  }
-
-  @Get()
-  findAll() {
-    return [];
   }
 
   @Post('refresh')
