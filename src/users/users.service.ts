@@ -44,12 +44,16 @@ export class UsersService {
       const adminsEmail = (await this.findEmailAdmins()).map(
         (admin) => admin.email,
       );
-      const mail = {
-        to: adminsEmail,
-        subject: 'Novo usuário cadastrado',
-        template: 'new-user',
-      };
-      await this.mailerService.sendMail(mail);
+
+      if (adminsEmail.length) {
+        const mail = {
+          to: adminsEmail,
+          subject: 'Novo usuário cadastrado',
+          template: 'new-user',
+        };
+        await this.mailerService.sendMail(mail);
+      }
+
       return user.save();
     }
   }
