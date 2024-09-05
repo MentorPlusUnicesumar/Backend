@@ -3,13 +3,13 @@ import {
   Get,
   Post,
   Body,
-  Patch,
+  //Patch,
   Param,
   Delete,
 } from '@nestjs/common';
 import { MentoriasService } from './mentorias.service';
 import { CreateMentoriaDto } from './dto/create-mentoria.dto';
-import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
+// import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
 @Controller('mentorias')
 export class MentoriasController {
@@ -30,13 +30,13 @@ export class MentoriasController {
     return this.mentoriasService.findOne(+id);
   }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateMentoriaDto: UpdateMentoriaDto,
-  ) {
-    return this.mentoriasService.update(+id, updateMentoriaDto);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateMentoriaDto: UpdateMentoriaDto,
+  // ) {
+  //   return this.mentoriasService.update(+id, updateMentoriaDto);
+  // }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
