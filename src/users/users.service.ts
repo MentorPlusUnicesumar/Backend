@@ -1,14 +1,19 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  NotFoundException,
+  BadRequestException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
-import mongoose, { Model } from 'mongoose';
+import { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
+import { EnumStatusUser } from './enums/user-status';
 
 @Injectable()
 export class UsersService {
@@ -77,7 +82,7 @@ export class UsersService {
     return this.userModel.find();
   }
 
-  findById(id: string | mongoose.Types.ObjectId) {
+  findById(id: string | Types.ObjectId) {
     return this.userModel.findById(id);
   }
 
@@ -89,6 +94,10 @@ export class UsersService {
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UserInterface> {
+    if (!Types.ObjectId.isValid(id)) {
+      throw new BadRequestException('ID inválido');
+    }
+
     if (updateUserDto.senha) {
       updateUserDto.senha = await this.userHash(updateUserDto.senha);
     }
@@ -103,10 +112,7 @@ export class UsersService {
     return this.userModel.deleteOne({ _id: id });
   }
 
-  async resetPassword(
-    id: mongoose.Types.ObjectId,
-    newSenhaUserDto: NewSenhaUserDto,
-  ) {
+  async resetPassword(id: Types.ObjectId, newSenhaUserDto: NewSenhaUserDto) {
     const user = await this.findById(id);
     console.log(user);
     console.log(newSenhaUserDto);
@@ -138,7 +144,7 @@ export class UsersService {
   }
 
   async changePassword(
-    id: mongoose.Types.ObjectId,
+    id: Types.ObjectId,
     changePasswordDto: ChangePasswordDto,
   ) {
     if (changePasswordDto.senha == changePasswordDto.confirmasenha) {
@@ -156,5 +162,20 @@ export class UsersService {
         result: 'As senhas não conferem',
       };
     }
+  }
+
+  async updateUserStatus(
+    id: string,
+    status: EnumStatusUser,
+  ): Promise<UserInterface> {
+    const user = await this.userModel.findById(id);
+
+    if (!user) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+
+    user.status = status;
+
+    return user.save();
   }
 }
