@@ -79,7 +79,7 @@ export class UsersService {
   }
 
   findById(id: string | Types.ObjectId) {
-    return this.userModel.findById(id);
+    return this.userModel.findById(id).select('-senha');
   }
 
   findByName(name: string) {

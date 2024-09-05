@@ -44,6 +44,7 @@ export class AuthService {
 
   private async gerarToken(user: UserDocument) {
     return {
+      _id: user._id,
       access_token: this.jwtService.sign({ ...new LoginPayload(user) }),
       refresh_token: this.jwtService.sign(
         { ...new LoginPayload(user) },
