@@ -21,6 +21,8 @@ import { UserId } from './decorator/user-id.dto';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
+import { UpdateUserStatusDto } from './dto/update-user-status.dto';
+import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 
 @Controller('users')
 @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
@@ -106,13 +108,13 @@ export class UsersController {
   }
 
   @Get('id/:id')
-  private findById(@Param('id') id: string) {
+  private findById(@Param('id', ValidateObjectIdPipe) id: string) {
     return this.usersService.findById(id);
   }
 
   @Patch(':id')
   private update(
-    @Param('id') id: string,
+    @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
     try {
@@ -132,7 +134,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  private remove(@Param('id') id: string) {
+  private remove(@Param('id', ValidateObjectIdPipe) id: string) {
     try {
       return this.usersService.remove(id);
     } catch (error) {
@@ -160,6 +162,28 @@ export class UsersController {
         {
           status: HttpStatus.FORBIDDEN,
           error: 'Erro ao redefinir senha do usuario',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Public()
+  @Patch(':id/update-status')
+  private updateUserStatus(
+    @Param('id', ValidateObjectIdPipe) id: string,
+    @Body() updateUserStatusDto: UpdateUserStatusDto,
+  ) {
+    try {
+      return this.usersService.updateUserStatus(id, updateUserStatusDto.status);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao atualizar o status do usuário',
         },
         HttpStatus.FORBIDDEN,
         {
