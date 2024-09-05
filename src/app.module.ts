@@ -8,6 +8,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { AuthGuard } from './auth/auth.guard';
 import { mailerConfig } from './configs/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
+import { MentoriasModule } from './mentorias/mentorias.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { MailerModule } from '@nestjs-modules/mailer';
     UsersModule,
     AuthModule,
     JwtModule,
+    MentoriasModule,
   ],
   controllers: [],
   providers: [
