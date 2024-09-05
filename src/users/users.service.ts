@@ -1,8 +1,4 @@
-import {
-  Injectable,
-  NotFoundException,
-  BadRequestException,
-} from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -94,10 +90,6 @@ export class UsersService {
     id: string,
     updateUserDto: UpdateUserDto,
   ): Promise<UserInterface> {
-    if (!Types.ObjectId.isValid(id)) {
-      throw new BadRequestException('ID inválido');
-    }
-
     if (updateUserDto.senha) {
       updateUserDto.senha = await this.userHash(updateUserDto.senha);
     }
