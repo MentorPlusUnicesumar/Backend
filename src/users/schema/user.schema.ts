@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { EnumTypeUser } from '../enums/user-type';
 import { EnumStatusUser } from '../enums/user-status';
 import { EstadoUF } from '../enums/enum-uf';
@@ -39,10 +39,10 @@ export class User {
   @Prop({ required: true })
   cpf: string;
 
-  @Prop([String])
-  mentoriasAtivas: string[];
+  @Prop([mongoose.Types.ObjectId])
+  mentoriasAtivas: mongoose.Types.ObjectId[];
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   fotos: string;
 }
 

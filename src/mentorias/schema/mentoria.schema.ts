@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { HydratedDocument } from 'mongoose';
+import mongoose, { HydratedDocument } from 'mongoose';
 import { ReuniaoMentoriaDto } from '../dto/reuniao-mentoria.dto';
 import { EnumStatusMentoria } from '../enums/mentorias-status';
 
@@ -7,13 +7,21 @@ export type MentoriaDocument = HydratedDocument<Mentoria>;
 
 @Schema()
 export class Mentoria {
-  @Prop({ required: true })
-  idMentor: string;
+  @Prop({ 
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: true 
+   })
+  idMentor: mongoose.Types.ObjectId;
 
-  @Prop({ required: true })
-  idMentorado: string;
+  @Prop({ 
+    type: mongoose.Types.ObjectId,
+    ref: 'User',
+    required: true 
+   })
+  idMentorado: mongoose.Types.ObjectId;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   reuniao: ReuniaoMentoriaDto[];
 
   @Prop({
@@ -23,11 +31,16 @@ export class Mentoria {
   })
   status: EnumStatusMentoria;
 
-  @Prop({ required: false })
+  @Prop({ required: false,
+    default: '',
+  })
   feedback: string;
 
   @Prop([String])
   materialAnexado: string[];
+
+  @Prop({required: true })
+  descricao: string;
 }
 
 export const MentoriaSchema = SchemaFactory.createForClass(Mentoria);

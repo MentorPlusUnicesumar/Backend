@@ -23,6 +23,7 @@ export class CreateMentoriaDto {
   idMentorado: mongoose.Types.ObjectId;
 
   @IsArray()
+  @IsOptional()
   @ValidateNested({ each: true })
   @Type(() => ReuniaoMentoriaDto)
   reuniao: ReuniaoMentoriaDto[];
