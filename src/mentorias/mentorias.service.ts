@@ -3,8 +3,9 @@ import { CreateMentoriaDto } from './dto/create-mentoria.dto';
 // import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
+import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -26,5 +27,9 @@ export class MentoriasService {
     } else if (mentorado.typeUser != 'Mentorado') {
         return { message: 'Mentoria é somente entre mentorados e mentores' };
     }
+  }
+
+  async createReuniao(id: mongoose.Types.ObjectId, createReuniaoDto: CreateReuniaoDto) {
+    return this.mentoriaModel.findByIdAndUpdate(id, { $push: { reuniao: createReuniaoDto } }, { new: true });
   }
 }
