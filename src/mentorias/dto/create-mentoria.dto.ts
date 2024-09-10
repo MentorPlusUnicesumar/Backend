@@ -9,9 +9,9 @@ import {
   ValidateNested,
 } from 'class-validator';
 import { EnumStatusMentoria } from '../enums/mentorias-status';
-import { ReuniaoMentoriaDto } from './reuniao-mentoria.dto';
 import { Type } from 'class-transformer';
 import mongoose from 'mongoose';
+import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 export class CreateMentoriaDto {
   @IsNotEmpty()
@@ -25,8 +25,8 @@ export class CreateMentoriaDto {
   @IsArray()
   @IsOptional()
   @ValidateNested({ each: true })
-  @Type(() => ReuniaoMentoriaDto)
-  reuniao: ReuniaoMentoriaDto[];
+  @Type(() => CreateReuniaoDto)
+  reuniao: CreateReuniaoDto[];
 
   @IsOptional()
   @IsEnum(EnumStatusMentoria)

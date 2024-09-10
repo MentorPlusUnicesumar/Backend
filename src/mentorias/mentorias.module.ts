@@ -14,5 +14,7 @@ import { UsersModule } from 'src/users/users.module';
   ],
   controllers: [MentoriasController],
   providers: [MentoriasService],
+  exports: [MentoriasService],
+  
 })
 export class MentoriasModule {}
