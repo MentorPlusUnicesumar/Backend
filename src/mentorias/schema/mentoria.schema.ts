@@ -41,6 +41,10 @@ export class Mentoria {
 
   @Prop({required: true })
   descricao: string;
+
+  @Prop({required: true})
+  nome: string
+
 }
 
 export const MentoriaSchema = SchemaFactory.createForClass(Mentoria);
