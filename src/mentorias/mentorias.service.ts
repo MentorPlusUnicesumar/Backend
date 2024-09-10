@@ -14,36 +14,17 @@ export class MentoriasService {
     private userService: UsersService,
   ) {}
   async create(createMentoriaDto: CreateMentoriaDto) {
+    const {reuniao, feedback, ...mentoriasData} = createMentoriaDto;
     const mentor = await this.userService.findById(createMentoriaDto.idMentor);
     const mentorado = await this.userService.findById(
       createMentoriaDto.idMentorado,
     );
-
-    console.log(mentor);
-    console.log(mentorado);
-
     if (mentor.typeUser == 'Mentor' && mentorado.typeUser == 'Mentorado') {
-      return this.mentoriaModel.create(createMentoriaDto);
+        return this.mentoriaModel.create(mentoriasData);
     } else if (mentor.typeUser != 'Mentor') {
-      return { message: 'Somente Mentores podem criar uma mentoria' };
+        return { message: 'Somente Mentores podem criar uma mentoria' };
     } else if (mentorado.typeUser != 'Mentorado') {
-      return { message: 'Mentoria é somente entre mentorados e mentores' };
+        return { message: 'Mentoria é somente entre mentorados e mentores' };
     }
-  }
-
-  findAll() {
-    return `This action returns all mentorias`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} mentoria`;
-  }
-
-  // update(id: number, updateMentoriaDto: UpdateMentoriaDto) {
-  //   return `This action updates a #${id} mentoria`;
-  // }
-
-  remove(id: number) {
-    return `This action removes a #${id} mentoria`;
   }
 }

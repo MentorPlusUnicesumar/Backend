@@ -28,6 +28,8 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const validEmail = await this.findByEmail(createUserDto.email);
     const validCpf = await this.findByCpf(createUserDto.cpf);
+    const {status, mentoriasAtivas, ...userData} = createUserDto;
+
     const erros = {
       error: [],
     };
@@ -41,7 +43,7 @@ export class UsersService {
       return erros.error;
     } else {
       createUserDto.senha = await this.userHash(createUserDto.senha);
-      const user = new this.userModel(createUserDto);
+      const user = new this.userModel(userData);
       const adminsEmail = (await this.findEmailAdmins()).map(
         (admin) => admin.email,
       );

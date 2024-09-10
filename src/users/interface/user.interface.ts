@@ -1,3 +1,4 @@
+import mongoose from 'mongoose';
 import { EstadoUF } from '../enums/enum-uf';
 import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
@@ -12,6 +13,6 @@ export interface UserInterface {
   cidade: string;
   uf: EstadoUF;
   cpf: string;
-  mentoriasAtivas: string[];
+  mentoriasAtivas: mongoose.Types.ObjectId[];
   fotos: string;
 }

@@ -28,4 +28,8 @@ export class ReuniaoMentoriaDto {
   @IsOptional()
   @ArrayMinSize(0)
   materialAnexado: string[];
+
+  @IsString()
+  @IsOptional()
+  link: string;
 }

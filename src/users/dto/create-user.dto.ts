@@ -8,11 +8,13 @@ import {
   IsEmail,
   MinLength,
   Matches,
+  IsMongoId,
 } from 'class-validator';
 import { EnumTypeUser } from '../enums/user-type';
 import { EnumStatusUser } from '../enums/user-status';
 import { EstadoUF } from '../enums/enum-uf';
 import { IsCPF } from 'class-validator-cpf';
+import mongoose from 'mongoose';
 
 export class CreateUserDto {
   @IsNotEmpty()
@@ -46,7 +48,7 @@ export class CreateUserDto {
   @IsEnum(EnumTypeUser)
   typeUser: EnumTypeUser;
 
-  @IsNotEmpty()
+  @IsOptional()
   @IsEnum(EnumStatusUser)
   status: EnumStatusUser;
 
@@ -66,9 +68,11 @@ export class CreateUserDto {
   @IsArray()
   @IsOptional()
   @ArrayMinSize(0)
-  mentoriasAtivas: string[];
+  @IsMongoId({ each: true })
+  mentoriasAtivas: mongoose.Types.ObjectId[];
 
-  @IsNotEmpty()
+
+  @IsOptional()
   @IsString()
   fotos: string;
 }
