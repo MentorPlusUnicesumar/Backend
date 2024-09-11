@@ -3,6 +3,7 @@ import { EnumStatusMentoria } from '../enums/mentorias-status';
 import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 export interface MentoriaInterface {
+  nome: string;
   idMentor: mongoose.Types.ObjectId;
   idMentorado: mongoose.Types.ObjectId;
   reuniao: CreateReuniaoDto[];
@@ -10,5 +11,4 @@ export interface MentoriaInterface {
   materialAnexado: string[];
   feedback: string;
   descricao: string;
-  nome: string;
 }

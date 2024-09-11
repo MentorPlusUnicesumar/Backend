@@ -7,18 +7,21 @@ export type MentoriaDocument = HydratedDocument<Mentoria>;
 
 @Schema()
 export class Mentoria {
-  @Prop({ 
+  @Prop({ required: true })
+  nome: string;
+
+  @Prop({
     type: mongoose.Types.ObjectId,
     ref: 'User',
-    required: true 
-   })
+    required: true,
+  })
   idMentor: mongoose.Types.ObjectId;
 
-  @Prop({ 
+  @Prop({
     type: mongoose.Types.ObjectId,
     ref: 'User',
-    required: true 
-   })
+    required: true,
+  })
   idMentorado: mongoose.Types.ObjectId;
 
   @Prop({ required: false })
@@ -31,20 +34,14 @@ export class Mentoria {
   })
   status: EnumStatusMentoria;
 
-  @Prop({ required: false,
-    default: '',
-  })
+  @Prop({ required: false, default: '' })
   feedback: string;
 
   @Prop([String])
   materialAnexado: string[];
 
-  @Prop({required: true })
+  @Prop({ required: true })
   descricao: string;
-
-  @Prop({required: true})
-  nome: string
-
 }
 
 export const MentoriaSchema = SchemaFactory.createForClass(Mentoria);
