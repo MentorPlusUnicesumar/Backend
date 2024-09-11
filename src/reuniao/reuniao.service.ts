@@ -4,17 +4,25 @@ import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Reuniao, ReuniaoDocument } from './schema/reuniao.schema';
 import mongoose, { Model } from 'mongoose';
+import { MentoriasService } from 'src/mentorias/mentorias.service';
+import { EnumStatusReuniao } from './enum/reuniao-status';
 
 @Injectable()
 export class ReuniaoService {
   constructor(
     @InjectModel(Reuniao.name)
-    private reuniaoModel: Model<ReuniaoDocument>
+    private reuniaoModel: Model<ReuniaoDocument>,
+    private mentoriaService: MentoriasService,
   ) {}
 
-  create(id: mongoose.Types.ObjectId, createReuniaoDto: CreateReuniaoDto) {
-    const {status, feedback, idMentoria, ...reuniaoData} = createReuniaoDto
-    return this.reuniaoModel.create(reuniaoData);
+  async create(id: mongoose.Types.ObjectId, createReuniaoDto: CreateReuniaoDto) {
+    createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
+    createReuniaoDto.feedback = '';
+    createReuniaoDto.idMentoria = id;
+    await this.reuniaoModel.create(createReuniaoDto);
+    const reuniao = new this.reuniaoModel(createReuniaoDto);
+    await reuniao.save();
+    return this.mentoriaService.createReuniao(id, reuniao);
   }
 
   // findAll() {

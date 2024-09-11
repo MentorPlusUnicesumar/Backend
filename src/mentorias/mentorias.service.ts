@@ -6,6 +6,7 @@ import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoriaMentorado } from './interface/card-mentoria.interface';
+import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -47,5 +48,9 @@ export class MentoriasService {
     }));
   
     return cards;
+  }
+
+  async createReuniao(id: mongoose.Types.ObjectId, createReuniaoDto: CreateReuniaoDto) {
+    return this.mentoriaModel.findByIdAndUpdate(id, { $push: { reuniao: createReuniaoDto } }, { new: true });
   }
 }

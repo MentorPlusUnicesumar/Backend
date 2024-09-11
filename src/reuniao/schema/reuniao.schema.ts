@@ -15,7 +15,7 @@ export class Reuniao {
    idMentoria: mongoose.Types.ObjectId;
 
   @Prop({required: true})
-  diaReuniao: string;
+  diaReuniao: Date;
 
   @Prop({
     required: false,

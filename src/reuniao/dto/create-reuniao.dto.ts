@@ -13,7 +13,7 @@ import { EnumStatusReuniao } from '../enum/reuniao-status';
 import mongoose from 'mongoose';
   
   export class CreateReuniaoDto {
-    @IsNotEmpty()
+    @IsOptional()
     @IsMongoId()
     idMentoria: mongoose.Types.ObjectId;
 
@@ -22,7 +22,7 @@ import mongoose from 'mongoose';
     @IsDate()
     diaReuniao: Date;
   
-    @IsNotEmpty()
+    @IsOptional()
     @IsEnum(EnumStatusReuniao)
     status: EnumStatusReuniao;
   
