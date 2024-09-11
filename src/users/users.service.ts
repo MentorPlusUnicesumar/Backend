@@ -34,15 +34,15 @@ export class UsersService {
       error: [],
     };
     if (validEmail) {
-      erros.error.push(`O email: ${createUserDto.email} ja foi cadastrado`);
+      erros.error.push(`O email: ${userData.email} ja foi cadastrado`);
     }
     if (validCpf) {
-      erros.error.push(`O CPF: ${createUserDto.cpf} ja foi cadastrado`);
+      erros.error.push(`O CPF: ${userData.cpf} ja foi cadastrado`);
     }
     if (validCpf || validEmail) {
       return erros.error;
     } else {
-      createUserDto.senha = await this.userHash(createUserDto.senha);
+      userData.senha = await this.userHash(userData.senha);
       const user = new this.userModel(userData);
       const adminsEmail = (await this.findEmailAdmins()).map(
         (admin) => admin.email,
