@@ -10,4 +10,5 @@ export interface MentoriaInterface {
   materialAnexado: string[];
   feedback: string;
   descricao: string;
+  nome: string;
 }

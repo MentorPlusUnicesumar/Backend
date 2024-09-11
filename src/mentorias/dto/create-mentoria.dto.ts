@@ -40,4 +40,9 @@ export class CreateMentoriaDto {
   @IsOptional()
   @ArrayMinSize(0)
   materialAnexado: string[];
+
+  @IsNotEmpty()
+  @IsString()
+  nome: string
+
 }

@@ -3,7 +3,6 @@ import { ReuniaoService } from './reuniao.service';
 import { ReuniaoController } from './reuniao.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Reuniao, ReuniaoSchema } from './schema/reuniao.schema';
-import { MentoriasService } from 'src/mentorias/mentorias.service';
 import { MentoriasModule } from 'src/mentorias/mentorias.module';
 
 @Module({
