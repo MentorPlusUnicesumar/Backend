@@ -1,12 +1,12 @@
 interface CardMentoriaBase {
-    nome: string
-    proximoEncontro: Date
+  nome: string;
+  proximoEncontro: string;
 }
 
 export interface CardMentoriaMentorado extends CardMentoriaBase {
-    nomeMentor: string
+  nomeMentor: string;
 }
 
 export interface CardMentoriaMentor extends CardMentoriaBase {
-    nomeMentorado: string
+  nomeMentorado: string;
 }
