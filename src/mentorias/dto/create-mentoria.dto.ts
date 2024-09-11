@@ -15,6 +15,10 @@ import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 export class CreateMentoriaDto {
   @IsNotEmpty()
+  @IsString()
+  nome: string;
+
+  @IsNotEmpty()
   @IsMongoId()
   idMentor: mongoose.Types.ObjectId;
 
@@ -40,9 +44,4 @@ export class CreateMentoriaDto {
   @IsOptional()
   @ArrayMinSize(0)
   materialAnexado: string[];
-
-  @IsNotEmpty()
-  @IsString()
-  nome: string
-
 }
