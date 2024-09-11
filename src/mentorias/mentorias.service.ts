@@ -48,7 +48,6 @@ export class MentoriasService {
     return proximaData;
   }
 
-
   async cardsMentorados(
     id: mongoose.Types.ObjectId,
   ): Promise<CardMentoriaMentorado[]> {
@@ -77,5 +76,12 @@ export class MentoriasService {
       { $push: { reuniao: createReuniaoDto } },
       { new: true },
     );
+  }
+
+  async updateFeedbackMentoria(id: mongoose.Types.ObjectId, feedback: string) {
+    return await this.mentoriaModel
+      .findByIdAndUpdate(id, { $set: { feedback: feedback } }, { new: true })
+      .select('id feedback')
+      .exec();
   }
 }

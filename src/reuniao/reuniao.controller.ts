@@ -1,4 +1,4 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Patch } from '@nestjs/common';
 import { ReuniaoService } from './reuniao.service';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 // import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { EnumTypeUser } from 'src/users/enums/user-type';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
+import { ReuniaoInterface } from './interface/reuniao.interface';
 
 @Controller('reuniao')
 export class ReuniaoController {
@@ -30,6 +31,15 @@ export class ReuniaoController {
   // findOne(@Param('id') id: string) {
   //   return this.reuniaoService.findOne(+id);
   // }
+
+  @Patch(':id')
+  @Roles([EnumTypeUser.Mentorado], [EnumStatusUser.APROVADO])
+  async updateFeedbackReuniao(
+    @Param('id') id: mongoose.Types.ObjectId,
+    @Body('feedback') feedback: string,
+  ): Promise<ReuniaoInterface> {
+    return await this.reuniaoService.updateFeedbackReuniao(id, feedback);
+  }
 
   // @Patch(':id')
   // update(@Param('id') id: string, @Body() updateReuniaoDto: UpdateReuniaoDto) {

@@ -3,8 +3,8 @@ import {
   Get,
   Post,
   Body,
-  //Patch,
-  //Param,
+  Patch,
+  Param,
   //Delete,
 } from '@nestjs/common';
 import { MentoriasService } from './mentorias.service';
@@ -35,5 +35,14 @@ export class MentoriasController {
     @UserId() id: mongoose.Types.ObjectId,
   ): Promise<CardMentoriaMentorado[]> {
     return await this.mentoriasService.cardsMentorados(id);
+  }
+
+  @Patch(':id')
+  @Roles([EnumTypeUser.Mentorado], [EnumStatusUser.APROVADO])
+  async updateFeedbackMentoria(
+    @Param('id') id: mongoose.Types.ObjectId,
+    @Body('feedback') feedback: string,
+  ): Promise<MentoriaInterface> {
+    return await this.mentoriasService.updateFeedbackMentoria(id, feedback);
   }
 }
