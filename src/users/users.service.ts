@@ -28,6 +28,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto) {
     const validEmail = await this.findByEmail(createUserDto.email);
     const validCpf = await this.findByCpf(createUserDto.cpf);
+    // eslint-disable-next-line
     const { status, mentoriasAtivas, ...userData } = createUserDto;
 
     const erros = {

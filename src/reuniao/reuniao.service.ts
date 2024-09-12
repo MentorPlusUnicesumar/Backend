@@ -15,14 +15,24 @@ export class ReuniaoService {
     private mentoriaService: MentoriasService,
   ) {}
 
-  async create(id: mongoose.Types.ObjectId, createReuniaoDto: CreateReuniaoDto) {
+  async create(
+    id: mongoose.Types.ObjectId,
+    createReuniaoDto: CreateReuniaoDto,
+  ) {
     createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
     createReuniaoDto.feedback = '';
     createReuniaoDto.idMentoria = id;
-    await this.reuniaoModel.create(createReuniaoDto);
     const reuniao = new this.reuniaoModel(createReuniaoDto);
     await reuniao.save();
-    return this.mentoriaService.createReuniao(id, reuniao);
+    return this.mentoriaService.createReuniao(id, reuniao._id);
+  }
+
+  async updateFeedbackReuniao(id: mongoose.Types.ObjectId, feedback: string) {
+    return await this.reuniaoModel.findByIdAndUpdate(
+      id,
+      { $set: { feedback: feedback } },
+      { new: true },
+    );
   }
 
   // findAll() {
