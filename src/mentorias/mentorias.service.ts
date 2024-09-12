@@ -6,7 +6,6 @@ import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoriaMentorado } from './interface/card-mentoria.interface';
-import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -22,8 +21,9 @@ export class MentoriasService {
     const mentorado = await this.userService.findById(
       createMentoriaDto.idMentorado,
     );
+    const mentoria = new this.mentoriaModel(mentoriasData);
     if (mentor.typeUser == 'Mentor' && mentorado.typeUser == 'Mentorado') {
-      return this.mentoriaModel.create(mentoriasData);
+      return mentoria.save();
     } else if (mentor.typeUser != 'Mentor') {
       return { message: 'Somente Mentores podem criar uma mentoria' };
     } else if (mentorado.typeUser != 'Mentorado') {
@@ -31,7 +31,7 @@ export class MentoriasService {
     }
   }
 
-  private getDataProximoEncontro(mentoria: Mentoria): string {
+  private getDataProximoEncontro(mentoria): string {
     const dataAtual = new Date();
     const reunioes = mentoria.reuniao;
     let proximaData = 'Não definida';
@@ -51,9 +51,10 @@ export class MentoriasService {
   async cardsMentorados(
     id: mongoose.Types.ObjectId,
   ): Promise<CardMentoriaMentorado[]> {
-    const mentorias = await this.mentoriaModel.find({ idMentorado: id });
-
-    // Utilize Promise.all dentro do map para garantir que todas as promises sejam resolvidas
+    const mentorias = await this.mentoriaModel
+      .find({ idMentorado: id })
+      .populate('reuniao')
+      .exec();
     const cards = await Promise.all(
       mentorias.map(async (mentoria) => {
         return {
@@ -63,19 +64,17 @@ export class MentoriasService {
         };
       }),
     );
-
     return cards;
   }
 
   async createReuniao(
     id: mongoose.Types.ObjectId,
-    createReuniaoDto: CreateReuniaoDto,
+    idReuniao: mongoose.Types.ObjectId,
   ) {
-    return this.mentoriaModel.findByIdAndUpdate(
-      id,
-      { $push: { reuniao: createReuniaoDto } },
-      { new: true },
-    );
+    return this.mentoriaModel
+      .findByIdAndUpdate(id, { $push: { reuniao: idReuniao } }, { new: true })
+      .populate('reuniao')
+      .exec();
   }
 
   async updateFeedbackMentoria(id: mongoose.Types.ObjectId, feedback: string) {
