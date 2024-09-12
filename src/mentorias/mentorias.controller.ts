@@ -12,7 +12,10 @@ import { CreateMentoriaDto } from './dto/create-mentoria.dto';
 import { MentoriaInterface } from './interface/mentoria.interface';
 import { UserId } from 'src/users/decorator/user-id.dto';
 import mongoose from 'mongoose';
-import { CardMentoriaMentorado } from './interface/card-mentoria.interface';
+import {
+  CardMentoriaMentor,
+  CardMentoriaMentorado,
+} from './interface/card-mentoria.interface';
 import { EnumTypeUser } from 'src/users/enums/user-type';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
@@ -34,7 +37,14 @@ export class MentoriasController {
   async cardsMentorado(
     @UserId() id: mongoose.Types.ObjectId,
   ): Promise<CardMentoriaMentorado[]> {
-    return await this.mentoriasService.cardsMentorados(id);
+    return await this.mentoriasService.cardsMentorado(id);
+  }
+
+  @Get('cards-mentor')
+  async cardsMentor(
+    @UserId() id: mongoose.Types.ObjectId,
+  ): Promise<CardMentoriaMentor[]> {
+    return await this.mentoriasService.cardsMentor(id);
   }
 
   @Patch(':id')
