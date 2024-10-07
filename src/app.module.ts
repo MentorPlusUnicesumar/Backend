@@ -22,7 +22,6 @@ import { ReuniaoModule } from './reuniao/reuniao.module';
     JwtModule,
     MentoriasModule,
     ReuniaoModule,
-    AreasModule,
   ],
   controllers: [],
   providers: [
