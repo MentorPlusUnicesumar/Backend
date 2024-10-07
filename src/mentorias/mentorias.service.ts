@@ -48,7 +48,6 @@ export class MentoriasService {
         break;
       }
     }
-
     return proximaData;
   }
 

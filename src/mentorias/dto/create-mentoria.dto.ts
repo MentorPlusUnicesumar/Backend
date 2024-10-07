@@ -4,6 +4,7 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -41,4 +42,8 @@ export class CreateMentoriaDto {
   @IsOptional()
   @ArrayMinSize(0)
   materialAnexado: string[];
+
+  @IsNotEmpty()
+  @IsNumber()
+  qtdtotal: number;
 }

@@ -151,6 +151,10 @@ export class UsersController {
     }
   }
   @Post('reset-password')
+  @Roles(
+    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado],
+    [EnumStatusUser.APROVADO],
+  )
   private redefinirSenha(
     @UserId() id: mongoose.Types.ObjectId,
     @Body() newSenhaUserDto: NewSenhaUserDto,
@@ -171,7 +175,6 @@ export class UsersController {
     }
   }
 
-  @Public()
   @Patch(':id/update-status')
   private updateUserStatus(
     @Param('id', ValidateObjectIdPipe) id: string,
