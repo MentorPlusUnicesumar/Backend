@@ -46,6 +46,9 @@ export class Mentoria {
 
   @Prop({ required: true })
   descricao: string;
+
+  @Prop()
+  qtdtotal: number;
 }
 
 export const MentoriaSchema = SchemaFactory.createForClass(Mentoria);

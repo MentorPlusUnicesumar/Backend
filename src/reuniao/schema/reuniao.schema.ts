@@ -6,15 +6,14 @@ export type ReuniaoDocument = HydratedDocument<Reuniao>;
 
 @Schema()
 export class Reuniao {
+  @Prop({
+    type: mongoose.Types.ObjectId,
+    ref: 'Mentoria',
+    required: true,
+  })
+  idMentoria: mongoose.Types.ObjectId;
 
-   @Prop({ 
-       type: mongoose.Types.ObjectId,
-       ref: 'Mentoria',
-       required: true 
-   })
-   idMentoria: mongoose.Types.ObjectId;
-
-  @Prop({required: true})
+  @Prop({ required: true })
   diaReuniao: Date;
 
   @Prop({
@@ -24,16 +23,17 @@ export class Reuniao {
   })
   status: EnumStatusReuniao;
 
-  @Prop({ required: false,
-    default: '',
-  })
+  @Prop({ required: false, default: '' })
   feedback: string;
 
   @Prop([String])
   materialAnexado: string[];
 
-  @Prop({required: true })
+  @Prop({ required: true })
   link: string;
+
+  @Prop()
+  resumo: string;
 }
 
 export const ReuniaoSchema = SchemaFactory.createForClass(Reuniao);

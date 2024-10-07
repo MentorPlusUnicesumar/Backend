@@ -38,7 +38,6 @@ export class MentoriasController {
   }
 
   @Patch(':id')
-  @Roles([EnumTypeUser.Mentorado], [EnumStatusUser.APROVADO])
   async updateFeedbackMentoria(
     @Param('id') id: mongoose.Types.ObjectId,
     @Body('feedback') feedback: string,

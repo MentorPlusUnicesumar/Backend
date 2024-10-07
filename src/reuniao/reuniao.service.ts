@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 //import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { InjectModel } from '@nestjs/mongoose';
@@ -6,6 +6,7 @@ import { Reuniao, ReuniaoDocument } from './schema/reuniao.schema';
 import mongoose, { Model } from 'mongoose';
 import { MentoriasService } from 'src/mentorias/mentorias.service';
 import { EnumStatusReuniao } from './enum/reuniao-status';
+import { ReuniaoInterface } from './interface/reuniao.interface';
 
 @Injectable()
 export class ReuniaoService {
@@ -33,6 +34,18 @@ export class ReuniaoService {
       { $set: { feedback: feedback } },
       { new: true },
     );
+  }
+
+  async updateReuniaoStatus(
+    id: string,
+    status: EnumStatusReuniao,
+  ): Promise<ReuniaoInterface> {
+    const reuniao = await this.reuniaoModel.findById(id);
+    if (!reuniao) {
+      throw new NotFoundException('Usuário não encontrado');
+    }
+    reuniao.status = status;
+    return reuniao.save();
   }
 
   // findAll() {

@@ -1,4 +1,12 @@
-import { Controller, Post, Body, Param, Patch } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Patch,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
 import { ReuniaoService } from './reuniao.service';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 // import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
@@ -8,6 +16,8 @@ import { EnumTypeUser } from 'src/users/enums/user-type';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { ReuniaoInterface } from './interface/reuniao.interface';
+import { Public } from 'src/auth/decorator/auth.decorator';
+import { EnumStatusReuniao } from './enum/reuniao-status';
 
 @Controller('reuniao')
 export class ReuniaoController {
@@ -33,12 +43,34 @@ export class ReuniaoController {
   // }
 
   @Patch(':id')
-  @Roles([EnumTypeUser.Mentorado], [EnumStatusUser.APROVADO])
+  @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
   async updateFeedbackReuniao(
     @Param('id') id: mongoose.Types.ObjectId,
     @Body('feedback') feedback: string,
   ): Promise<ReuniaoInterface> {
     return await this.reuniaoService.updateFeedbackReuniao(id, feedback);
+  }
+
+  @Public()
+  @Patch('status/:id')
+  private updateReuniaoStatus(
+    @Param('id', ValidateObjectIdPipe) id: string,
+    @Body() status: EnumStatusReuniao,
+  ) {
+    try {
+      return this.reuniaoService.updateReuniaoStatus(id, status);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao atualizar o status da Reunião',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
   }
 
   // @Patch(':id')
