@@ -5,11 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
-import {
-  CardMentoriaMentor,
-  CardMentoriaMentorado,
-} from './interface/card-mentoria.interface';
-import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
+import { CardMentoria } from './interface/card.interface';
 
 @Injectable()
 export class MentoriasService {
@@ -51,37 +47,20 @@ export class MentoriasService {
     return proximaData;
   }
 
-  async cardsMentorado(
-    id: mongoose.Types.ObjectId,
-  ): Promise<CardMentoriaMentorado[]> {
-    const mentorias = await this.mentoriaModel
-      .find({ idMentorado: id })
-      .populate('reuniao')
-      .exec();
-    const cards = await Promise.all(
-      mentorias.map(async (mentoria) => {
-        return {
-          nome: mentoria.nome,
-          proximoEncontro: this.getDataProximoEncontro(mentoria),
-          nomeMentor: (await this.userService.findById(mentoria.idMentor)).name,
-        };
-      }),
-    );
-    return cards;
-  }
-
-  async cardsMentor(
-    id: mongoose.Types.ObjectId,
-  ): Promise<CardMentoriaMentor[]> {
-    const mentorias = await this.mentoriaModel.find({ idMentor: id });
+  async getCards(userId: mongoose.Types.ObjectId): Promise<CardMentoria[]> {
+    const mentorias = await this.mentoriaModel.find({
+      $or: [{ idMentor: userId }, { idMentorado: userId }],
+    });
 
     const cards = await Promise.all(
       mentorias.map(async (mentoria) => {
         return {
+          id: mentoria._id,
           nome: mentoria.nome,
           proximoEncontro: this.getDataProximoEncontro(mentoria),
           nomeMentorado: (await this.userService.findById(mentoria.idMentorado))
             .name,
+          nomeMentor: (await this.userService.findById(mentoria.idMentor)).name,
         };
       }),
     );
