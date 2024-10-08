@@ -1,27 +1,49 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import { InjectModel } from '@nestjs/mongoose';
+import { Area, AreaDocument } from './schema/area.schema';
+import mongoose, { Model } from 'mongoose';
+import { AreaInterface } from './interface/area.interface';
 
 @Injectable()
 export class AreasService {
-  // eslint-disable-next-line
-  create(createAreaDto: CreateAreaDto) {
-    return 'This action adds a new area';
+  constructor(
+    @InjectModel(Area.name)
+    private areaModel: Model<AreaDocument>,
+  ) {}
+
+  create(createAreaDto: CreateAreaDto): Promise<AreaInterface> {
+    return this.areaModel.create(createAreaDto);
   }
 
   findAll() {
-    return `This action returns all areas`;
+    return this.areaModel.find().select('-__v -_id').exec();
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} area`;
-  }
-  // eslint-disable-next-line
-  update(id: number, updateAreaDto: UpdateAreaDto) {
-    return `This action updates a #${id} area`;
+  findOne(id: mongoose.Types.ObjectId): Promise<AreaInterface> {
+    return this.areaModel.findById(id).select('-__v -_id').exec();
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} area`;
+  async findByName(name: string): Promise<AreaInterface | object> {
+    const area = await this.areaModel.findOne({ nome: name }).exec();
+    const allarea = (await this.findAll()).map((area) => area.nome);
+    if (!area) {
+      return {
+        message: `Área não encontrada - Áreas cadastradas: [${allarea}]`,
+      };
+    }
+    return this.areaModel.findOne({ nome: name }).exec();
+  }
+
+  update(id: mongoose.Types.ObjectId, updateAreaDto: UpdateAreaDto) {
+    return this.areaModel
+      .findByIdAndUpdate({ _id: id }, { $set: updateAreaDto }, { new: true })
+      .select('-__v -_id')
+      .exec();
+  }
+
+  remove(id: string) {
+    return this.areaModel.deleteOne({ _id: id });
   }
 }

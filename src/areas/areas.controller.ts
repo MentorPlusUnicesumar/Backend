@@ -10,6 +10,7 @@ import {
 import { AreasService } from './areas.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
+import mongoose from 'mongoose';
 
 @Controller('areas')
 export class AreasController {
@@ -26,17 +27,25 @@ export class AreasController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.areasService.findOne(+id);
+  findOne(@Param('id') id: mongoose.Types.ObjectId) {
+    return this.areasService.findOne(id);
+  }
+
+  @Get('nome')
+  findByName(@Body('nome') name: string) {
+    return this.areasService.findByName(name);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAreaDto: UpdateAreaDto) {
-    return this.areasService.update(+id, updateAreaDto);
+  update(
+    @Param('id') id: mongoose.Types.ObjectId,
+    @Body() updateAreaDto: UpdateAreaDto,
+  ) {
+    return this.areasService.update(id, updateAreaDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.areasService.remove(+id);
+    return this.areasService.remove(id);
   }
 }
