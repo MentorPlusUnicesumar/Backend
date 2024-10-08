@@ -12,26 +12,26 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/auth/decorator/auth.decorator';
-import { EnumTypeUser } from './enums/user-type';
-import { Roles } from 'src/auth/decorator/roles.decorator';
+// import { EnumTypeUser } from './enums/user-type';
+// import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
 import { UserReturnInterface } from './dto/return-user.dto';
 import { UserId } from './decorator/user-id.dto';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import mongoose from 'mongoose';
-import { EnumStatusUser } from './enums/user-status';
+// import { EnumStatusUser } from './enums/user-status';
 import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
+// import { Public } from 'src/auth/decorator/auth.decorator';
 
 @Controller('users')
-@Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
+// @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post()
-  @Public()
-  private create(
+  // @Public()
+  create(
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserInterface | object> {
     try {
@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Get('name')
-  private findByName(@Body('name') name: string) {
+  findByName(@Body('name') name: string) {
     try {
       return this.usersService.findByName(name);
     } catch (error) {
@@ -70,7 +70,7 @@ export class UsersController {
 
   @Get('email')
   // @Roles(EnumTypeUser.Admin)
-  private findByEmail(@Body('email') email: string) {
+  findByEmail(@Body('email') email: string) {
     try {
       return this.usersService.findByEmail(email);
     } catch (error) {
@@ -88,7 +88,7 @@ export class UsersController {
   }
 
   @Get()
-  private async findAll(): Promise<UserReturnInterface | object> {
+  async findAll(): Promise<UserReturnInterface | object> {
     try {
       return (await this.usersService.findAll()).map(
         (userInterface) => new UserReturnInterface(userInterface),
@@ -108,12 +108,12 @@ export class UsersController {
   }
 
   @Get('id/:id')
-  private findById(@Param('id', ValidateObjectIdPipe) id: string) {
+  findById(@Param('id', ValidateObjectIdPipe) id: string) {
     return this.usersService.findById(id);
   }
 
   @Patch(':id')
-  private update(
+  update(
     @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserDto: UpdateUserDto,
   ) {
@@ -134,7 +134,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  private remove(@Param('id', ValidateObjectIdPipe) id: string) {
+  remove(@Param('id', ValidateObjectIdPipe) id: string) {
     try {
       return this.usersService.remove(id);
     } catch (error) {
@@ -151,11 +151,11 @@ export class UsersController {
     }
   }
   @Post('reset-password')
-  @Roles(
-    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado],
-    [EnumStatusUser.APROVADO],
-  )
-  private redefinirSenha(
+  // @Roles(
+  //   [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado],
+  //   [EnumStatusUser.APROVADO],
+  // )
+  redefinirSenha(
     @UserId() id: mongoose.Types.ObjectId,
     @Body() newSenhaUserDto: NewSenhaUserDto,
   ) {
@@ -176,7 +176,7 @@ export class UsersController {
   }
 
   @Patch(':id/update-status')
-  private updateUserStatus(
+  updateUserStatus(
     @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
   ) {
