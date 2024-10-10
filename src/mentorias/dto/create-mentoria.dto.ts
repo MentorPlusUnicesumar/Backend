@@ -22,7 +22,7 @@ export class CreateMentoriaDto {
 
   @IsNotEmpty()
   @IsMongoId()
-  idMentorado: mongoose.Types.ObjectId;
+  idAluno: mongoose.Types.ObjectId;
 
   @IsArray()
   @IsOptional()

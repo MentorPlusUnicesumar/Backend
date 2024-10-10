@@ -1,9 +1,13 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { User, UserDocument } from './schema/user.schema';
-import { Model, Types } from 'mongoose';
+import mongoose, { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
@@ -31,17 +35,15 @@ export class UsersService {
     // eslint-disable-next-line
     const { status, mentoriasAtivas, ...userData } = createUserDto;
 
-    const erros = {
-      error: [],
-    };
+    const errors = [];
     if (validEmail) {
-      erros.error.push(`O email: ${userData.email} ja foi cadastrado`);
+      errors.push(`O email: ${userData.email} ja foi cadastrado`);
     }
     if (validCpf) {
-      erros.error.push(`O CPF: ${userData.cpf} ja foi cadastrado`);
+      errors.push(`O CPF: ${userData.cpf} ja foi cadastrado`);
     }
     if (validCpf || validEmail) {
-      return erros.error;
+      throw new BadRequestException(errors);
     } else {
       userData.senha = await this.userHash(userData.senha);
       const user = new this.userModel(userData);
@@ -103,16 +105,13 @@ export class UsersService {
     );
   }
 
-  remove(id: string) {
+  remove(id: mongoose.Types.ObjectId) {
     return this.userModel.deleteOne({ _id: id });
   }
 
   async resetPassword(id: Types.ObjectId, newSenhaUserDto: NewSenhaUserDto) {
     const user = await this.findById(id);
-    console.log(user);
-    console.log(newSenhaUserDto);
     const isMath = await bcrypt.compare(newSenhaUserDto.senha, user.senha);
-    console.log(isMath);
     if (isMath) {
       if (newSenhaUserDto.novasenha == newSenhaUserDto.confirmasenha) {
         newSenhaUserDto.novasenha = await this.userHash(

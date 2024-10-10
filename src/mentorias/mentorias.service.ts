@@ -7,9 +7,8 @@ import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import {
   CardMentoriaMentor,
-  CardMentoriaMentorado,
+  CardMentoriaAluno,
 } from './interface/card-mentoria.interface';
-import { CreateReuniaoDto } from 'src/reuniao/dto/create-reuniao.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -22,16 +21,14 @@ export class MentoriasService {
     // eslint-disable-next-line
     const { reuniao, feedback, ...mentoriasData } = createMentoriaDto;
     const mentor = await this.userService.findById(createMentoriaDto.idMentor);
-    const mentorado = await this.userService.findById(
-      createMentoriaDto.idMentorado,
-    );
+    const aluno = await this.userService.findById(createMentoriaDto.idAluno);
     const mentoria = new this.mentoriaModel(mentoriasData);
-    if (mentor.typeUser == 'Mentor' && mentorado.typeUser == 'Mentorado') {
+    if (mentor.typeUser == 'Mentor' && aluno.typeUser == 'Aluno') {
       return mentoria.save();
     } else if (mentor.typeUser != 'Mentor') {
       return { message: 'Somente Mentores podem criar uma mentoria' };
-    } else if (mentorado.typeUser != 'Mentorado') {
-      return { message: 'Mentoria é somente entre mentorados e mentores' };
+    } else if (aluno.typeUser != 'Aluno') {
+      return { message: 'Mentoria é somente entre alunos e mentores' };
     }
   }
 
@@ -51,11 +48,9 @@ export class MentoriasService {
     return proximaData;
   }
 
-  async cardsMentorado(
-    id: mongoose.Types.ObjectId,
-  ): Promise<CardMentoriaMentorado[]> {
+  async cardsAluno(id: mongoose.Types.ObjectId): Promise<CardMentoriaAluno[]> {
     const mentorias = await this.mentoriaModel
-      .find({ idMentorado: id })
+      .find({ idAluno: id })
       .populate('reuniao')
       .exec();
     const cards = await Promise.all(
@@ -80,8 +75,7 @@ export class MentoriasService {
         return {
           nome: mentoria.nome,
           proximoEncontro: this.getDataProximoEncontro(mentoria),
-          nomeMentorado: (await this.userService.findById(mentoria.idMentorado))
-            .name,
+          nomeAluno: (await this.userService.findById(mentoria.idAluno)).name,
         };
       }),
     );

@@ -4,7 +4,7 @@ import { EnumStatusMentoria } from '../enums/mentorias-status';
 export interface MentoriaInterface {
   nome: string;
   idMentor: mongoose.Types.ObjectId;
-  idMentorado: mongoose.Types.ObjectId;
+  idAluno: mongoose.Types.ObjectId;
   reuniao: mongoose.Types.ObjectId[];
   status: EnumStatusMentoria;
   materialAnexado: string[];

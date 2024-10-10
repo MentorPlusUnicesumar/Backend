@@ -134,7 +134,9 @@ export class UsersController {
   }
 
   @Delete(':id')
-  private remove(@Param('id', ValidateObjectIdPipe) id: string) {
+  private remove(
+    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
+  ) {
     try {
       return this.usersService.remove(id);
     } catch (error) {
@@ -152,7 +154,7 @@ export class UsersController {
   }
   @Post('reset-password')
   @Roles(
-    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Mentorado],
+    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Aluno],
     [EnumStatusUser.APROVADO],
   )
   private redefinirSenha(

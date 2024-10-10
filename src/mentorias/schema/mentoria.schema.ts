@@ -21,7 +21,7 @@ export class Mentoria {
     ref: 'User',
     required: true,
   })
-  idMentorado: mongoose.Types.ObjectId;
+  idAluno: mongoose.Types.ObjectId;
 
   @Prop({
     type: [mongoose.Types.ObjectId],
