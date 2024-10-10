@@ -10,6 +10,7 @@ import { mailerConfig } from './configs/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MentoriasModule } from './mentorias/mentorias.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
+import { MentorModule } from './mentor/mentor.module';
 // import { MentorModule } from './mentor/mentor.module';
 @Module({
   imports: [
@@ -23,7 +24,7 @@ import { ReuniaoModule } from './reuniao/reuniao.module';
     JwtModule,
     MentoriasModule,
     ReuniaoModule,
-    
+    MentorModule,
   ],
   controllers: [],
   providers: [

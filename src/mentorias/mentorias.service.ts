@@ -6,6 +6,7 @@ import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoria } from './interface/card.interface';
+import { EnumStatusMentoria } from './enums/mentorias-status';
 
 @Injectable()
 export class MentoriasService {
@@ -18,16 +19,14 @@ export class MentoriasService {
     // eslint-disable-next-line
     const { reuniao, feedback, ...mentoriasData } = createMentoriaDto;
     const mentor = await this.userService.findById(createMentoriaDto.idMentor);
-    const mentorado = await this.userService.findById(
-      createMentoriaDto.idMentorado,
-    );
+    const aluno = await this.userService.findById(createMentoriaDto.idAluno);
     const mentoria = new this.mentoriaModel(mentoriasData);
-    if (mentor.typeUser == 'Mentor' && mentorado.typeUser == 'Mentorado') {
+    if (mentor.typeUser == 'Mentor' && aluno.typeUser == 'Aluno') {
       return mentoria.save();
     } else if (mentor.typeUser != 'Mentor') {
       return { message: 'Somente Mentores podem criar uma mentoria' };
-    } else if (mentorado.typeUser != 'Mentorado') {
-      return { message: 'Mentoria é somente entre mentorados e mentores' };
+    } else if (aluno.typeUser != 'Aluno') {
+      return { message: 'Mentoria é somente entre alunos e mentores' };
     }
   }
 
@@ -49,7 +48,7 @@ export class MentoriasService {
 
   async getCards(userId: mongoose.Types.ObjectId): Promise<CardMentoria[]> {
     const mentorias = await this.mentoriaModel.find({
-      $or: [{ idMentor: userId }, { idMentorado: userId }],
+      $or: [{ idMentor: userId }, { idAluno: userId }],
     });
 
     const cards = await Promise.all(
@@ -58,7 +57,7 @@ export class MentoriasService {
           id: mentoria._id,
           nome: mentoria.nome,
           proximoEncontro: this.getDataProximoEncontro(mentoria),
-          nomeMentorado: (await this.userService.findById(mentoria.idMentorado))
+          nomeMentorado: (await this.userService.findById(mentoria.idAluno))
             .name,
           nomeMentor: (await this.userService.findById(mentoria.idMentor)).name,
         };
@@ -83,5 +82,18 @@ export class MentoriasService {
       .findByIdAndUpdate(id, { $set: { feedback: feedback } }, { new: true })
       .select('id feedback')
       .exec();
+  }
+
+  async aceitarMentoria(id: mongoose.Types.ObjectId) {
+    const mentoria = await this.mentoriaModel
+      .findByIdAndUpdate(
+        id,
+        { $set: { status: EnumStatusMentoria.ATIVA } },
+        { new: true },
+      )
+      .exec();
+    await this.userService.addMentoriaAtiva(mentoria.idMentor, mentoria._id);
+    await this.userService.addMentoriaAtiva(mentoria.idAluno, mentoria._id);
+    return mentoria;
   }
 }
