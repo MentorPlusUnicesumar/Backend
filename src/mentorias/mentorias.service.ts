@@ -6,6 +6,7 @@ import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoria } from './interface/card.interface';
+import { EnumStatusMentoria } from './enums/mentorias-status';
 
 @Injectable()
 export class MentoriasService {
@@ -81,5 +82,18 @@ export class MentoriasService {
       .findByIdAndUpdate(id, { $set: { feedback: feedback } }, { new: true })
       .select('id feedback')
       .exec();
+  }
+
+  async aceitarMentoria(id: mongoose.Types.ObjectId) {
+    const mentoria = await this.mentoriaModel
+      .findByIdAndUpdate(
+        id,
+        { $set: { status: EnumStatusMentoria.ATIVA } },
+        { new: true },
+      )
+      .exec();
+    await this.userService.addMentoriaAtiva(mentoria.idMentor, mentoria._id);
+    await this.userService.addMentoriaAtiva(mentoria.idAluno, mentoria._id);
+    return mentoria;
   }
 }

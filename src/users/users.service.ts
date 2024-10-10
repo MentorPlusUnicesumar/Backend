@@ -60,7 +60,7 @@ export class UsersService {
         await this.mailerService.sendMail(mail);
       }
 
-      return user.save();
+      return (await user.save()).populate('mentoriasAtivas');
     }
   }
 
@@ -76,15 +76,21 @@ export class UsersService {
   }
 
   findByCpf(cpf: string) {
-    return this.userModel.findOne({ cpf: cpf }).exec();
+    return this.userModel
+      .findOne({ cpf: cpf })
+      .populate('mentoriasAtivas')
+      .exec();
   }
 
   findAll() {
-    return this.userModel.find();
+    return this.userModel.find().populate('mentoriasAtivas');
   }
 
   findById(id: string | Types.ObjectId) {
-    return this.userModel.findById(id).select('-senha');
+    return this.userModel
+      .findById(id)
+      .select('-senha')
+      .populate('mentoriasAtivas');
   }
 
   findByName(name: string) {
@@ -156,6 +162,14 @@ export class UsersService {
         result: 'As senhas não conferem',
       };
     }
+  }
+
+  async addMentoriaAtiva(id: Types.ObjectId, idMentoria: Types.ObjectId) {
+    return await this.userModel.findByIdAndUpdate(
+      { _id: id },
+      { $push: { mentoriasAtivas: idMentoria } },
+      { new: true },
+    );
   }
 
   async updateUserStatus(

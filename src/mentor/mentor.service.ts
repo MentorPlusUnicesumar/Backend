@@ -28,18 +28,16 @@ export class MentorService {
   }
 
   findAll() {
-    return this.mentorModel.find();
+    return this.mentorModel.find().populate('idUser areaDeEnsino');
   }
 
   async update(
     id: string,
     updateMentorDto: UpdateMentorDto,
   ): Promise<MentorInterface> {
-    return this.mentorModel.findByIdAndUpdate(
-      { _id: id },
-      { $set: updateMentorDto },
-      { new: true },
-    );
+    return this.mentorModel
+      .findByIdAndUpdate({ _id: id }, { $set: updateMentorDto }, { new: true })
+      .populate('idUser areaDeEnsino');
   }
 
   async remove(id: string) {

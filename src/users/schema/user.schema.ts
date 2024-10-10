@@ -39,7 +39,12 @@ export class User {
   @Prop({ required: true })
   cpf: string;
 
-  @Prop([mongoose.Types.ObjectId])
+  @Prop({
+    type: [mongoose.Types.ObjectId],
+    ref: 'Mentoria',
+    required: false,
+    default: [],
+  })
   mentoriasAtivas: mongoose.Types.ObjectId[];
 
   @Prop({ required: false })
