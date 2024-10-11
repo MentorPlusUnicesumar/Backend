@@ -3,6 +3,7 @@ import { EstadoUF } from '../enums/enum-uf';
 import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
 import { CreateMentorDto } from 'src/mentor/dto/create-mentor.dto';
+import { CreateAlunoDto } from 'src/aluno/dto/create-aluno.dto';
 
 export class UserDadosInterface {
   name: string;
@@ -17,7 +18,7 @@ export class UserDadosInterface {
   mentoriasAtivas: mongoose.Types.ObjectId[];
   fotos: string;
 
-  constructor(user: CreateMentorDto) {
+  constructor(user: CreateMentorDto | CreateAlunoDto) {
     this.name = user.name;
     this.email = user.email;
     this.senha = user.senha;
