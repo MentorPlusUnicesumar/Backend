@@ -12,6 +12,7 @@ import { MentoriasModule } from './mentorias/mentorias.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
 import { MentorModule } from './mentor/mentor.module';
 // import { MentorModule } from './mentor/mentor.module';
+import { AlunoModule } from './aluno/aluno.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -25,6 +26,7 @@ import { MentorModule } from './mentor/mentor.module';
     MentoriasModule,
     ReuniaoModule,
     MentorModule,
+    AlunoModule,
   ],
   controllers: [],
   providers: [
