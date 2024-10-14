@@ -14,6 +14,6 @@ import { AreasModule } from 'src/areas/areas.module';
   ],
   controllers: [MentorController],
   providers: [MentorService],
-  exports: [MentorModule],
+  exports: [MentorModule, MentorService],
 })
 export class MentorModule {}

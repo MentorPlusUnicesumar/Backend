@@ -14,6 +14,7 @@ import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { EnumStatusUser } from './enums/user-status';
+import { FiltroUserDto } from './dto/filtro-user.dto';
 
 @Injectable()
 export class UsersService {
@@ -185,5 +186,24 @@ export class UsersService {
     user.status = status;
 
     return user.save();
+  }
+
+  async filtroUsers(filtroUserDto: FiltroUserDto): Promise<UserInterface[]> {
+    const filtro: any = {};
+
+    if (filtroUserDto.name) {
+      filtro.name = { $regex: filtroUserDto.name, $options: 'i' };
+    }
+
+    if (filtroUserDto.status) {
+      filtro.status = filtroUserDto.status;
+    }
+    const users = await this.userModel.find(filtro).exec();
+
+    if (!users || users.length === 0) {
+      throw new NotFoundException('Usuário(s) não encontrado(s)');
+    }
+
+    return users;
   }
 }
