@@ -31,6 +31,29 @@ export class MentorService {
     return this.mentorModel.find().populate('idUser areaDeEnsino');
   }
 
+  async filtroMentor(filtro: any = {}) {
+    return this.mentorModel
+      .find({})
+      .populate([
+        {
+          path: 'idUser',
+          match: filtro.name
+            ? { nome: { $regex: filtro.name, $options: 'i' } }
+            : {},
+        },
+        {
+          path: 'areaDeEnsino',
+          match: filtro.areadeinterese
+            ? Array.isArray(filtro.areadeinterese)
+              ? { nome: { $in: filtro.areadeinterese.map(String) } }
+              : { nome: { $regex: filtro.areadeinterese, $options: 'i' } }
+            : {},
+        },
+      ])
+      .exec()
+      .then((mentores) => mentores.filter((mentor) => mentor.idUser !== null));
+  }
+
   async update(
     id: string,
     updateMentorDto: UpdateMentorDto,

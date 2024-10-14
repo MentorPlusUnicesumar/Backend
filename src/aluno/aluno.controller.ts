@@ -10,6 +10,7 @@ import {
 import { AlunoService } from './aluno.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
+import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 
 @Controller('aluno')
 export class AlunoController {
@@ -22,6 +23,11 @@ export class AlunoController {
   @Get()
   findAll() {
     return this.alunoService.findAll();
+  }
+
+  @Get('filtro')
+  private filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
+    return this.alunoService.filtroMentores(filtroMentorDto);
   }
 
   @Patch(':id')
