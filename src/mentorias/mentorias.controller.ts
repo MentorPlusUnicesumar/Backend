@@ -44,4 +44,11 @@ export class MentoriasController {
   ): Promise<MentoriaInterface> {
     return await this.mentoriasService.updateFeedbackMentoria(id, feedback);
   }
+
+  @Patch('accept/:id')
+  async aceitarMentoria(
+    @Param('id') id: mongoose.Types.ObjectId,
+  ): Promise<MentoriaInterface> {
+    return await this.mentoriasService.aceitarMentoria(id);
+  }
 }
