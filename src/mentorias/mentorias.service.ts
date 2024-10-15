@@ -96,4 +96,8 @@ export class MentoriasService {
     await this.userService.addMentoriaAtiva(mentoria.idAluno, mentoria._id);
     return mentoria;
   }
+
+  async findById(id: mongoose.Types.ObjectId) {
+    return this.mentoriaModel.findById(id).populate('reuniao');
+  }
 }
