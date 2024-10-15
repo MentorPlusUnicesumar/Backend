@@ -7,7 +7,7 @@ aluno_renan = {
     "email": "renan@gmail.com",
     "senha": "Teste123!",
     "telefone": "(44)9999-9999",
-    "typeUser": "Mentorado",
+    "typeUser": "Aluno",
     "cidade": "Mandaguari",
     "uf": "Acre",
     "cpf": "11550847996"
@@ -103,7 +103,7 @@ alunos = [
         "email": "Aluno1@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "65720110038",
@@ -114,7 +114,7 @@ alunos = [
         "email": "Aluno2@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "89958008017",
@@ -125,7 +125,7 @@ alunos = [
         "email": "Aluno3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "14463803004",
@@ -136,7 +136,7 @@ alunos = [
         "email": "Aluno4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "76832145071",
@@ -147,7 +147,7 @@ alunos = [
         "email": "Aluno5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "94207098097",
@@ -156,8 +156,9 @@ alunos = [
 ]
 
 for user in mentores + alunos:
-    print(f'Cadastrando Usuaário {user["name"]}')
+    print(f'Cadastrando Usuário {user["name"]}')
     tmp = requests.post(url_base + 'users', data=user)
+    print(tmp.json())
     user.update({'_id': tmp.json()['_id']})
 
 
@@ -228,7 +229,7 @@ response_mentoria = requests.post(
     url=url_base + 'mentorias',
     data={
         "idMentor": response_mentor_men.json()['_id'],
-        "idMentorado": response_aluno_renan.json()['_id'],
+        "idAluno": response_aluno_renan.json()['_id'],
         "nome": "AWS Migrations",
         "descricao": "Como migrar de uma vez para a nuvem",
         "qtdtotal": 5,
@@ -241,7 +242,7 @@ response_mentoria2 = requests.post(
     url=url_base + 'mentorias',
     data={
         "idMentor": mentores[0]['_id'],
-        "idMentorado": response_aluno_renan.json()['_id'],
+        "idAluno": response_aluno_renan.json()['_id'], 
         "nome": "Python para Web",
         "descricao": "Como criar aplicações web simples com Django",
         "qtdtotal": 10,
