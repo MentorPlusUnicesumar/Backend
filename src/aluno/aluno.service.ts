@@ -2,7 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
 import { InjectModel } from '@nestjs/mongoose';
-import { Aluno, AlunoDocument } from './entities/aluno.schema';
+import { Aluno, AlunoDocument } from './schema/aluno.schema';
 import { UsersService } from 'src/users/users.service';
 import { UserDadosInterface } from 'src/users/dto/user-dados.dto';
 import { Model } from 'mongoose';
