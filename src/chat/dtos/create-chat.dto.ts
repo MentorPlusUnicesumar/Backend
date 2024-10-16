@@ -4,8 +4,8 @@ import mongoose from 'mongoose';
 
 export class CreateChatDto {
   @IsNotEmpty()
-  alunoId: mongoose.Types.ObjectId;
+  idAluno: mongoose.Types.ObjectId;
 
   @IsNotEmpty()
-  mentorId: mongoose.Types.ObjectId;
+  idMentor: mongoose.Types.ObjectId;
 }

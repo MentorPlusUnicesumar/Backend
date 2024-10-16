@@ -19,14 +19,14 @@ export class ChatService {
     const chatExists = await this.chatModel
       .findOne({
         $or: [
-          { mentorId: createChatDto.mentorId, alunoId: createChatDto.alunoId },
-          { mentorId: createChatDto.alunoId, alunoId: createChatDto.mentorId },
+          { idMentor: createChatDto.idMentor, idAluno: createChatDto.idAluno },
+          { idMentor: createChatDto.idAluno, idAluno: createChatDto.idMentor },
         ],
       })
       .exec();
 
     if (chatExists) {
-      throw new Error('Chat already exists');
+      return chatExists;
     }
 
     const chat = await this.chatModel.create(createChatDto);
@@ -36,11 +36,15 @@ export class ChatService {
   async findChatsByUser(
     userId: mongoose.Types.ObjectId,
   ): Promise<ChatDocument[]> {
-    return await this.chatModel
+    const chats = await this.chatModel
       .find({
-        $or: [{ mentorId: userId }, { alunoId: userId }],
+        $or: [{ idMentor: userId }, { idAluno: userId }],
       })
-      .exec();
+      .populate('idMentor')
+      .populate('idAluno')
+      .lean();
+
+    return chats;
   }
 
   async addMessage(sendMessageDto: SendMessageDto): Promise<MessageDocument> {
@@ -53,6 +57,15 @@ export class ChatService {
   ): Promise<MessageDocument[]> {
     return await this.messageModel
       .find({ chatId })
+      .sort({ createdAt: -1 })
+      .exec();
+  }
+
+  async getLastMessageByChatId(
+    chatId: mongoose.Types.ObjectId,
+  ): Promise<MessageDocument> {
+    return await this.messageModel
+      .findOne({ chatId })
       .sort({ createdAt: -1 })
       .exec();
   }

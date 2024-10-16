@@ -7,10 +7,10 @@ export type ChatDocument = HydratedDocument<Chat>;
 @Schema()
 export class Chat {
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'User' })
-  mentorId: mongoose.Types.ObjectId;  // Referência ao ID do primeiro usuário
+  idAluno: mongoose.Types.ObjectId; // Referência ao ID do segundo usuário
 
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'User' })
-  alunoId: mongoose.Types.ObjectId;  // Referência ao ID do segundo usuário
+  idMentor: mongoose.Types.ObjectId; // Referência ao ID do primeiro usuário
 }
 
 export const ChatSchema = SchemaFactory.createForClass(Chat);

@@ -10,7 +10,7 @@ import {
 import { Server, Socket } from 'socket.io';
 import { ChatService } from './chat.service';
 import { SendMessageDto } from './dtos/send-message.dto';
-import { CreateChatDto } from './dtos/create-chat.dto';
+import { JwtService } from '@nestjs/jwt';
 
 @WebSocketGateway({
   cors: {
@@ -23,26 +23,31 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   constructor(private readonly chatService: ChatService) {}
 
-  handleConnection(client: Socket) {
+  async handleConnection(client: Socket) {
     console.log(`Client connected: ${client.id}`);
+    const token = client.handshake.auth.token;
+
+    if (!token) {
+      console.log(`No token provided for client ${client.id}`);
+      client.disconnect();
+      return;
+    }
+
+    const jwtService = new JwtService({
+      secret: process.env.CONSTANTS_JWT,
+    });
+    const user = jwtService.decode(token);
+
+    const chats = await this.chatService.findChatsByUser(user._id);
+
+    chats.forEach((chat) => {
+      console.log(`Client ${client.id} joined chat ${chat.id}`);
+      client.join(chat.id);
+    });
   }
 
   handleDisconnect(client: Socket) {
     console.log(`Client disconnected: ${client.id}`);
-  }
-
-  @SubscribeMessage('createChat')
-  async handleCreateChat(client: Socket, createChatDto: CreateChatDto) {
-    try {
-      const chat = await this.chatService.createChat(createChatDto);
-      client.join(chat._id.toString()); // Adiciona o cliente à sala do chat criado
-      this.server.to(chat._id.toString()).emit('chatCreated', chat); // Notifica outros clientes sobre o novo chat
-      console.log(
-        `Chat created between ${createChatDto.mentorId} and ${createChatDto.alunoId}`,
-      );
-    } catch (error) {
-      client.emit('error', error.message); // Emite um erro para o cliente em caso de falha
-    }
   }
 
   @SubscribeMessage('joinChat')
@@ -54,6 +59,13 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   @SubscribeMessage('sendMessage')
   async handleMessage(@MessageBody() sendMessageDto: SendMessageDto) {
     const message = await this.chatService.addMessage(sendMessageDto);
-    this.server.to(sendMessageDto.chatId.toString()).emit('message', message);
+    this.server
+      .to(sendMessageDto.chatId.toString())
+      .emit('newMessage', message);
+  }
+
+  @SubscribeMessage('message')
+  teste(client: Socket, data: any) {
+    console.log(data);
   }
 }

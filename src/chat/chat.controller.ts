@@ -1,4 +1,29 @@
-import { Controller } from '@nestjs/common';
+import { Body, Controller, Post, Get } from '@nestjs/common';
+import { CreateChatDto } from './dtos/create-chat.dto';
+import { ChatService } from './chat.service';
+import { UserId } from 'src/users/decorator/user-id.dto';
+import mongoose from 'mongoose';
 
 @Controller('chat')
-export class ChatController {}
+export class ChatController {
+  constructor(private readonly chatService: ChatService) {}
+
+  @Post()
+  async createChat(@Body() createChatDto: CreateChatDto) {
+    return await this.chatService.createChat(createChatDto);
+  }
+
+  @Get()
+  async getChatsByUser(@UserId() userId: mongoose.Types.ObjectId) {
+    const chats = await this.chatService.findChatsByUser(userId);
+    const result = [];
+    for (const chat of chats) {
+      result.push({
+        ...chat,
+        lastMessage: await this.chatService.getLastMessageByChatId(chat.id),
+      });
+    }
+
+    return result;
+  }
+}
