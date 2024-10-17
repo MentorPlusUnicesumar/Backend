@@ -11,7 +11,7 @@ import mongoose, { Model, Types } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
-import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
+import { ChangePasswordDto } from 'src/auth/dto/change-password.dto'; //
 import { MailerService } from '@nestjs-modules/mailer';
 import { EnumStatusUser } from './enums/user-status';
 import { FiltroUserDto } from './dto/filtro-user.dto';
