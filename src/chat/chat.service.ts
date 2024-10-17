@@ -40,8 +40,7 @@ export class ChatService {
       .find({
         $or: [{ idMentor: userId }, { idAluno: userId }],
       })
-      .populate('idMentor')
-      .populate('idAluno')
+      .populate('idMentor idAluno')
       .lean();
 
     return chats;
@@ -56,7 +55,7 @@ export class ChatService {
     chatId: mongoose.Types.ObjectId,
   ): Promise<MessageDocument[]> {
     return await this.messageModel
-      .find({ chatId })
+      .find({ chatId: chatId.toString() })
       .sort({ createdAt: -1 })
       .exec();
   }
@@ -64,9 +63,11 @@ export class ChatService {
   async getLastMessageByChatId(
     chatId: mongoose.Types.ObjectId,
   ): Promise<MessageDocument> {
-    return await this.messageModel
-      .findOne({ chatId })
+    const messages = await this.messageModel
+      .findOne({ chatId: chatId.toString() })
       .sort({ createdAt: -1 })
       .exec();
+
+    return messages;
   }
 }

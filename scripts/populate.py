@@ -11,6 +11,7 @@ aluno_renan = {
     "cidade": "Mandaguari",
     "uf": "Acre",
     "cpf": "11550847996"
+    "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4"
 }
 
 admin_prisco = {
@@ -36,7 +37,7 @@ mentor_men = {
   "cidade": "Mandaguari",
   "uf": "Acre",
   "cpf": "10008997993",
-  "fotos": "foto.com.br",
+  "fotos": "https://avatars.githubusercontent.com/u/62121362?v=4",
 }
 
 mentores = [
