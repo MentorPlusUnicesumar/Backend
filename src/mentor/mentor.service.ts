@@ -1,13 +1,13 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMentorDto } from './dto/create-mentor.dto';
 import { UpdateMentorDto } from './dto/update-mentor.dto';
-import { UsersService } from 'src/users/users.service';
+import { UsersService } from '../users/users.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mentor, MentorDocument } from './schema/mentor.schema';
 import { Model } from 'mongoose';
-import { UserDadosInterface } from 'src/users/dto/user-dados.dto';
+import { UserDadosInterface } from '../users/dto/user-dados.dto';
 import { MentorDadosInterface } from './dto/mentor-dados.interface';
-import { EnumTypeUser } from 'src/users/enums/user-type';
+import { EnumTypeUser } from '../users/enums/user-type';
 import { MentorInterface } from './interface/mentor.interface';
 
 @Injectable()

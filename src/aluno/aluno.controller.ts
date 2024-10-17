@@ -26,7 +26,7 @@ export class AlunoController {
   }
 
   @Get('filtro')
-  private filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
+  public filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
     return this.alunoService.filtroMentores(filtroMentorDto);
   }
 

@@ -3,14 +3,14 @@ import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Aluno, AlunoDocument } from './schema/aluno.schema';
-import { UsersService } from 'src/users/users.service';
-import { UserDadosInterface } from 'src/users/dto/user-dados.dto';
+import { UsersService } from '../users/users.service';
+import { UserDadosInterface } from '../users/dto/user-dados.dto';
 import { Model } from 'mongoose';
-import { EnumTypeUser } from 'src/users/enums/user-type';
+import { EnumTypeUser } from '../users/enums/user-type';
 import { AlunoDadosInterface } from './dto/aluno-dados.interface';
 import { AlunoInterface } from './interface/aluno.interface';
-import { MentorInterface } from 'src/mentor/interface/mentor.interface';
-import { MentorService } from 'src/mentor/mentor.service';
+import { MentorInterface } from '../mentor/interface/mentor.interface';
+import { MentorService } from '../mentor/mentor.service';
 import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 
 @Injectable()
