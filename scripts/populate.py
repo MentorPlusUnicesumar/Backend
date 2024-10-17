@@ -10,7 +10,7 @@ aluno_renan = {
     "typeUser": "Aluno",
     "cidade": "Mandaguari",
     "uf": "Acre",
-    "cpf": "11550847996"
+    "cpf": "11550847996",
     "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4"
 }
 
@@ -24,7 +24,7 @@ admin_prisco = {
   "cidade": "Mandaguari",
   "uf": "Acre",
   "cpf": "13413070932",
-  "fotos": "foto.com.br",
+  "fotos": "https://avatars.githubusercontent.com/u/72769726?v=4",
 }
 
 mentor_men = {
@@ -50,7 +50,7 @@ mentores = [
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "46237522085",
-        "fotos": "foto.com.br",
+        "fotos": "https://img.freepik.com/fotos-gratis/pessoa-de-origem-indiana-se-divertindo_23-2150285283.jpg?ga=GA1.1.627376283.1729164402&semt=ais_hybrid",
     },
         {
         "name": "Mentor 2",
@@ -259,4 +259,3 @@ cards_mentorias = requests.get(
 )
 
 cards_mentorias.json()
-
