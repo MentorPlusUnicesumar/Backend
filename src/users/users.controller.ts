@@ -13,7 +13,6 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EnumTypeUser } from './enums/user-type';
-import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
 import { UserReturnInterface } from './dto/return-user.dto';
 import { UserId } from './decorator/user-id.dto';
@@ -22,7 +21,8 @@ import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
 import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
-import { Public } from 'src/auth/decorator/auth.decorator';
+import { Public } from '../auth/decorator/auth.decorator';
+import { Roles } from '../auth/decorator/roles.decorator';
 
 @Controller('users')
 @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])

@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 import { EstadoUF } from '../enums/enum-uf';
 import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
-import { CreateMentorDto } from 'src/mentor/dto/create-mentor.dto';
-import { CreateAlunoDto } from 'src/aluno/dto/create-aluno.dto';
+import { CreateMentorDto } from 'src/mentor/dto/create-mentor.dto'; //
+import { CreateAlunoDto } from 'src/aluno/dto/create-aluno.dto'; //
 
 export class UserDadosInterface {
   name: string;
