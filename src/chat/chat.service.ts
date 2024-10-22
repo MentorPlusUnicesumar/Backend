@@ -56,7 +56,7 @@ export class ChatService {
   ): Promise<MessageDocument[]> {
     return await this.messageModel
       .find({ chatId: chatId.toString() })
-      .sort({ createdAt: -1 })
+      .sort({ createdAt: 1 })
       .exec();
   }
 

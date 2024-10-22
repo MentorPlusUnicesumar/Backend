@@ -1,5 +1,5 @@
 // src/chat/dtos/send-message.dto.ts
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 import mongoose from 'mongoose';
 
 export class SendMessageDto {
@@ -10,5 +10,6 @@ export class SendMessageDto {
   senderId: mongoose.Types.ObjectId;
 
   @IsNotEmpty()
+  @IsString()
   content: string;
 }

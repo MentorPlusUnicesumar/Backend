@@ -252,10 +252,14 @@ response_mentoria2 = requests.post(
 )
 print(response_mentoria2.json())
 
-
-cards_mentorias = requests.get(
-    url_base + 'mentorias/cards', 
+# Criar chat e mensagens
+response_chat = requests.post(
+    url=url_base + 'chats', 
+    data={
+        'idAluno': response_aluno_renan.json()['_id'],
+        'idMentor': res_mentor_men.json()['_id'],
+    }, 
     headers=getHeader(token_renan)
 )
 
-cards_mentorias.json()
+print(response_chat.json())
