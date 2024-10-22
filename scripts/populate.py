@@ -254,7 +254,7 @@ print(response_mentoria2.json())
 
 # Criar chat e mensagens
 response_chat = requests.post(
-    url=url_base + 'chats', 
+    url=url_base + 'chat', 
     data={
         'idAluno': response_aluno_renan.json()['_id'],
         'idMentor': res_mentor_men.json()['_id'],
