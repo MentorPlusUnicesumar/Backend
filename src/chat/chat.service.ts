@@ -70,4 +70,14 @@ export class ChatService {
 
     return messages;
   }
+
+  async markMessagesAsRead(
+    chatId: mongoose.Types.ObjectId,
+    readerId: mongoose.Types.ObjectId,
+  ): Promise<void> {
+    await this.messageModel.updateMany(
+      { chatId: chatId.toString(), senderId: { $ne: readerId } },
+      { isRead: true },
+    );
+  }
 }
