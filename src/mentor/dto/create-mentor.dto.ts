@@ -10,8 +10,9 @@ import {
   Max,
   Min,
 } from 'class-validator';
-import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { TrabDestaqueDto } from './trab-destaque.dto';
+import { CreateUserDto } from '../../users/dto/create-user.dto';
+
 import mongoose from 'mongoose';
 
 export class CreateMentorDto extends CreateUserDto {
