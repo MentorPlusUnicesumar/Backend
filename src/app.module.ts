@@ -10,6 +10,7 @@ import { mailerConfig } from './configs/mailer.config';
 import { MailerModule } from '@nestjs-modules/mailer';
 import { MentoriasModule } from './mentorias/mentorias.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
+import { ChatModule } from './chat/chat.module';
 import { MentorModule } from './mentor/mentor.module';
 // import { MentorModule } from './mentor/mentor.module';
 import { AlunoModule } from './aluno/aluno.module';
@@ -25,6 +26,7 @@ import { AlunoModule } from './aluno/aluno.module';
     JwtModule,
     MentoriasModule,
     ReuniaoModule,
+    ChatModule,
     MentorModule,
     AlunoModule,
   ],
