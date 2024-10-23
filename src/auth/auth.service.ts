@@ -13,11 +13,16 @@ import { UserDocument } from 'src/users/schema/user.schema';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import mongoose from 'mongoose';
+import { EnumTypeUser } from 'src/users/enums/user-type';
+import { MentorService } from 'src/mentor/mentor.service';
+import { AlunoService } from 'src/aluno/aluno.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private usersService: UsersService,
+    private mentorService: MentorService,
+    private alunoService: AlunoService,
     private jwtService: JwtService,
     private mailerService: MailerService,
   ) {}
@@ -43,11 +48,20 @@ export class AuthService {
   }
 
   private async gerarToken(user: UserDocument) {
+    let userData: any;
+    // console.log(user)
+    if (user.typeUser == EnumTypeUser.Mentor) {
+      userData = await this.mentorService.findById(user._id);
+      console.log('userData:', userData);
+    } else if (user.typeUser == EnumTypeUser.Aluno) {
+      userData = await this.alunoService.findById(user._id);
+      console.log('userData:', userData);
+    }
     return {
-      _id: user._id,
-      access_token: this.jwtService.sign({ ...new LoginPayload(user) }),
+      _id: userData._id,
+      access_token: this.jwtService.sign({ ...new LoginPayload(userData) }),
       refresh_token: this.jwtService.sign(
-        { ...new LoginPayload(user) },
+        { ...new LoginPayload(userData) },
         {
           secret: process.env.REFRESH_CONSTANTS_JWT,
           expiresIn: process.env.REFRESH_TOKEN_EXPIRES_IN,

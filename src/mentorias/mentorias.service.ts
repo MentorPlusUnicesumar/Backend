@@ -98,6 +98,6 @@ export class MentoriasService {
   }
 
   async findById(id: mongoose.Types.ObjectId) {
-    return this.mentoriaModel.findById(id).populate('reuniao');
+    return this.mentoriaModel.findById(id).populate('reuniao idAluno idMentor');
   }
 }

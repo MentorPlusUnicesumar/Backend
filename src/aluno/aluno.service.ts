@@ -5,7 +5,7 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Aluno, AlunoDocument } from './schema/aluno.schema';
 import { UsersService } from 'src/users/users.service';
 import { UserDadosInterface } from 'src/users/dto/user-dados.dto';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { EnumTypeUser } from 'src/users/enums/user-type';
 import { AlunoDadosInterface } from './dto/aluno-dados.interface';
 import { AlunoInterface } from './interface/aluno.interface';
@@ -72,5 +72,13 @@ export class AlunoService {
     }
 
     return mentores;
+  }
+
+  async findById(id: mongoose.Types.ObjectId) {
+    const aluno = await this.alunoModel
+      .findOne({ idUser: id })
+      .populate('idUser')
+      .lean();
+    return aluno;
   }
 }

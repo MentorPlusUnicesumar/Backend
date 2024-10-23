@@ -4,7 +4,7 @@ import { UpdateMentorDto } from './dto/update-mentor.dto';
 import { UsersService } from 'src/users/users.service';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mentor, MentorDocument } from './schema/mentor.schema';
-import { Model } from 'mongoose';
+import mongoose, { Model } from 'mongoose';
 import { UserDadosInterface } from 'src/users/dto/user-dados.dto';
 import { MentorDadosInterface } from './dto/mentor-dados.interface';
 import { EnumTypeUser } from 'src/users/enums/user-type';
@@ -66,5 +66,13 @@ export class MentorService {
   async remove(id: string) {
     const user = await this.mentorModel.findByIdAndDelete(id);
     return this.usersService.remove(user.idUser);
+  }
+
+  async findById(id: mongoose.Types.ObjectId) {
+    const mentor = await this.mentorModel
+      .findOne({ idUser: id })
+      .populate('idUser')
+      .lean();
+    return mentor;
   }
 }
