@@ -1,4 +1,4 @@
-import { Body, Controller, Post, Get, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Param, Put } from '@nestjs/common';
 import { CreateChatDto } from './dtos/create-chat.dto';
 import { ChatService } from './chat.service';
 import { UserId } from 'src/users/decorator/user-id.dto';
@@ -23,6 +23,7 @@ export class ChatController {
       result.push({
         ...chat,
         lastMessage: await this.chatService.getLastMessageByChatId(chat._id),
+        hasNewMessages: await this.chatService.hasNewMessages(chat._id, userId),
       });
     }
 
@@ -34,5 +35,13 @@ export class ChatController {
     @Param('chatId', ValidateObjectIdPipe) chatId: mongoose.Types.ObjectId,
   ) {
     return await this.chatService.getMessagesByChatId(chatId);
+  }
+
+  @Put('/markAsRead/:chatId')
+  async markMessagesAsReadByChat(
+    @Param('chatId', ValidateObjectIdPipe) chatId: mongoose.Types.ObjectId,
+    @UserId() userId: mongoose.Types.ObjectId,
+  ) {
+    return await this.chatService.markMessagesAsReadByChat(chatId, userId);
   }
 }

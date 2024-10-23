@@ -71,7 +71,7 @@ export class ChatService {
     return messages;
   }
 
-  async markMessagesAsRead(
+  async markMessagesAsReadByChat(
     chatId: mongoose.Types.ObjectId,
     readerId: mongoose.Types.ObjectId,
   ): Promise<void> {
@@ -79,5 +79,22 @@ export class ChatService {
       { chatId: chatId.toString(), senderId: { $ne: readerId } },
       { isRead: true },
     );
+  }
+
+  async hasNewMessages(
+    chatId: mongoose.Types.ObjectId,
+    readerId: mongoose.Types.ObjectId,
+  ): Promise<boolean> {
+    const newMessages = await this.messageModel.findOne({
+      chatId: chatId.toString(),
+      senderId: { $ne: readerId },
+      isRead: false,
+    });
+
+    if (newMessages) {
+      return true;
+    }
+
+    return false;
   }
 }
