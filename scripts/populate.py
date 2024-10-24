@@ -7,10 +7,11 @@ aluno_renan = {
     "email": "renan@gmail.com",
     "senha": "Teste123!",
     "telefone": "(44)9999-9999",
-    "typeUser": "Mentorado",
+    "typeUser": "Aluno",
     "cidade": "Mandaguari",
     "uf": "Acre",
-    "cpf": "11550847996"
+    "cpf": "11550847996",
+    "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4"
 }
 
 admin_prisco = {
@@ -23,7 +24,7 @@ admin_prisco = {
   "cidade": "Mandaguari",
   "uf": "Acre",
   "cpf": "13413070932",
-  "fotos": "foto.com.br",
+  "fotos": "https://avatars.githubusercontent.com/u/72769726?v=4",
 }
 
 mentor_men = {
@@ -36,7 +37,7 @@ mentor_men = {
   "cidade": "Mandaguari",
   "uf": "Acre",
   "cpf": "10008997993",
-  "fotos": "foto.com.br",
+  "fotos": "https://avatars.githubusercontent.com/u/62121362?v=4",
 }
 
 mentores = [
@@ -49,7 +50,7 @@ mentores = [
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "46237522085",
-        "fotos": "foto.com.br",
+        "fotos": "https://img.freepik.com/fotos-gratis/pessoa-de-origem-indiana-se-divertindo_23-2150285283.jpg?ga=GA1.1.627376283.1729164402&semt=ais_hybrid",
     },
         {
         "name": "Mentor 2",
@@ -103,7 +104,7 @@ alunos = [
         "email": "Aluno1@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "65720110038",
@@ -114,7 +115,7 @@ alunos = [
         "email": "Aluno2@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "89958008017",
@@ -125,7 +126,7 @@ alunos = [
         "email": "Aluno3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "14463803004",
@@ -136,7 +137,7 @@ alunos = [
         "email": "Aluno4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "76832145071",
@@ -147,7 +148,7 @@ alunos = [
         "email": "Aluno5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
-        "typeUser": "Mentorado",
+        "typeUser": "Aluno",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "94207098097",
@@ -156,8 +157,9 @@ alunos = [
 ]
 
 for user in mentores + alunos:
-    print(f'Cadastrando Usuaário {user["name"]}')
+    print(f'Cadastrando Usuário {user["name"]}')
     tmp = requests.post(url_base + 'users', data=user)
+    print(tmp.json())
     user.update({'_id': tmp.json()['_id']})
 
 
@@ -228,7 +230,7 @@ response_mentoria = requests.post(
     url=url_base + 'mentorias',
     data={
         "idMentor": response_mentor_men.json()['_id'],
-        "idMentorado": response_aluno_renan.json()['_id'],
+        "idAluno": response_aluno_renan.json()['_id'],
         "nome": "AWS Migrations",
         "descricao": "Como migrar de uma vez para a nuvem",
         "qtdtotal": 5,
@@ -241,7 +243,7 @@ response_mentoria2 = requests.post(
     url=url_base + 'mentorias',
     data={
         "idMentor": mentores[0]['_id'],
-        "idMentorado": response_aluno_renan.json()['_id'],
+        "idAluno": response_aluno_renan.json()['_id'], 
         "nome": "Python para Web",
         "descricao": "Como criar aplicações web simples com Django",
         "qtdtotal": 10,
@@ -250,11 +252,14 @@ response_mentoria2 = requests.post(
 )
 print(response_mentoria2.json())
 
-
-cards_mentorias = requests.get(
-    url_base + 'mentorias/cards', 
+# Criar chat e mensagens
+response_chat = requests.post(
+    url=url_base + 'chat', 
+    data={
+        'idAluno': response_aluno_renan.json()['_id'],
+        'idMentor': res_mentor_men.json()['_id'],
+    }, 
     headers=getHeader(token_renan)
 )
 
-cards_mentorias.json()
-
+print(response_chat.json())

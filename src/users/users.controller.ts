@@ -17,13 +17,13 @@ import { EnumTypeUser } from './enums/user-type';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
 import { UserReturnInterface } from './dto/return-user.dto';
-import { UserId } from './decorator/user-id.dto';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
 import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
+import { UserId } from './decorator/user-id.dto';
 
 @ApiTags('users')
 @Controller('users')
