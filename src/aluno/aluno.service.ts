@@ -74,11 +74,16 @@ export class AlunoService {
     return mentores;
   }
 
-  async findById(id: mongoose.Types.ObjectId) {
+  async findByIdUser(id: mongoose.Types.ObjectId) {
     const aluno = await this.alunoModel
       .findOne({ idUser: id })
       .populate('idUser')
       .lean();
+    return aluno;
+  }
+
+  async findById(id: mongoose.Types.ObjectId): Promise<any> {
+    const aluno = await this.alunoModel.findById(id).populate('idUser').lean();
     return aluno;
   }
 }

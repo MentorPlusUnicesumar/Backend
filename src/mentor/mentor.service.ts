@@ -68,9 +68,17 @@ export class MentorService {
     return this.usersService.remove(user.idUser);
   }
 
-  async findById(id: mongoose.Types.ObjectId) {
+  async findByIdUser(id: mongoose.Types.ObjectId) {
     const mentor = await this.mentorModel
       .findOne({ idUser: id })
+      .populate('idUser')
+      .lean();
+    return mentor;
+  }
+
+  async findById(id: mongoose.Types.ObjectId): Promise<any> {
+    const mentor = await this.mentorModel
+      .findById(id)
       .populate('idUser')
       .lean();
     return mentor;

@@ -51,14 +51,16 @@ export class AuthService {
     let userData: any;
     // console.log(user)
     if (user.typeUser == EnumTypeUser.Mentor) {
-      userData = await this.mentorService.findById(user._id);
+      userData = await this.mentorService.findByIdUser(user._id);
       console.log('userData:', userData);
     } else if (user.typeUser == EnumTypeUser.Aluno) {
-      userData = await this.alunoService.findById(user._id);
+      userData = await this.alunoService.findByIdUser(user._id);
       console.log('userData:', userData);
     }
     return {
       _id: userData._id,
+      idUser: userData.idUser._id,
+      typeUser: userData.idUser.typeUser,
       access_token: this.jwtService.sign({ ...new LoginPayload(userData) }),
       refresh_token: this.jwtService.sign(
         { ...new LoginPayload(userData) },
