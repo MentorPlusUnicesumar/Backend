@@ -8,7 +8,7 @@ import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import { LoginDto } from './dto/login.dto';
 import * as bycript from 'bcrypt';
-import { LoginPayload } from 'src/auth/dto/login-payload.dto';
+import { LoginPayload } from './dto/login-payload.dto';
 import { UserDocument } from 'src/users/schema/user.schema';
 import { MailerService } from '@nestjs-modules/mailer';
 import { ChangePasswordDto } from './dto/change-password.dto';
