@@ -22,33 +22,14 @@ import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
 import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
-import { UserIdUser } from './decorator/user-idUser.dto';
+import { ApiTags } from '@nestjs/swagger';
+import { UserId } from './decorator/user-id.dto';
 
+@ApiTags('users')
 @Controller('users')
 @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
-
-  @Post()
-  @Public()
-  private create(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<UserInterface | object> {
-    try {
-      return this.usersService.create(createUserDto);
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-          error: 'Erro ao cadastrar o usuario',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: error,
-        },
-      );
-    }
-  }
 
   @Get('name')
   private findByName(@Body('name') name: string) {
@@ -112,6 +93,52 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
+  @Post()
+  @Public()
+  private create(
+    @Body() createUserDto: CreateUserDto,
+  ): Promise<UserInterface | object> {
+    try {
+      return this.usersService.create(createUserDto);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao cadastrar o usuario',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Post('reset-password')
+  @Roles(
+    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Aluno],
+    [EnumStatusUser.APROVADO],
+  )
+  private redefinirSenha(
+    @UserId() id: mongoose.Types.ObjectId,
+    @Body() newSenhaUserDto: NewSenhaUserDto,
+  ) {
+    try {
+      return this.usersService.resetPassword(id, newSenhaUserDto);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao redefinir senha do usuario',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
   @Patch(':id')
   private update(
     @Param('id', ValidateObjectIdPipe) id: string,
@@ -133,51 +160,7 @@ export class UsersController {
     }
   }
 
-  @Delete(':id')
-  private remove(
-    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
-  ) {
-    try {
-      return this.usersService.remove(id);
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-          error: 'Erro ao deletar o usuario',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: error,
-        },
-      );
-    }
-  }
-  @Post('reset-password')
-  @Roles(
-    [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Aluno],
-    [EnumStatusUser.APROVADO],
-  )
-  private redefinirSenha(
-    @UserIdUser() id: mongoose.Types.ObjectId,
-    @Body() newSenhaUserDto: NewSenhaUserDto,
-  ) {
-    try {
-      return this.usersService.resetPassword(id, newSenhaUserDto);
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-          error: 'Erro ao redefinir senha do usuario',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: error,
-        },
-      );
-    }
-  }
-
-  @Patch(':id/update-status')
+  @Patch('update-status/:id')
   private updateUserStatus(
     @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
@@ -189,6 +172,26 @@ export class UsersController {
         {
           status: HttpStatus.FORBIDDEN,
           error: 'Erro ao atualizar o status do usuário',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Delete(':id')
+  private remove(
+    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
+  ) {
+    try {
+      return this.usersService.remove(id);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao deletar o usuario',
         },
         HttpStatus.FORBIDDEN,
         {

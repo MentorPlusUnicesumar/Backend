@@ -3,9 +3,14 @@ import { EstadoUF } from '../enums/enum-uf';
 import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
 import { UserDocument } from '../schema/user.schema';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class UserReturnInterface {
+  @ApiProperty({
+    example: 'Gabriel Prisco',
+  })
   name: string;
+
   email: string;
   telefone: string;
   typeUser: EnumTypeUser;

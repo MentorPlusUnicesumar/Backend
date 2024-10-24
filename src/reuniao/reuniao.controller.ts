@@ -18,7 +18,9 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 import { ReuniaoInterface } from './interface/reuniao.interface';
 import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumStatusReuniao } from './enum/reuniao-status';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('reuniao')
 @Controller('reuniao')
 export class ReuniaoController {
   constructor(private readonly reuniaoService: ReuniaoService) {}
