@@ -1,10 +1,17 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { IsString, IsNotEmpty, MinLength, Matches } from 'class-validator';
 
 export class NewSenhaUserDto {
+  @ApiProperty({
+    example: 'Teste123!',
+  })
   @IsNotEmpty()
   @IsString()
   senha: string;
 
+  @ApiProperty({
+    example: 'NovaSenha123!',
+  })
   @IsNotEmpty()
   @IsString()
   @MinLength(8, { message: 'A senha deve ter pelo menos 8 caracteres' })
@@ -20,6 +27,9 @@ export class NewSenhaUserDto {
   })
   novasenha: string;
 
+  @ApiProperty({
+    example: 'NovaSenha123!',
+  })
   @IsNotEmpty()
   @IsString()
   confirmasenha: string;

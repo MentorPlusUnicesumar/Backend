@@ -11,14 +11,11 @@ import { AlunoService } from './aluno.service';
 import { CreateAlunoDto } from './dto/create-aluno.dto';
 import { UpdateAlunoDto } from './dto/update-aluno.dto';
 import { FiltroMentorDto } from './dto/filtro-mentor.dto';
-
+import { ApiTags } from '@nestjs/swagger';
+@ApiTags('aluno')
 @Controller('aluno')
 export class AlunoController {
   constructor(private readonly alunoService: AlunoService) {}
-  @Post()
-  create(@Body() createAlunoDto: CreateAlunoDto) {
-    return this.alunoService.create(createAlunoDto);
-  }
 
   @Get()
   findAll() {
@@ -28,6 +25,11 @@ export class AlunoController {
   @Get('filtro')
   private filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
     return this.alunoService.filtroMentores(filtroMentorDto);
+  }
+
+  @Post()
+  create(@Body() createAlunoDto: CreateAlunoDto) {
+    return this.alunoService.create(createAlunoDto);
   }
 
   @Patch(':id')

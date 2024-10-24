@@ -16,19 +16,13 @@ import { EnumTypeUser } from 'src/users/enums/user-type';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { CardMentoria } from './interface/card.interface';
+import { ApiTags } from '@nestjs/swagger';
 // import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
+@ApiTags('mentorias')
 @Controller('mentorias')
 export class MentoriasController {
   constructor(private readonly mentoriasService: MentoriasService) {}
-
-  @Post()
-  @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
-  create(
-    @Body() createMentoriaDto: CreateMentoriaDto,
-  ): Promise<MentoriaInterface | object> {
-    return this.mentoriasService.create(createMentoriaDto);
-  }
 
   @Get('cards')
   async cardsMentorias(
@@ -41,6 +35,14 @@ export class MentoriasController {
     @Param('id') id: mongoose.Types.ObjectId,
   ): Promise<MentoriaInterface> {
     return await this.mentoriasService.findById(id);
+  }
+
+  @Post()
+  @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
+  create(
+    @Body() createMentoriaDto: CreateMentoriaDto,
+  ): Promise<MentoriaInterface | object> {
+    return this.mentoriasService.create(createMentoriaDto);
   }
 
   @Patch(':id')
