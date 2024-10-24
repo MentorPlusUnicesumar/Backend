@@ -4,10 +4,14 @@ import { AuthController } from './auth.controller';
 import { UsersModule } from '../users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule } from '@nestjs/config';
+import { MentorModule } from 'src/mentor/mentor.module';
+import { AlunoModule } from 'src/aluno/aluno.module';
 
 @Module({
   imports: [
     UsersModule,
+    MentorModule,
+    AlunoModule,
     ConfigModule.forRoot(),
     JwtModule.registerAsync({
       useFactory: () => ({

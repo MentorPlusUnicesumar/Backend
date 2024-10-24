@@ -16,5 +16,6 @@ import { MentorModule } from 'src/mentor/mentor.module';
   ],
   controllers: [AlunoController],
   providers: [AlunoService],
+  exports: [AlunoService],
 })
 export class AlunoModule {}

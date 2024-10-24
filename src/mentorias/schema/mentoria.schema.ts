@@ -11,14 +11,14 @@ export class Mentoria {
 
   @Prop({
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: 'Mentor',
     required: true,
   })
   idMentor: mongoose.Types.ObjectId;
 
   @Prop({
     type: mongoose.Types.ObjectId,
-    ref: 'User',
+    ref: 'Aluno',
     required: true,
   })
   idAluno: mongoose.Types.ObjectId;
