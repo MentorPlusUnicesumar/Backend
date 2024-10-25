@@ -3,13 +3,14 @@ import mongoose, { HydratedDocument } from 'mongoose';
 import { EnumTypeUser } from '../enums/user-type';
 import { EnumStatusUser } from '../enums/user-status';
 import { EstadoUF } from '../enums/enum-uf';
+import { TrabDestaqueDto } from '../dto/trab-destaque.dto';
 
 export type UserDocument = HydratedDocument<User>;
 
 @Schema()
 export class User {
   @Prop({ required: true })
-  name: string;
+  nome: string;
 
   @Prop({ required: true })
   email: string;
@@ -17,7 +18,7 @@ export class User {
   @Prop({ required: true })
   senha: string;
 
-  @Prop({ required: true })
+  @Prop({ required: false })
   telefone: string;
 
   @Prop({ required: true, enum: EnumTypeUser })
@@ -49,6 +50,36 @@ export class User {
 
   @Prop({ required: false })
   fotos: string;
+
+  @Prop({ required: false, ref: 'Area', type: [mongoose.Types.ObjectId] })
+  areas: mongoose.Types.ObjectId[];
+
+  @Prop({ required: false })
+  sobre: string;
+
+  @Prop({ required: false, type: [String] })
+  competencias: string[];
+
+  @Prop({ required: false, type: [String] })
+  experiencias: string[];
+
+  @Prop({ required: false, type: [TrabDestaqueDto] })
+  trabDestaque: TrabDestaqueDto[];
+
+  @Prop({ required: false })
+  instagram: string;
+
+  @Prop({ required: false })
+  youtube: string;
+
+  @Prop({ required: false })
+  linkedin: string;
+
+  @Prop({ required: false })
+  disponivel: boolean;
+
+  @Prop({ required: false, type: [Number], min: 1, max: 5 })
+  estrela: number[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

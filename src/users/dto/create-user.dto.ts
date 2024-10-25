@@ -9,6 +9,10 @@ import {
   MinLength,
   Matches,
   IsMongoId,
+  IsBoolean,
+  IsNumber,
+  Min,
+  Max,
 } from 'class-validator';
 import { EnumTypeUser } from '../enums/user-type';
 import { EnumStatusUser } from '../enums/user-status';
@@ -16,6 +20,7 @@ import { EstadoUF } from '../enums/enum-uf';
 import { IsCPF } from 'class-validator-cpf';
 import mongoose from 'mongoose';
 import { ApiProperty } from '@nestjs/swagger';
+import { TrabDestaqueDto } from './trab-destaque.dto';
 
 export class CreateUserDto {
   @ApiProperty({
@@ -23,7 +28,7 @@ export class CreateUserDto {
   })
   @IsNotEmpty()
   @IsString()
-  name: string;
+  nome: string;
 
   @ApiProperty({
     example: 'gabrielprisco@gmail.com',
@@ -53,7 +58,7 @@ export class CreateUserDto {
   @ApiProperty({
     example: '4499775-9999',
   })
-  @IsNotEmpty()
+  @IsOptional()
   @IsString()
   telefone: string;
 
@@ -107,4 +112,51 @@ export class CreateUserDto {
   @IsOptional()
   @IsString()
   fotos: string;
+
+  @IsArray()
+  @ArrayMinSize(1)
+  @IsMongoId({ each: true })
+  areas: mongoose.Types.ObjectId[];
+
+  @IsOptional()
+  @IsString()
+  sobre: string;
+
+  @IsArray()
+  @IsOptional()
+  @ArrayMinSize(0)
+  competencias: string[];
+
+  @IsArray()
+  @IsOptional()
+  @ArrayMinSize(0)
+  experiencias: string[];
+
+  @IsArray()
+  @IsOptional()
+  @ArrayMinSize(0)
+  trabDestaque: TrabDestaqueDto[];
+
+  @IsOptional()
+  @IsString()
+  instagram: string;
+
+  @IsOptional()
+  @IsString()
+  youtube: string;
+
+  @IsOptional()
+  @IsString()
+  linkedin: string;
+
+  @IsOptional()
+  @IsBoolean()
+  disponivel: boolean;
+
+  @IsOptional()
+  @IsArray()
+  @IsNumber({}, { each: true })
+  @Min(1, { each: true })
+  @Max(5, { each: true })
+  estrela: number[];
 }

@@ -4,13 +4,13 @@ import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
 import { UserDocument } from '../schema/user.schema';
 import { ApiProperty } from '@nestjs/swagger';
+import { TrabDestaqueDto } from './trab-destaque.dto';
 
 export class UserReturnInterface {
   @ApiProperty({
     example: 'Gabriel Prisco',
   })
-  name: string;
-
+  nome: string;
   email: string;
   telefone: string;
   typeUser: EnumTypeUser;
@@ -20,9 +20,19 @@ export class UserReturnInterface {
   cpf: string;
   mentoriasAtivas: mongoose.Types.ObjectId[];
   fotos: string;
+  areas: mongoose.Types.ObjectId[];
+  sobre: string;
+  competencias: string[];
+  experiencias: string[];
+  trabDestaque: TrabDestaqueDto[];
+  instagram: string;
+  youtube: string;
+  linkedin: string;
+  disponivel: boolean;
+  estrela: number[];
 
   constructor(user: UserDocument) {
-    this.name = user.name;
+    this.nome = user.nome;
     this.email = user.email;
     this.telefone = user.telefone;
     this.typeUser = user.typeUser;
@@ -32,5 +42,15 @@ export class UserReturnInterface {
     this.cpf = user.cpf;
     this.mentoriasAtivas = user.mentoriasAtivas;
     this.fotos = user.fotos;
+    this.areas = user.areas;
+    this.sobre = user.sobre;
+    this.competencias = user.competencias;
+    this.experiencias = user.experiencias;
+    this.trabDestaque = user.trabDestaque;
+    this.instagram = user.instagram;
+    this.youtube = user.youtube;
+    this.linkedin = user.linkedin;
+    this.disponivel = user.disponivel;
+    this.estrela = user.estrela;
   }
 }

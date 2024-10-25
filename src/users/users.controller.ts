@@ -12,7 +12,6 @@ import {
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumTypeUser } from './enums/user-type';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
@@ -24,10 +23,11 @@ import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { UserId } from './decorator/user-id.dto';
+import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 
 @ApiTags('users')
 @Controller('users')
-@Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
+// @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -93,8 +93,12 @@ export class UsersController {
     return this.usersService.findById(id);
   }
 
+  @Get('filtro-mentor')
+  private filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
+    return this.usersService.filtroMentores(filtroMentorDto);
+  }
+
   @Post()
-  @Public()
   private create(
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserInterface | object> {

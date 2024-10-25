@@ -11,9 +11,6 @@ import { MailerModule } from '@nestjs-modules/mailer';
 import { MentoriasModule } from './mentorias/mentorias.module';
 import { ReuniaoModule } from './reuniao/reuniao.module';
 import { ChatModule } from './chat/chat.module';
-import { MentorModule } from './mentor/mentor.module';
-// import { MentorModule } from './mentor/mentor.module';
-import { AlunoModule } from './aluno/aluno.module';
 @Module({
   imports: [
     ConfigModule.forRoot({
@@ -27,8 +24,6 @@ import { AlunoModule } from './aluno/aluno.module';
     MentoriasModule,
     ReuniaoModule,
     ChatModule,
-    MentorModule,
-    AlunoModule,
   ],
   controllers: [],
   providers: [

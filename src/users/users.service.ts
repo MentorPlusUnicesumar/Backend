@@ -15,6 +15,8 @@ import { ChangePasswordDto } from 'src/auth/dto/change-password.dto';
 import { MailerService } from '@nestjs-modules/mailer';
 import { EnumStatusUser } from './enums/user-status';
 import { FiltroUserDto } from './dto/filtro-user.dto';
+import { EnumTypeUser } from './enums/user-type';
+import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 
 @Injectable()
 export class UsersService {
@@ -35,6 +37,13 @@ export class UsersService {
     const validCpf = await this.findByCpf(createUserDto.cpf);
     // eslint-disable-next-line
     const { status, mentoriasAtivas, ...userData } = createUserDto;
+    // let userResult = {}
+    // if (createUserDto.typeUser == EnumTypeUser.Aluno) {
+    //   userResult = new AlunoDadosInterface(createUserDto)
+    // } else {
+    //   const { status, mentoriasAtivas, ...userData } = createUserDto;
+
+    // }
 
     const errors = [];
     if (validEmail) {
@@ -61,7 +70,7 @@ export class UsersService {
         await this.mailerService.sendMail(mail);
       }
 
-      return (await user.save()).populate('mentoriasAtivas');
+      return (await user.save()).populate('mentoriasAtivas areas');
     }
   }
 
@@ -79,23 +88,23 @@ export class UsersService {
   findByCpf(cpf: string) {
     return this.userModel
       .findOne({ cpf: cpf })
-      .populate('mentoriasAtivas')
+      .populate('mentoriasAtivas areas')
       .exec();
   }
 
   findAll() {
-    return this.userModel.find().populate('mentoriasAtivas');
+    return this.userModel.find().populate('mentoriasAtivas areas');
   }
 
   findById(id: string | Types.ObjectId) {
     return this.userModel
       .findById(id)
       .select('-senha')
-      .populate('mentoriasAtivas');
+      .populate('mentoriasAtivas areas');
   }
 
-  findByName(name: string) {
-    return this.userModel.findOne({ name: name }).exec();
+  findByName(nome: string) {
+    return this.userModel.findOne({ nome: nome }).exec();
   }
 
   async update(
@@ -191,8 +200,8 @@ export class UsersService {
   async filtroUsers(filtroUserDto: FiltroUserDto): Promise<UserInterface[]> {
     const filtro: any = {};
 
-    if (filtroUserDto.name) {
-      filtro.name = { $regex: filtroUserDto.name, $options: 'i' };
+    if (filtroUserDto.nome) {
+      filtro.nome = { $regex: filtroUserDto.nome, $options: 'i' };
     }
 
     if (filtroUserDto.status) {
@@ -206,4 +215,64 @@ export class UsersService {
 
     return users;
   }
+
+  async filtroMentores(
+    filtroMentorDto: FiltroMentorDto,
+  ): Promise<UserInterface[]> {
+    // Passa os valores simples para o filtro
+    const filtro: any = {};
+
+    if (filtroMentorDto.nome) {
+      filtro.nome = filtroMentorDto.nome;
+    }
+
+    if (filtroMentorDto.areas) {
+      filtro.areas = filtroMentorDto.areas;
+    }
+
+    filtro.typeUser = EnumTypeUser.Mentor;
+
+    // Executa a consulta com base no filtro
+    const mentores = await this.userModel
+      .find(filtro)
+      .populate({
+        path: 'areas',
+        match: filtro.areadeinterese
+          ? Array.isArray(filtro.areadeinterese)
+            ? { nome: { $in: filtro.areadeinterese.map(String) } }
+            : { nome: { $regex: filtro.areadeinterese, $options: 'i' } }
+          : {},
+      })
+      .exec();
+
+    // Lança exceção se nenhum mentor for encontrado
+    if (!mentores || mentores.length === 0) {
+      throw new NotFoundException('Nenhum mentor encontrado');
+    }
+
+    return mentores;
+  }
+
+  // async filtroMentor(filtro: any = {}) {
+  //   return this.mentorModel
+  //     .find({})
+  //     .populate([
+  //       {
+  //         path: 'idUser',
+  //         match: filtro.name
+  //           ? { name: { $regex: filtro.name, $options: 'i' } }
+  //           : {},
+  //       },
+  //       {
+  //         path: 'areaDeEnsino',
+  //         match: filtro.areadeinterese
+  //           ? Array.isArray(filtro.areadeinterese)
+  //             ? { nome: { $in: filtro.areadeinterese.map(String) } }
+  //             : { nome: { $regex: filtro.areadeinterese, $options: 'i' } }
+  //           : {},
+  //       },
+  //     ])
+  //     .exec()
+  //     .then((mentores) => mentores.filter((mentor) => mentor.idUser !== null));
+  // }
 }
