@@ -7,8 +7,6 @@ import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoria } from './interface/card.interface';
 import { EnumStatusMentoria } from './enums/mentorias-status';
-import { AlunoService } from 'src/aluno/aluno.service';
-import { MentorService } from 'src/mentor/mentor.service';
 
 @Injectable()
 export class MentoriasService {
@@ -16,8 +14,6 @@ export class MentoriasService {
     @InjectModel(Mentoria.name)
     private mentoriaModel: Model<MentoriaDocument>,
     private userService: UsersService,
-    private alunoService: AlunoService,
-    private mentorService: MentorService,
   ) {}
   async create(createMentoriaDto: CreateMentoriaDto) {
     // eslint-disable-next-line
@@ -61,10 +57,9 @@ export class MentoriasService {
           id: mentoria._id,
           nome: mentoria.nome,
           proximoEncontro: this.getDataProximoEncontro(mentoria),
-          nomeMentorado: (await this.alunoService.findById(mentoria.idAluno))
-            .idUser.name,
-          nomeMentor: (await this.mentorService.findById(mentoria.idMentor))
-            .idUser.name,
+          nomeMentorado: (await this.userService.findById(mentoria.idAluno))
+            .nome,
+          nomeMentor: (await this.userService.findById(mentoria.idMentor)).nome,
         };
       }),
     );
