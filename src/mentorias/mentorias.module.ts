@@ -4,8 +4,6 @@ import { MentoriasController } from './mentorias.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Mentoria, MentoriaSchema } from './schema/mentoria.schema';
 import { UsersModule } from 'src/users/users.module';
-import { MentorModule } from 'src/mentor/mentor.module';
-import { AlunoModule } from 'src/aluno/aluno.module';
 
 @Module({
   imports: [
@@ -13,8 +11,6 @@ import { AlunoModule } from 'src/aluno/aluno.module';
       { name: Mentoria.name, schema: MentoriaSchema },
     ]),
     UsersModule,
-    MentorModule,
-    AlunoModule,
   ],
   controllers: [MentoriasController],
   providers: [MentoriasService],
