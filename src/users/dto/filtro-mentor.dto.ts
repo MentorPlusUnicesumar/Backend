@@ -3,8 +3,8 @@ import { IsString, IsOptional } from 'class-validator';
 export class FiltroMentorDto {
   @IsOptional()
   @IsString()
-  name?: string;
+  nome?: string;
 
   @IsOptional()
-  areadeinterese?: string[];
+  areas?: string[];
 }

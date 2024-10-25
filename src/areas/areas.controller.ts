@@ -22,9 +22,9 @@ export class AreasController {
     return this.areasService.findAll();
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: mongoose.Types.ObjectId) {
-    return this.areasService.findOne(id);
+  @Get('id/:id')
+  findById(@Param('id') id: mongoose.Types.ObjectId) {
+    return this.areasService.findById(id);
   }
 
   @Get('nome')

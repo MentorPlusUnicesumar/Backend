@@ -21,7 +21,7 @@ export class AreasService {
     return this.areaModel.find().select('-__v -_id').exec();
   }
 
-  findOne(id: mongoose.Types.ObjectId): Promise<AreaInterface> {
+  findById(id: mongoose.Types.ObjectId): Promise<AreaInterface> {
     return this.areaModel.findById(id).select('-__v -_id').exec();
   }
 

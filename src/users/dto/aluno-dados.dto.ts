@@ -1,34 +1,30 @@
 import mongoose from 'mongoose';
 import { EstadoUF } from '../enums/enum-uf';
-import { EnumStatusUser } from '../enums/user-status';
 import { EnumTypeUser } from '../enums/user-type';
-import { CreateMentorDto } from 'src/mentor/dto/create-mentor.dto';
-import { CreateAlunoDto } from 'src/aluno/dto/create-aluno.dto';
+import { CreateUserDto } from './create-user.dto';
 
-export class UserDadosInterface {
-  name: string;
+export class AlunoDadosInterface {
+  nome: string;
   email: string;
   senha: string;
   telefone: string;
   typeUser: EnumTypeUser;
-  status: EnumStatusUser;
   cidade: string;
   uf: EstadoUF;
   cpf: string;
-  mentoriasAtivas: mongoose.Types.ObjectId[];
   fotos: string;
+  areas: mongoose.Types.ObjectId[];
 
-  constructor(user: CreateMentorDto | CreateAlunoDto) {
-    this.name = user.name;
+  constructor(user: CreateUserDto) {
+    this.nome = user.nome;
     this.email = user.email;
     this.senha = user.senha;
     this.telefone = user.telefone;
     this.typeUser = user.typeUser;
-    this.status = user.status;
     this.cidade = user.cidade;
     this.uf = user.uf;
     this.cpf = user.cpf;
-    this.mentoriasAtivas = user.mentoriasAtivas;
     this.fotos = user.fotos;
+    this.areas = user.areas;
   }
 }
