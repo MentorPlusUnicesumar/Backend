@@ -10,8 +10,8 @@ export class LoginPayload {
 
   constructor(user: any) {
     this._id = user._id;
-    this.typeUser = user.idUser.typeUser;
-    this.status = user.idUser.status;
-    this.email = user.idUser.email;
+    this.typeUser = user.typeUser;
+    this.status = user.status;
+    this.email = user.email;
   }
 }
