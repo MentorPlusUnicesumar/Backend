@@ -35,7 +35,7 @@ def getRandomArea():
 
 
 aluno_renan = {
-    "name":"Renan Rocha",
+    "nome":"Renan Rocha",
     "email": "renan@gmail.com",
     "senha": "Teste123!",
     "telefone": "(44)9999-9999",
@@ -44,11 +44,11 @@ aluno_renan = {
     "uf": "Acre",
     "cpf": "11550847996",
     "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4",
-    "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+    "areas" : list(set([getRandomArea() for _ in range(3)])),
 }
 
 admin_prisco = {
-  "name": "Prisco",
+  "nome": "Prisco",
   "email": "gabrielmarcosprisco@gmail.com",
   "senha": "Teste123!",
   "telefone": "(44)9999-9999",
@@ -58,10 +58,11 @@ admin_prisco = {
   "uf": "Acre",
   "cpf": "13413070932",
   "fotos": "https://avatars.githubusercontent.com/u/72769726?v=4",
+  "areas": list(set([getRandomArea() for _ in range(3)])),
 }
 
 mentor_men = {
-    "name": "Guilherme Men",
+    "nome": "Guilherme Men",
     "email": "guilhermemen2003@gmail.com",
     "senha": "Teste123!",
     "telefone": "(44)9999-9999",
@@ -76,13 +77,13 @@ mentor_men = {
     "disponivel": True,
     "experiencias": [''],
     "trabDestaque": [],
-    "areaDeEnsino": list(set([getRandomArea() for _ in range(3)])),
+    "areas": list(set([getRandomArea() for _ in range(3)])),
     "competencias": [''],
 }
 
 mentores = [
     {
-        "name": "Neymar Junior",
+        "nome": "Neymar Junior",
         "email": "Mentor1@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-1111",
@@ -98,11 +99,11 @@ mentores = [
         "disponivel": True,
         "experiencias": [''],
         "trabDestaque": [],
-        "areaDeEnsino": list(set([getRandomArea() for _ in range(1)])),
+        "areas": list(set([getRandomArea() for _ in range(1)])),
         "competencias": [''],
     },
     {
-        "name": "Anya Taylor-Joy",
+        "nome": "Anya Taylor-Joy",
         "email": "Mentor2@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-2222",
@@ -118,11 +119,11 @@ mentores = [
         "disponivel": True,
         "experiencias": [''],
         "trabDestaque": [],
-        "areaDeEnsino": list(set([getRandomArea() for _ in range(5)])),
+        "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
     },
     {
-        "name": "Neil Tyson",
+        "nome": "Neil Tyson",
         "email": "Mentor3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-3333",
@@ -138,11 +139,11 @@ mentores = [
         "disponivel": True,
         "experiencias": [''],
         "trabDestaque": [],
-        "areaDeEnsino": list(set([getRandomArea() for _ in range(4)])),
+        "areas": list(set([getRandomArea() for _ in range(4)])),
         "competencias": [''],
     },
     {
-        "name": "Marshal Mathers",
+        "nome": "Marshal Mathers",
         "email": "Mentor4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-4444",
@@ -157,11 +158,11 @@ mentores = [
         "disponivel": True,
         "experiencias": [''],
         "trabDestaque": [],
-        "areaDeEnsino": list(set([getRandomArea() for _ in range(6)])),
+        "areas": list(set([getRandomArea() for _ in range(6)])),
         "competencias": [''],
     },
     {
-        "name": "Bill Gates",
+        "nome": "Bill Gates",
         "email": "Mentor5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-5555",
@@ -177,14 +178,14 @@ mentores = [
         "disponivel": True,
         "experiencias": [''],
         "trabDestaque": [],
-        "areaDeEnsino": list(set([getRandomArea() for _ in range(5)])),
+        "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
     },
 ]
 
 alunos = [
     {
-        "name": "Aluno 1",
+        "nome": "Aluno 1",
         "email": "Aluno1@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -193,10 +194,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "65720110038",
         "fotos": "foto.com.br",
-        "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 2",
+        "nome": "Aluno 2",
         "email": "Aluno2@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -205,10 +206,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "89958008017",
         "fotos": "foto.com.br",
-        "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 3",
+        "nome": "Aluno 3",
         "email": "Aluno3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -217,10 +218,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "14463803004",
         "fotos": "foto.com.br",
-        "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 4",
+        "nome": "Aluno 4",
         "email": "Aluno4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -229,10 +230,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "76832145071",
         "fotos": "foto.com.br",
-        "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 5",
+        "nome": "Aluno 5",
         "email": "Aluno5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -241,28 +242,21 @@ alunos = [
         "uf": "Acre",
         "cpf": "94207098097",
         "fotos": "foto.com.br",
-        "areasInteresse" : list(set([getRandomArea() for _ in range(3)])),
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
 ]
 
-for mentor in mentores:
-    print(f'Cadastrando Mentor {mentor["name"]}')
-    tmp = requests.post(url_base + 'mentor', json=mentor)
+for mentor in mentores + alunos:
+    print(f'Cadastrando Mentor {mentor["nome"]}')
+    tmp = requests.post(url_base + 'users', json=mentor)
     print(tmp.json())
-    mentor.update({'idUser': tmp.json()['idUser']['_id']})
+    mentor.update({'_id': tmp.json()['_id']})
 
-for user in alunos:
-    print(f'Cadastrando Usuário {user["name"]}')
-    tmp = requests.post(url_base + 'aluno', json=user)
-    print(tmp.json())
-    user.update({'idUser': tmp.json()['idUser']['_id']})
-
-
-response_aluno_renan = requests.post(url_base + 'aluno', json=aluno_renan)
+response_aluno_renan = requests.post(url_base + 'users', json=aluno_renan)
 print(response_aluno_renan)
 print(response_aluno_renan.json())
 
-response_mentor_men = requests.post(url_base + 'mentor', json=mentor_men)
+response_mentor_men = requests.post(url_base + 'users', json=mentor_men)
 print(response_mentor_men)
 print(response_mentor_men.json())
 
@@ -290,7 +284,7 @@ def getHeader(token: str):
 for response in [response_admin_prisco.json(), response_aluno_renan.json(), response_mentor_men.json()] +\
     mentores + alunos:
     tmp = requests.patch(
-        url=url_base + f'users/{response["_id"]}/update-status',
+        url=url_base + f'users/update-status/{response["_id"]}',
         data={
             'status': 'Aprovado',
         },
@@ -323,7 +317,7 @@ print(res_mentor_men.json())
 
 response_mentoria = requests.post(
     url=url_base + 'mentorias',
-    data={
+    json={
         "idMentor": response_mentor_men.json()['_id'],
         "idAluno": response_aluno_renan.json()['_id'],
         "nome": "AWS Migrations",
@@ -336,7 +330,7 @@ print(response_mentoria.json())
 
 response_mentoria2 = requests.post(
     url=url_base + 'mentorias',
-    data={
+    json={
         "idMentor": mentores[0]['_id'],
         "idAluno": response_aluno_renan.json()['_id'], 
         "nome": "Python para Web",
@@ -348,7 +342,7 @@ response_mentoria2 = requests.post(
 
 response_mentoria3 = requests.post(
     url=url_base + 'mentorias',
-    data={
+    json={
         "idMentor": response_mentor_men.json()['_id'],
         "idAluno": alunos[0]['_id'], 
         "nome": "React para Iniciantes",
@@ -363,7 +357,7 @@ print(response_mentoria2.json())
 # Criar chat e mensagens
 response_chat = requests.post(
     url=url_base + 'chat', 
-    data={
+    json={
         'idAluno': response_aluno_renan.json()['_id'],
         'idMentor': res_mentor_men.json()['_id'],
     }, 
