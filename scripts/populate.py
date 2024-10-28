@@ -1,9 +1,41 @@
+import random
+
 import requests
 
 url_base = 'http://localhost:3000/'
 
+areas_de_interesse = [
+    'Aws',
+    'Python',
+    'React',
+    'Java',
+    'SQL',
+    'Marketing Digital',
+    'Big Data',
+    'Front-end',
+    'Back-end',
+    'Fullstack',
+    'DevOps',
+    'Data Science',
+    'Machine Learning',
+    'Deep Learning',
+    'Flutter',
+    'React Native',
+    'NodeJS',
+    'Spring Boot',
+]
+
+ids_areas = []
+for area in areas_de_interesse:
+    response_area = requests.post(url_base + 'areas', data={'nome': area})
+    ids_areas.append(response_area.json()['_id'])
+
+def getRandomArea():
+    return random.choice(ids_areas)
+
+
 aluno_renan = {
-    "name":"Renan Rocha",
+    "nome":"Renan Rocha",
     "email": "renan@gmail.com",
     "senha": "Teste123!",
     "telefone": "(44)9999-9999",
@@ -11,11 +43,12 @@ aluno_renan = {
     "cidade": "Mandaguari",
     "uf": "Acre",
     "cpf": "11550847996",
-    "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4"
+    "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4",
+    "areas" : list(set([getRandomArea() for _ in range(3)])),
 }
 
 admin_prisco = {
-  "name": "Prisco",
+  "nome": "Prisco",
   "email": "gabrielmarcosprisco@gmail.com",
   "senha": "Teste123!",
   "telefone": "(44)9999-9999",
@@ -25,82 +58,134 @@ admin_prisco = {
   "uf": "Acre",
   "cpf": "13413070932",
   "fotos": "https://avatars.githubusercontent.com/u/72769726?v=4",
+  "areas": list(set([getRandomArea() for _ in range(3)])),
 }
 
 mentor_men = {
-  "name": "Guilherme Men",
-  "email": "guilhermemen2003@gmail.com",
-  "senha": "Teste123!",
-  "telefone": "(44)9999-9999",
-  "typeUser": "Mentor",
-  "status": "Aprovado",
-  "cidade": "Mandaguari",
-  "uf": "Acre",
-  "cpf": "10008997993",
-  "fotos": "https://avatars.githubusercontent.com/u/62121362?v=4",
+    "nome": "Guilherme Men",
+    "email": "guilhermemen2003@gmail.com",
+    "senha": "Teste123!",
+    "telefone": "(44)9999-9999",
+    "typeUser": "Mentor",
+    "status": "Aprovado",
+    "cidade": "Mandaguari",
+    "uf": "Acre",
+    "cpf": "10008997993",
+    "fotos": "https://avatars.githubusercontent.com/u/62121362?v=4",
+    "sobre": "Sou um desenvolvedor fullstack, com experiência em desenvolvimento web e mobile. Atualmente trabalho com React, React Native e NodeJS. Estou disposto a ajudar quem estiver disposto a aprender.",
+    "instagram": "https://www.instagram.com/guilhermenairne/",
+    "disponivel": True,
+    "experiencias": [''],
+    "trabDestaque": [],
+    "areas": list(set([getRandomArea() for _ in range(3)])),
+    "competencias": [''],
 }
 
 mentores = [
     {
-        "name": "Mentor 1",
+        "nome": "Neymar Junior",
         "email": "Mentor1@gmail.com",
         "senha": "Teste123!",
-        "telefone": "(44)9999-9999",
+        "telefone": "(44) 9999-1111",
         "typeUser": "Mentor",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "46237522085",
-        "fotos": "https://img.freepik.com/fotos-gratis/pessoa-de-origem-indiana-se-divertindo_23-2150285283.jpg?ga=GA1.1.627376283.1729164402&semt=ais_hybrid",
+        "fotos": "https://pt.wikipedia.org/wiki/Ficheiro:Neymar_Jr._with_Al_Hilal,_3_October_2023_-_03_(cropped).jpg",  # Neymar
+        "sobre": "Sou engenheiro de software com experiência em automação de testes e desenvolvimento de aplicações web. Estou disposto a ajudar quem estiver disposto a aprender. Atualmente trabalho com Java, Selenium e Spring Boot.",
+        "instagram": "https://www.instagram.com/neymarjr/",
+        "youtube": "https://www.youtube.com/user/neymar",
+        "linkedin": "https://www.linkedin.com/in/neymarjr/",
+        "disponivel": True,
+        "experiencias": [''],
+        "trabDestaque": [],
+        "areas": list(set([getRandomArea() for _ in range(1)])),
+        "competencias": [''],
     },
-        {
-        "name": "Mentor 2",
+    {
+        "nome": "Anya Taylor-Joy",
         "email": "Mentor2@gmail.com",
         "senha": "Teste123!",
-        "telefone": "(44)9999-9999",
+        "telefone": "(44) 9999-2222",
         "typeUser": "Mentor",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "68163716070",
-        "fotos": "foto.com.br",
+        "fotos": "https://pt.wikipedia.org/wiki/Ficheiro:Anya_Taylor-Joy_at_Cannes_2024_02.jpg",  # Anya Taylor-Joy
+        "sobre": "Sou desenvolvedora web com foco em front-end. Adoro ensinar e compartilhar conhecimento sobre React e CSS.",
+        "instagram": "https://www.instagram.com/anyataylorjoy/",
+        "youtube": "https://www.youtube.com/c/anyataylorjoy",
+        "linkedin": "https://www.linkedin.com/in/anyataylorjoy/",
+        "disponivel": True,
+        "experiencias": [''],
+        "trabDestaque": [],
+        "areas": list(set([getRandomArea() for _ in range(5)])),
+        "competencias": [''],
     },
-        {
-        "name": "Mentor 3",
+    {
+        "nome": "Neil Tyson",
         "email": "Mentor3@gmail.com",
         "senha": "Teste123!",
-        "telefone": "(44)9999-9999",
+        "telefone": "(44) 9999-3333",
         "typeUser": "Mentor",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "43193278025",
-        "fotos": "foto.com.br",
+        "fotos": "https://pt.wikipedia.org/wiki/Ficheiro:Tyson_-_Apollo_40th_anniversary_2009.jpg",
+        "sobre": "Sou analista de dados e trabalho com Python e SQL. Estou aqui para ajudar você a desvendar o mundo dos dados!",
+        "instagram": "https://www.instagram.com/neiltyson/",
+        "youtube": "https://www.youtube.com/user/neiltyson",
+        "linkedin": "https://www.linkedin.com/in/neiltyson/",
+        "disponivel": True,
+        "experiencias": [''],
+        "trabDestaque": [],
+        "areas": list(set([getRandomArea() for _ in range(4)])),
+        "competencias": [''],
     },
-        {
-        "name": "Mentor 4",
+    {
+        "nome": "Marshal Mathers",
         "email": "Mentor4@gmail.com",
         "senha": "Teste123!",
-        "telefone": "(44)9999-9999",
+        "telefone": "(44) 9999-4444",
         "typeUser": "Mentor",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "77482899057",
-        "fotos": "foto.com.br",
+        "fotos": "https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300",
+        "sobre": "Sou especialista em marketing digital e adoro ajudar pequenas empresas a crescerem online.",
+        "youtube": "https://www.youtube.com/user/eminemVEVO",
+        "linkedin": "https://www.linkedin.com/in/eminem/",
+        "disponivel": True,
+        "experiencias": [''],
+        "trabDestaque": [],
+        "areas": list(set([getRandomArea() for _ in range(6)])),
+        "competencias": [''],
     },
-        {
-        "name": "Mentor 5",
+    {
+        "nome": "Bill Gates",
         "email": "Mentor5@gmail.com",
         "senha": "Teste123!",
-        "telefone": "(44)9999-9999",
+        "telefone": "(44) 9999-5555",
         "typeUser": "Mentor",
         "cidade": "Mandaguari",
         "uf": "Acre",
         "cpf": "84825754066",
-        "fotos": "foto.com.br",
+        "fotos": "https://pt.wikipedia.org/wiki/Ficheiro:Bill_Gates_-_2023_-_P062021-670188_(cropped).jpg",
+        "sobre": "Sou engenheiro de dados e tenho experiência em Big Data. Estou aqui para compartilhar tudo o que sei sobre dados em larga escala.",
+        "instagram": "https://www.instagram.com/billgates/",
+        "youtube": "https://www.youtube.com/user/Microsoft",
+        "linkedin": "https://www.linkedin.com/in/williamhgates/",
+        "disponivel": True,
+        "experiencias": [''],
+        "trabDestaque": [],
+        "areas": list(set([getRandomArea() for _ in range(5)])),
+        "competencias": [''],
     },
 ]
 
 alunos = [
     {
-        "name": "Aluno 1",
+        "nome": "Aluno 1",
         "email": "Aluno1@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -109,9 +194,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "65720110038",
         "fotos": "foto.com.br",
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 2",
+        "nome": "Aluno 2",
         "email": "Aluno2@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -120,9 +206,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "89958008017",
         "fotos": "foto.com.br",
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 3",
+        "nome": "Aluno 3",
         "email": "Aluno3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -131,9 +218,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "14463803004",
         "fotos": "foto.com.br",
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 4",
+        "nome": "Aluno 4",
         "email": "Aluno4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -142,9 +230,10 @@ alunos = [
         "uf": "Acre",
         "cpf": "76832145071",
         "fotos": "foto.com.br",
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
         {
-        "name": "Aluno 5",
+        "nome": "Aluno 5",
         "email": "Aluno5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44)9999-9999",
@@ -153,27 +242,27 @@ alunos = [
         "uf": "Acre",
         "cpf": "94207098097",
         "fotos": "foto.com.br",
+        "areas" : list(set([getRandomArea() for _ in range(3)])),
     },
 ]
 
-for user in mentores + alunos:
-    print(f'Cadastrando Usuário {user["name"]}')
-    tmp = requests.post(url_base + 'users', data=user)
+for mentor in mentores + alunos:
+    print(f'Cadastrando Mentor {mentor["nome"]}')
+    tmp = requests.post(url_base + 'users', json=mentor)
     print(tmp.json())
-    user.update({'_id': tmp.json()['_id']})
+    mentor.update({'_id': tmp.json()['_id']})
 
-
-response_aluno_renan = requests.post(url_base + 'users', data=aluno_renan)
+response_aluno_renan = requests.post(url_base + 'users', json=aluno_renan)
 print(response_aluno_renan)
-print(response_aluno_renan.content)
+print(response_aluno_renan.json())
 
-response_mentor_men = requests.post(url_base + 'users', data=mentor_men)
+response_mentor_men = requests.post(url_base + 'users', json=mentor_men)
 print(response_mentor_men)
-print(response_mentor_men.content)
+print(response_mentor_men.json())
 
-response_admin_prisco = requests.post(url_base + 'users', data=admin_prisco)
+response_admin_prisco = requests.post(url_base + 'users', json=admin_prisco)
 print(response_admin_prisco)
-print(response_admin_prisco.content)
+print(response_admin_prisco.json())
 
 input('Edite Manualmente o usuario de admin do Prisco mude seu status para aprovado')
 
@@ -195,7 +284,7 @@ def getHeader(token: str):
 for response in [response_admin_prisco.json(), response_aluno_renan.json(), response_mentor_men.json()] +\
     mentores + alunos:
     tmp = requests.patch(
-        url=url_base + f'users/{response["_id"]}/update-status',
+        url=url_base + f'users/update-status/{response["_id"]}',
         data={
             'status': 'Aprovado',
         },
@@ -228,7 +317,7 @@ print(res_mentor_men.json())
 
 response_mentoria = requests.post(
     url=url_base + 'mentorias',
-    data={
+    json={
         "idMentor": response_mentor_men.json()['_id'],
         "idAluno": response_aluno_renan.json()['_id'],
         "nome": "AWS Migrations",
@@ -241,7 +330,7 @@ print(response_mentoria.json())
 
 response_mentoria2 = requests.post(
     url=url_base + 'mentorias',
-    data={
+    json={
         "idMentor": mentores[0]['_id'],
         "idAluno": response_aluno_renan.json()['_id'], 
         "nome": "Python para Web",
@@ -250,12 +339,25 @@ response_mentoria2 = requests.post(
     },
     headers=getHeader(token_renan)
 )
+
+response_mentoria3 = requests.post(
+    url=url_base + 'mentorias',
+    json={
+        "idMentor": response_mentor_men.json()['_id'],
+        "idAluno": alunos[0]['_id'], 
+        "nome": "React para Iniciantes",
+        "descricao": "Aprenda a criar aplicações web com React",
+        "qtdtotal": 10,
+    },
+    headers=getHeader(token_renan)
+)
+
 print(response_mentoria2.json())
 
 # Criar chat e mensagens
 response_chat = requests.post(
     url=url_base + 'chat', 
-    data={
+    json={
         'idAluno': response_aluno_renan.json()['_id'],
         'idMentor': res_mentor_men.json()['_id'],
     }, 
