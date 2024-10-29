@@ -204,4 +204,23 @@ export class UsersController {
       );
     }
   }
+
+  @Get('mentores')
+  async findMentores() {
+    // @Query() query: any, // @UserId() id: mongoose.Types.ObjectId,
+    try {
+      return this.usersService.findMentores();
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao buscar mentores',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
 }

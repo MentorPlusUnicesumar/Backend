@@ -275,4 +275,9 @@ export class UsersService {
   //     .exec()
   //     .then((mentores) => mentores.filter((mentor) => mentor.idUser !== null));
   // }
+  async findMentores() {
+    const filtro = { typeUser: EnumTypeUser.Mentor, disponivel: true };
+
+    return await this.userModel.find(filtro).populate('areas').limit(10);
+  }
 }
