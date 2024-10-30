@@ -17,6 +17,7 @@ import { EnumStatusUser } from './enums/user-status';
 import { FiltroUserDto } from './dto/filtro-user.dto';
 import { EnumTypeUser } from './enums/user-type';
 import { FiltroMentorDto } from './dto/filtro-mentor.dto';
+import { filtroMentorType } from './interface/filtro-mentor.interface';
 
 @Injectable()
 export class UsersService {
@@ -275,9 +276,29 @@ export class UsersService {
   //     .exec()
   //     .then((mentores) => mentores.filter((mentor) => mentor.idUser !== null));
   // }
-  async findMentores() {
-    const filtro = { typeUser: EnumTypeUser.Mentor, disponivel: true };
+  async findMentores(query: filtroMentorType) {
+    const filtro: any = { typeUser: EnumTypeUser.Mentor, disponivel: true };
 
-    return await this.userModel.find(filtro).populate('areas').limit(10);
+    if (query.nomeMentor) {
+      filtro.nome = { $regex: query.nomeMentor, $options: 'i' };
+    }
+
+    let mentorias: any = await this.userModel
+      .find(filtro)
+      .populate('areas')
+      .limit(10);
+
+    if (query.areaMentor) {
+      // verifica se query area mentor está dentro do array areas do mentor usando regex
+      mentorias = mentorias.filter((mentor) =>
+        mentor.areas.some((area) =>
+          new RegExp(query.areaMentor, 'i').test(area.nome),
+        ),
+      );
+    }
+
+    // Implementar ordenação pelo match
+
+    return mentorias;
   }
 }

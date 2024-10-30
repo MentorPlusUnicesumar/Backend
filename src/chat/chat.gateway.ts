@@ -2,6 +2,7 @@
 import {
   WebSocketGateway,
   WebSocketServer,
+  ConnectedSocket,
   SubscribeMessage,
   OnGatewayConnection,
   OnGatewayDisconnect,
@@ -51,12 +52,20 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('sendMessage')
-  async handleMessage(@MessageBody() sendMessageDto: SendMessageDto) {
+  async handleMessage(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() sendMessageDto: SendMessageDto,
+  ) {
     const message = await this.chatService.addMessage(sendMessageDto);
-    this.server
-      .to(sendMessageDto.chatId.toString())
-      .emit('newMessage', message);
-    console.log(`Message sent to chat ${sendMessageDto.chatId}`);
+
+    const chatRoomId = sendMessageDto.chatId.toString();
+    const isInRoom = Array.from(client.rooms).includes(chatRoomId);
+
+    if (!isInRoom) {
+      client.join(chatRoomId);
+    }
+
+    this.server.to(chatRoomId).emit('newMessage', message);
   }
 
   @SubscribeMessage('message')
