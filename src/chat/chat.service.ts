@@ -23,14 +23,15 @@ export class ChatService {
           { idMentor: createChatDto.idAluno, idAluno: createChatDto.idMentor },
         ],
       })
-      .exec();
+      .populate('idMentor idAluno')
+      .lean();
 
     if (chatExists) {
       return chatExists;
     }
 
     const chat = await this.chatModel.create(createChatDto);
-    return chat;
+    return chat.populate('idMentor idAluno');
   }
 
   async findChatsByUser(

@@ -8,6 +8,7 @@ import {
   Delete,
   HttpException,
   HttpStatus,
+  Query,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -24,6 +25,7 @@ import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { UserId } from './decorator/user-id.dto';
 import { FiltroMentorDto } from './dto/filtro-mentor.dto';
+import { filtroMentorType } from './interface/filtro-mentor.interface';
 
 @ApiTags('users')
 @Controller('users')
@@ -196,6 +198,27 @@ export class UsersController {
         {
           status: HttpStatus.FORBIDDEN,
           error: 'Erro ao deletar o usuario',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Get('mentores')
+  async findMentores(
+    @Query() query: filtroMentorType,
+    // @UserId() id: mongoose.Types.ObjectId,
+  ) {
+    try {
+      return this.usersService.findMentores(query);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao buscar mentores',
         },
         HttpStatus.FORBIDDEN,
         {
