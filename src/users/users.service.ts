@@ -229,7 +229,7 @@ export class UsersService {
       .populate<{ areas: { nome: string }[] }>('areas');
     const areasInteresseAluno = aluno?.areas?.map((area) => area.nome) || [];
 
-    let mentores: any = await this.userModel
+    let mentores: any[] = await this.userModel
       .find(filtro)
       .populate('areas')
       .limit(10);
@@ -253,6 +253,22 @@ export class UsersService {
       ).length;
 
       return matchCountB - matchCountA; // Ordena em ordem decrescente de match
+    });
+
+    mentores.forEach((mentor) => {
+      mentor.areas.sort((area1, area2) => {
+        const hasArea1InAluno = areasInteresseAluno.includes(area1.nome);
+        const hasArea2InAluno = areasInteresseAluno.includes(area2.nome);
+
+        // Prioriza as áreas em comum com o aluno
+        if (hasArea1InAluno && !hasArea2InAluno) {
+          return -1; // area1 vem antes de area2
+        }
+        if (!hasArea1InAluno && hasArea2InAluno) {
+          return 1; // area2 vem antes de area1
+        }
+        return 0; // mantém a ordem original se ambos são iguais
+      });
     });
 
     return mentores;
