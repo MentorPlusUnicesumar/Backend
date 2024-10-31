@@ -18,11 +18,11 @@ export class AreasService {
   }
 
   findAll() {
-    return this.areaModel.find().select('-__v -_id').exec();
+    return this.areaModel.find().select('-__v').exec();
   }
 
   findById(id: mongoose.Types.ObjectId): Promise<AreaInterface> {
-    return this.areaModel.findById(id).select('-__v -_id').exec();
+    return this.areaModel.findById(id).select('-__v').exec();
   }
 
   async findByName(name: string): Promise<AreaInterface | object> {
