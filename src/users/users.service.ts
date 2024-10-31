@@ -16,7 +16,6 @@ import { MailerService } from '@nestjs-modules/mailer';
 import { EnumStatusUser } from './enums/user-status';
 import { FiltroUserDto } from './dto/filtro-user.dto';
 import { EnumTypeUser } from './enums/user-type';
-import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 import { filtroMentorType } from './interface/filtro-mentor.interface';
 
 @Injectable()
@@ -217,88 +216,45 @@ export class UsersService {
     return users;
   }
 
-  async filtroMentores(
-    filtroMentorDto: FiltroMentorDto,
-  ): Promise<UserInterface[]> {
-    // Passa os valores simples para o filtro
-    const filtro: any = {};
-
-    if (filtroMentorDto.nome) {
-      filtro.nome = filtroMentorDto.nome;
-    }
-
-    if (filtroMentorDto.areas) {
-      filtro.areas = filtroMentorDto.areas;
-    }
-
-    filtro.typeUser = EnumTypeUser.Mentor;
-
-    // Executa a consulta com base no filtro
-    const mentores = await this.userModel
-      .find(filtro)
-      .populate({
-        path: 'areas',
-        match: filtro.areadeinterese
-          ? Array.isArray(filtro.areadeinterese)
-            ? { nome: { $in: filtro.areadeinterese.map(String) } }
-            : { nome: { $regex: filtro.areadeinterese, $options: 'i' } }
-          : {},
-      })
-      .exec();
-
-    // Lança exceção se nenhum mentor for encontrado
-    if (!mentores || mentores.length === 0) {
-      throw new NotFoundException('Nenhum mentor encontrado');
-    }
-
-    return mentores;
-  }
-
-  // async filtroMentor(filtro: any = {}) {
-  //   return this.mentorModel
-  //     .find({})
-  //     .populate([
-  //       {
-  //         path: 'idUser',
-  //         match: filtro.name
-  //           ? { name: { $regex: filtro.name, $options: 'i' } }
-  //           : {},
-  //       },
-  //       {
-  //         path: 'areaDeEnsino',
-  //         match: filtro.areadeinterese
-  //           ? Array.isArray(filtro.areadeinterese)
-  //             ? { nome: { $in: filtro.areadeinterese.map(String) } }
-  //             : { nome: { $regex: filtro.areadeinterese, $options: 'i' } }
-  //           : {},
-  //       },
-  //     ])
-  //     .exec()
-  //     .then((mentores) => mentores.filter((mentor) => mentor.idUser !== null));
-  // }
-  async findMentores(query: filtroMentorType) {
+  async findMentores(query: filtroMentorType, id: mongoose.Types.ObjectId) {
     const filtro: any = { typeUser: EnumTypeUser.Mentor, disponivel: true };
 
     if (query.nomeMentor) {
       filtro.nome = { $regex: query.nomeMentor, $options: 'i' };
     }
 
-    let mentorias: any = await this.userModel
+    // Obtendo as áreas de interesse do aluno
+    const aluno = await this.userModel
+      .findById(id)
+      .populate<{ areas: { nome: string }[] }>('areas');
+    const areasInteresseAluno = aluno?.areas?.map((area) => area.nome) || [];
+
+    let mentores: any = await this.userModel
       .find(filtro)
       .populate('areas')
       .limit(10);
 
     if (query.areaMentor) {
       // verifica se query area mentor está dentro do array areas do mentor usando regex
-      mentorias = mentorias.filter((mentor) =>
+      mentores = mentores.filter((mentor) =>
         mentor.areas.some((area) =>
           new RegExp(query.areaMentor, 'i').test(area.nome),
         ),
       );
     }
 
-    // Implementar ordenação pelo match
+    // Ordenando os mentores com base nas áreas de interesse do aluno
+    mentores = mentores.sort((mentorA, mentorB) => {
+      const matchCountA = mentorA.areas.filter((area) =>
+        areasInteresseAluno.includes(area.nome),
+      ).length;
+      const matchCountB = mentorB.areas.filter((area) =>
+        areasInteresseAluno.includes(area.nome),
+      ).length;
 
-    return mentorias;
+      return matchCountB - matchCountA; // Ordena em ordem decrescente de match
+    });
+
+    return mentores;
   }
 }

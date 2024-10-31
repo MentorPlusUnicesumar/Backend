@@ -24,8 +24,8 @@ import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
 import { ApiTags } from '@nestjs/swagger';
 import { UserId } from './decorator/user-id.dto';
-import { FiltroMentorDto } from './dto/filtro-mentor.dto';
 import { filtroMentorType } from './interface/filtro-mentor.interface';
+import { FiltroUserDto } from './dto/filtro-user.dto';
 
 @ApiTags('users')
 @Controller('users')
@@ -96,8 +96,8 @@ export class UsersController {
   }
 
   @Get('filtro-mentor')
-  private filtroUsers(@Body() filtroMentorDto: FiltroMentorDto) {
-    return this.usersService.filtroMentores(filtroMentorDto);
+  private filtroUsers(@Body() filtroUserDto: FiltroUserDto) {
+    return this.usersService.filtroUsers(filtroUserDto);
   }
 
   @Post()
@@ -210,10 +210,10 @@ export class UsersController {
   @Get('mentores')
   async findMentores(
     @Query() query: filtroMentorType,
-    // @UserId() id: mongoose.Types.ObjectId,
+    @UserId() id: mongoose.Types.ObjectId,
   ) {
     try {
-      return this.usersService.findMentores(query);
+      return this.usersService.findMentores(query, id);
     } catch (error) {
       throw new HttpException(
         {
