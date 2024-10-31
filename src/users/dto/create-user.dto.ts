@@ -58,7 +58,6 @@ export class CreateUserDto {
   @ApiProperty({
     example: '4499775-9999',
   })
-  @IsOptional()
   @IsString()
   telefone: string;
 
