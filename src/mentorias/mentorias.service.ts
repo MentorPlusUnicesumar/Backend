@@ -33,7 +33,7 @@ export class MentoriasService {
   private getDataProximoEncontro(mentoria): string {
     const dataAtual = new Date();
     const reunioes = mentoria.reuniao;
-    let proximaData = 'Não definida';
+    let proximaData = 'Não definido';
 
     reunioes.sort((a, b) => a.diaReuniao.getTime() - b.diaReuniao.getTime());
 
@@ -97,7 +97,27 @@ export class MentoriasService {
     return mentoria;
   }
 
+  // async findById(id: mongoose.Types.ObjectId) {
+  //   return this.mentoriaModel.findById(id).populate('reuniao idAluno idMentor');
+  // }
+
   async findById(id: mongoose.Types.ObjectId) {
-    return this.mentoriaModel.findById(id).populate('reuniao idAluno idMentor');
+    const mentoria = await this.mentoriaModel
+      .findById(id)
+      .populate('reuniao')
+      .populate({
+        path: 'idAluno',
+        select: 'nome', // Campos específicos do aluno
+      })
+      .populate({
+        path: 'idMentor',
+        select: 'nome experiencia', // Campos específicos do mentor
+      })
+      .lean();
+
+    return {
+      ...mentoria,
+      proximoEncontro: this.getDataProximoEncontro(mentoria),
+    };
   }
 }

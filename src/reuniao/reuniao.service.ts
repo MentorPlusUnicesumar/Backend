@@ -16,16 +16,17 @@ export class ReuniaoService {
     private mentoriaService: MentoriasService,
   ) {}
 
-  async create(
-    id: mongoose.Types.ObjectId,
-    createReuniaoDto: CreateReuniaoDto,
-  ) {
-    createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
+  async create(createReuniaoDto: CreateReuniaoDto) {
+    console.log('createReuniaoDto', createReuniaoDto),
+      (createReuniaoDto.status = EnumStatusReuniao.PENDENTE);
     createReuniaoDto.feedback = '';
-    createReuniaoDto.idMentoria = id;
+
     const reuniao = new this.reuniaoModel(createReuniaoDto);
     await reuniao.save();
-    return this.mentoriaService.createReuniao(id, reuniao._id);
+    return this.mentoriaService.createReuniao(
+      createReuniaoDto.idMentoria,
+      reuniao._id,
+    );
   }
 
   async updateFeedbackReuniao(id: mongoose.Types.ObjectId, feedback: string) {

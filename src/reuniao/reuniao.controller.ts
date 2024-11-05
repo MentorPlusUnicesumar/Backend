@@ -25,13 +25,11 @@ import { ApiTags } from '@nestjs/swagger';
 export class ReuniaoController {
   constructor(private readonly reuniaoService: ReuniaoService) {}
 
-  @Post(':id')
-  @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
-  create(
-    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
-    @Body() createReuniaoDto: CreateReuniaoDto,
-  ) {
-    return this.reuniaoService.create(id, createReuniaoDto);
+  @Post()
+  // @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
+  create(@Body() createReuniaoDto: CreateReuniaoDto) {
+    console.log('createReuniaoDto', createReuniaoDto);
+    return this.reuniaoService.create(createReuniaoDto);
   }
 
   // @Get()
