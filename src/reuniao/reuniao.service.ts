@@ -7,6 +7,7 @@ import mongoose, { Model } from 'mongoose';
 import { MentoriasService } from 'src/mentorias/mentorias.service';
 import { EnumStatusReuniao } from './enum/reuniao-status';
 import { ReuniaoInterface } from './interface/reuniao.interface';
+import { GoogleService } from 'src/google/google.service';
 
 @Injectable()
 export class ReuniaoService {
@@ -14,6 +15,7 @@ export class ReuniaoService {
     @InjectModel(Reuniao.name)
     private reuniaoModel: Model<ReuniaoDocument>,
     private mentoriaService: MentoriasService,
+    private googleService: GoogleService,
   ) {}
 
   async create(
@@ -23,6 +25,14 @@ export class ReuniaoService {
     createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
     createReuniaoDto.feedback = '';
     createReuniaoDto.idMentoria = id;
+    const emails = await this.mentoriaService.emailsMentoria(id);
+    const emailsArray: string[] = [emails.emailAluno, emails.emailMentor];
+    const dataString = new Date(createReuniaoDto.diaReuniao).toISOString();
+    console.log(dataString);
+    createReuniaoDto.link = await this.googleService.createMeeting(
+      dataString,
+      emailsArray,
+    );
     const reuniao = new this.reuniaoModel(createReuniaoDto);
     await reuniao.save();
     return this.mentoriaService.createReuniao(id, reuniao._id);

@@ -7,6 +7,7 @@ import mongoose, { Model } from 'mongoose';
 import { UsersService } from 'src/users/users.service';
 import { CardMentoria } from './interface/card.interface';
 import { EnumStatusMentoria } from './enums/mentorias-status';
+import { UserInterface } from 'src/users/interface/user.interface';
 
 @Injectable()
 export class MentoriasService {
@@ -99,5 +100,17 @@ export class MentoriasService {
 
   async findById(id: mongoose.Types.ObjectId) {
     return this.mentoriaModel.findById(id).populate('reuniao idAluno idMentor');
+  }
+
+  async emailsMentoria(id: mongoose.Types.ObjectId) {
+    const mentoria = await this.mentoriaModel.findById(id).populate<{
+      idAluno: UserInterface;
+      idMentor: UserInterface;
+    }>('reuniao idAluno idMentor');
+    const emails = {
+      emailAluno: mentoria.idAluno.email,
+      emailMentor: mentoria.idMentor.email,
+    };
+    return emails;
   }
 }
