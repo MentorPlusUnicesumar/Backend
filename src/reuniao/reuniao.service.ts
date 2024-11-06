@@ -18,24 +18,28 @@ export class ReuniaoService {
     private googleService: GoogleService,
   ) {}
 
-  async create(
-    id: mongoose.Types.ObjectId,
-    createReuniaoDto: CreateReuniaoDto,
-  ) {
+  async create(createReuniaoDto: CreateReuniaoDto) {
     createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
     createReuniaoDto.feedback = '';
-    createReuniaoDto.idMentoria = id;
-    const emails = await this.mentoriaService.emailsMentoria(id);
+
+    const emails = await this.mentoriaService.emailsMentoria(
+      createReuniaoDto.idMentoria,
+    );
+
     const emailsArray: string[] = [emails.emailAluno, emails.emailMentor];
     const dataString = new Date(createReuniaoDto.diaReuniao).toISOString();
-    console.log(dataString);
+
     createReuniaoDto.link = await this.googleService.createMeeting(
       dataString,
       emailsArray,
     );
+
     const reuniao = new this.reuniaoModel(createReuniaoDto);
     await reuniao.save();
-    return this.mentoriaService.createReuniao(id, reuniao._id);
+    return this.mentoriaService.createReuniao(
+      createReuniaoDto.idMentoria,
+      reuniao._id,
+    );
   }
 
   async updateFeedbackReuniao(id: mongoose.Types.ObjectId, feedback: string) {

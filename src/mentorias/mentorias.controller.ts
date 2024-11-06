@@ -17,6 +17,7 @@ import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { CardMentoria } from './interface/card.interface';
 import { ApiTags } from '@nestjs/swagger';
+import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
 // import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
 @ApiTags('mentorias')
@@ -30,9 +31,9 @@ export class MentoriasController {
   ): Promise<CardMentoria[]> {
     return await this.mentoriasService.getCards(id);
   }
-  @Get('id/:id')
+  @Get(':id')
   async findById(
-    @Param('id') id: mongoose.Types.ObjectId,
+    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
   ): Promise<MentoriaInterface> {
     return await this.mentoriasService.findById(id);
   }
