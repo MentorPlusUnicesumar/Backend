@@ -31,26 +31,29 @@ export class MentoriasService {
     }
   }
 
-  private getDataProximoEncontro(mentoria): string {
+  private getDataProximoEncontro(mentoria): Date | undefined {
     const dataAtual = new Date();
-    const reunioes = mentoria.reuniao;
-    let proximaData = 'Não definido';
 
+    const reunioes = mentoria.reuniao;
+    let proximaData = undefined;
     reunioes.sort((a, b) => a.diaReuniao.getTime() - b.diaReuniao.getTime());
 
     for (let i = 0; i < reunioes.length; i++) {
       if (reunioes[i].diaReuniao > dataAtual) {
-        proximaData = reunioes[i].diaReuniao.toLocaleDateString('pt-BR');
+        proximaData = reunioes[i].diaReuniao;
         break;
       }
     }
+    console.log('');
     return proximaData;
   }
 
   async getCards(userId: mongoose.Types.ObjectId): Promise<CardMentoria[]> {
-    const mentorias = await this.mentoriaModel.find({
-      $or: [{ idMentor: userId }, { idAluno: userId }],
-    });
+    const mentorias = await this.mentoriaModel
+      .find({
+        $or: [{ idMentor: userId }, { idAluno: userId }],
+      })
+      .populate('reuniao');
 
     const cards = await Promise.all(
       mentorias.map(async (mentoria) => {

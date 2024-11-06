@@ -19,16 +19,16 @@ export class ReuniaoService {
   ) {}
 
   async create(createReuniaoDto: CreateReuniaoDto) {
-    console.log('createReuniaoDto', createReuniaoDto),
-      (createReuniaoDto.status = EnumStatusReuniao.PENDENTE);
+    createReuniaoDto.status = EnumStatusReuniao.PENDENTE;
     createReuniaoDto.feedback = '';
 
     const emails = await this.mentoriaService.emailsMentoria(
       createReuniaoDto.idMentoria,
     );
+
     const emailsArray: string[] = [emails.emailAluno, emails.emailMentor];
     const dataString = new Date(createReuniaoDto.diaReuniao).toISOString();
-    console.log(dataString);
+
     createReuniaoDto.link = await this.googleService.createMeeting(
       dataString,
       emailsArray,

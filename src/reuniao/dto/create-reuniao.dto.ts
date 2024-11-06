@@ -14,7 +14,7 @@ export class CreateReuniaoDto {
   idMentoria: mongoose.Types.ObjectId;
 
   @IsNotEmpty()
-  diaReuniao: string;
+  diaReuniao: Date;
 
   @IsOptional()
   @IsEnum(EnumStatusReuniao)
@@ -34,5 +34,6 @@ export class CreateReuniaoDto {
   link: string;
 
   @IsString()
+  @IsNotEmpty()
   resumo: string;
 }
