@@ -112,46 +112,76 @@ export class CreateUserDto {
   @IsString()
   fotos: string;
 
+  @ApiProperty({
+    example: ['672beed9d1852f16f2f0cd44', '672beed9d1852f16f2f0cd46'],
+  })
   @IsArray()
   @ArrayMinSize(1)
   @IsMongoId({ each: true })
   areas: mongoose.Types.ObjectId[];
 
+  @ApiProperty({
+    example: 'Sou especialista em python',
+  })
   @IsOptional()
   @IsString()
   sobre: string;
 
+  @ApiProperty({
+    example: ['Agil', 'Aprendizado Anvançado'],
+  })
   @IsArray()
   @IsOptional()
   @ArrayMinSize(0)
   competencias: string[];
 
+  @ApiProperty({
+    example: ['5 anos trabalhando na alura', '2 anos em supermercado'],
+  })
   @IsArray()
   @IsOptional()
   @ArrayMinSize(0)
   experiencias: string[];
 
+  @ApiProperty({
+    example: [{ foto: 'url.com.br', descricao: 'Projeto Finalizado' }],
+  })
   @IsArray()
   @IsOptional()
   @ArrayMinSize(0)
   trabDestaque: TrabDestaqueDto[];
 
+  @ApiProperty({
+    example: 'instagram.com.br',
+  })
   @IsOptional()
   @IsString()
   instagram: string;
 
+  @ApiProperty({
+    example: 'youtube.com.br',
+  })
   @IsOptional()
   @IsString()
   youtube: string;
 
+  @ApiProperty({
+    example: 'linkedin.com.br',
+  })
   @IsOptional()
   @IsString()
   linkedin: string;
 
+  @ApiProperty({
+    example: true,
+  })
   @IsOptional()
   @IsBoolean()
   disponivel: boolean;
 
+  @ApiProperty({
+    example: [1, 4],
+  })
   @IsOptional()
   @IsArray()
   @IsNumber({}, { each: true })

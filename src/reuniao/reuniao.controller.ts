@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { ReuniaoService } from './reuniao.service';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
-// import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
 import mongoose from 'mongoose';
 import { ReuniaoInterface } from './interface/reuniao.interface';
@@ -17,6 +16,8 @@ import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumStatusReuniao } from './enum/reuniao-status';
 import { ApiTags } from '@nestjs/swagger';
 import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
+
 
 @ApiTags('reuniao')
 @Controller('reuniao')
@@ -40,6 +41,8 @@ export class ReuniaoController {
   // }
 
   @Patch(':id')
+  //@Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
+  @ApiBearerAuth('JWT-auth')
   async updateReuniao(
     @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
     @Body() updateReuniaoDto: UpdateReuniaoDto,

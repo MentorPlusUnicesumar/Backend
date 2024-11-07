@@ -22,7 +22,7 @@ import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
 import { UpdateUserStatusDto } from './dto/update-user-status.dto';
 import { ValidateObjectIdPipe } from '../common/pipes/validate-object-id.pipe';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { UserId } from './decorator/user-id.dto';
 import { filtroMentorType } from './interface/filtro-mentor.interface';
 import { FiltroUserDto } from './dto/filtro-user.dto';
@@ -52,7 +52,6 @@ export class UsersController {
   }
 
   @Get('email')
-  // @Roles(EnumTypeUser.Admin)
   private findByEmail(@Body('email') email: string) {
     try {
       return this.usersService.findByEmail(email);
@@ -125,6 +124,7 @@ export class UsersController {
     [EnumTypeUser.Admin, EnumTypeUser.Mentor, EnumTypeUser.Aluno],
     [EnumStatusUser.APROVADO],
   )
+  @ApiBearerAuth('JWT-auth')
   private redefinirSenha(
     @UserId() id: mongoose.Types.ObjectId,
     @Body() newSenhaUserDto: NewSenhaUserDto,
@@ -208,6 +208,7 @@ export class UsersController {
   }
 
   @Get('mentores')
+  @ApiBearerAuth('JWT-auth')
   async findMentores(
     @Query() query: filtroMentorType,
     @UserId() id: mongoose.Types.ObjectId,
