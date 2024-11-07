@@ -18,7 +18,7 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 import { ReuniaoInterface } from './interface/reuniao.interface';
 import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumStatusReuniao } from './enum/reuniao-status';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('reuniao')
 @Controller('reuniao')
@@ -44,6 +44,7 @@ export class ReuniaoController {
 
   @Patch(':id')
   @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
+  @ApiBearerAuth('JWT-auth')
   async updateFeedbackReuniao(
     @Param('id') id: mongoose.Types.ObjectId,
     @Body('feedback') feedback: string,

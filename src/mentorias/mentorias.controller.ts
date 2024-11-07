@@ -16,7 +16,7 @@ import { EnumTypeUser } from 'src/users/enums/user-type';
 import { EnumStatusUser } from 'src/users/enums/user-status';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { CardMentoria } from './interface/card.interface';
-import { ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
 // import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
@@ -26,6 +26,7 @@ export class MentoriasController {
   constructor(private readonly mentoriasService: MentoriasService) {}
 
   @Get('cards')
+  @ApiBearerAuth('JWT-auth')
   async cardsMentorias(
     @UserId() id: mongoose.Types.ObjectId,
   ): Promise<CardMentoria[]> {
@@ -40,6 +41,7 @@ export class MentoriasController {
 
   @Post()
   @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
+  @ApiBearerAuth('JWT-auth')
   create(
     @Body() createMentoriaDto: CreateMentoriaDto,
   ): Promise<MentoriaInterface | object> {

@@ -2,7 +2,9 @@
 import { Controller, Get, Query, Redirect, Res, Logger } from '@nestjs/common';
 import { Response } from 'express';
 import { GoogleService } from './google.service';
+import { ApiTags } from '@nestjs/swagger';
 
+@ApiTags('google')
 @Controller('google')
 export class GoogleController {
   private readonly logger = new Logger(GoogleController.name);

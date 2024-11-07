@@ -9,6 +9,5 @@ export interface MentoriaInterface {
   status: EnumStatusMentoria;
   materialAnexado: string[];
   feedback: string;
-  descricao: string;
   qtdtotal: number;
 }

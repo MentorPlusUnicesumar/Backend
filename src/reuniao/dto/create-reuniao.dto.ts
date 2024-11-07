@@ -8,11 +8,15 @@ import {
 } from 'class-validator';
 import { EnumStatusReuniao } from '../enum/reuniao-status';
 import mongoose from 'mongoose';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateReuniaoDto {
   @IsMongoId()
   idMentoria: mongoose.Types.ObjectId;
 
+  @ApiProperty({
+    example: '2024-11-06T17:35:00.000Z',
+  })
   @IsNotEmpty()
   diaReuniao: Date;
 
@@ -33,6 +37,9 @@ export class CreateReuniaoDto {
   @IsString()
   link: string;
 
+  @ApiProperty({
+    example: 'Aula sobre AWS e conceitos basicos',
+  })
   @IsString()
   @IsNotEmpty()
   resumo: string;
