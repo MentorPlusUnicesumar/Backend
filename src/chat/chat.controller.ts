@@ -4,7 +4,9 @@ import { ChatService } from './chat.service';
 import { UserId } from 'src/users/decorator/user-id.dto';
 import mongoose from 'mongoose';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
+import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('chat')
 @Controller('chat')
 export class ChatController {
   constructor(private readonly chatService: ChatService) {}
@@ -15,6 +17,7 @@ export class ChatController {
   }
 
   @Get()
+  @ApiBearerAuth('JWT-auth')
   async getChatsByUser(@UserId() userId: mongoose.Types.ObjectId) {
     const chats = await this.chatService.findChatsByUser(userId);
 

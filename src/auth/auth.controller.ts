@@ -12,6 +12,7 @@ import { LoginDto } from './dto/login.dto';
 import { AuthInterface } from './interface/auth.interface';
 import { ChangePasswordDto } from './dto/change-password.dto';
 import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('auth')
 @Controller('auth')
 export class AuthController {

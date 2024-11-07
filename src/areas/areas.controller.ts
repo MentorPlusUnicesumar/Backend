@@ -12,6 +12,7 @@ import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
 import mongoose from 'mongoose';
 import { ApiTags } from '@nestjs/swagger';
+
 @ApiTags('areas')
 @Controller('areas')
 export class AreasController {

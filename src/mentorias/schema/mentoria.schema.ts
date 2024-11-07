@@ -44,9 +44,6 @@ export class Mentoria {
   @Prop([String])
   materialAnexado: string[];
 
-  @Prop({ required: true })
-  descricao: string;
-
   @Prop()
   qtdtotal: number;
 }
