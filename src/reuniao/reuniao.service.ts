@@ -8,6 +8,7 @@ import { MentoriasService } from 'src/mentorias/mentorias.service';
 import { EnumStatusReuniao } from './enum/reuniao-status';
 import { ReuniaoInterface } from './interface/reuniao.interface';
 import { GoogleService } from 'src/google/google.service';
+import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 
 @Injectable()
 export class ReuniaoService {
@@ -40,6 +41,18 @@ export class ReuniaoService {
       createReuniaoDto.idMentoria,
       reuniao._id,
     );
+  }
+
+  async updateReuniao(
+    id: mongoose.Types.ObjectId,
+    updateReuniaoDto: UpdateReuniaoDto,
+  ) {
+    const reuniao = await this.reuniaoModel.findByIdAndUpdate(
+      id,
+      updateReuniaoDto,
+      { new: true },
+    );
+    return reuniao;
   }
 
   async updateFeedbackReuniao(id: mongoose.Types.ObjectId, feedback: string) {
