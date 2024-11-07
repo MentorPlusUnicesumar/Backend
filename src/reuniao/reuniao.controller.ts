@@ -12,13 +12,11 @@ import { CreateReuniaoDto } from './dto/create-reuniao.dto';
 // import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
 import mongoose from 'mongoose';
-import { EnumTypeUser } from 'src/users/enums/user-type';
-import { EnumStatusUser } from 'src/users/enums/user-status';
-import { Roles } from 'src/auth/decorator/roles.decorator';
 import { ReuniaoInterface } from './interface/reuniao.interface';
 import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumStatusReuniao } from './enum/reuniao-status';
 import { ApiTags } from '@nestjs/swagger';
+import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 
 @ApiTags('reuniao')
 @Controller('reuniao')
@@ -28,7 +26,6 @@ export class ReuniaoController {
   @Post()
   // @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
   create(@Body() createReuniaoDto: CreateReuniaoDto) {
-    console.log('createReuniaoDto', createReuniaoDto);
     return this.reuniaoService.create(createReuniaoDto);
   }
 
@@ -43,12 +40,11 @@ export class ReuniaoController {
   // }
 
   @Patch(':id')
-  @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
-  async updateFeedbackReuniao(
-    @Param('id') id: mongoose.Types.ObjectId,
-    @Body('feedback') feedback: string,
+  async updateReuniao(
+    @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,
+    @Body() updateReuniaoDto: UpdateReuniaoDto,
   ): Promise<ReuniaoInterface> {
-    return await this.reuniaoService.updateFeedbackReuniao(id, feedback);
+    return await this.reuniaoService.updateReuniao(id, updateReuniaoDto);
   }
 
   @Public()
