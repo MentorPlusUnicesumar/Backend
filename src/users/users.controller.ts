@@ -16,7 +16,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { EnumTypeUser } from './enums/user-type';
 import { Roles } from 'src/auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
-import { UserReturnInterface } from './dto/return-user.dto';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import mongoose from 'mongoose';
 import { EnumStatusUser } from './enums/user-status';
@@ -52,7 +51,7 @@ export class UsersController {
   }
 
   @Get('email')
-  private findByEmail(@Body('email') email: string) {
+  findByEmail(@Body('email') email: string) {
     try {
       return this.usersService.findByEmail(email);
     } catch (error) {
@@ -69,38 +68,38 @@ export class UsersController {
     }
   }
 
-  @Get()
-  private async findAll(): Promise<UserReturnInterface | object> {
-    try {
-      return (await this.usersService.findAll()).map(
-        (userInterface) => new UserReturnInterface(userInterface),
-      );
-    } catch (error) {
-      throw new HttpException(
-        {
-          status: HttpStatus.FORBIDDEN,
-          error: 'Erro ao buscar todos os alunos',
-        },
-        HttpStatus.FORBIDDEN,
-        {
-          cause: error,
-        },
-      );
-    }
-  }
+  // @Get()
+  // async findAll(): Promise<UserReturnInterface | object> {
+  //   try {
+  //     return (await this.usersService.findAll()).map(
+  //       (userInterface) => new UserReturnInterface(userInterface),
+  //     );
+  //   } catch (error) {
+  //     throw new HttpException(
+  //       {
+  //         status: HttpStatus.FORBIDDEN,
+  //         error: 'Erro ao buscar todos os alunos',
+  //       },
+  //       HttpStatus.FORBIDDEN,
+  //       {
+  //         cause: error,
+  //       },
+  //     );
+  //   }
+  // }
 
   @Get('id/:id')
-  private findById(@Param('id', ValidateObjectIdPipe) id: string) {
+  findById(@Param('id', ValidateObjectIdPipe) id: string) {
     return this.usersService.findById(id);
   }
 
-  @Get('filtro-mentor')
-  private filtroUsers(@Body() filtroUserDto: FiltroUserDto) {
+  @Get()
+  filtroUsers(@Query() filtroUserDto: FiltroUserDto) {
     return this.usersService.filtroUsers(filtroUserDto);
   }
 
   @Post()
-  private create(
+  create(
     @Body() createUserDto: CreateUserDto,
   ): Promise<UserInterface | object> {
     try {

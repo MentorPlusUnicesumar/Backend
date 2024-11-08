@@ -207,11 +207,13 @@ export class UsersService {
     if (filtroUserDto.status) {
       filtro.status = filtroUserDto.status;
     }
-    const users = await this.userModel.find(filtro).exec();
 
-    if (!users || users.length === 0) {
-      throw new NotFoundException('Usuário(s) não encontrado(s)');
+    if (filtroUserDto.typeUser) {
+      filtro.typeUser = filtroUserDto.typeUser;
     }
+
+    const users = await this.userModel.find(filtro).exec();
+    console.log('users', users);
 
     return users;
   }

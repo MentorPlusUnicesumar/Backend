@@ -14,10 +14,8 @@ import mongoose from 'mongoose';
 import { ReuniaoInterface } from './interface/reuniao.interface';
 import { Public } from 'src/auth/decorator/auth.decorator';
 import { EnumStatusReuniao } from './enum/reuniao-status';
-import { ApiTags } from '@nestjs/swagger';
 import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
-
 
 @ApiTags('reuniao')
 @Controller('reuniao')
