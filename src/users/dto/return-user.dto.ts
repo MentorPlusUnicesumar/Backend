@@ -6,6 +6,7 @@ import { UserDocument } from '../schema/user.schema';
 import { TrabDestaqueDto } from './trab-destaque.dto';
 
 export class UserReturnInterface {
+  _id: mongoose.Types.ObjectId;
   nome: string;
   email: string;
   telefone: string;
@@ -28,6 +29,7 @@ export class UserReturnInterface {
   estrela: number[];
 
   constructor(user: UserDocument) {
+    this._id = user._id;
     this.nome = user.nome;
     this.email = user.email;
     this.telefone = user.telefone;
