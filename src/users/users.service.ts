@@ -99,8 +99,8 @@ export class UsersService {
   findById(id: string | Types.ObjectId) {
     return this.userModel
       .findById(id)
-      .select('-senha')
-      .populate('mentoriasAtivas areas');
+      .populate('mentoriasAtivas areas')
+      .select('-senha');
   }
 
   findByName(nome: string) {
@@ -188,24 +188,30 @@ export class UsersService {
   ): Promise<UserInterface> {
     const user = await this.userModel.findById(id);
 
+    // Quando muda o status do mentor para INativo, muda também o disponivel para mentorias
+    if (
+      user.typeUser === EnumTypeUser.Mentor &&
+      status === EnumStatusUser.INATIVO
+    ) {
+      user.disponivel = false;
+    }
+
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
 
     user.status = status;
 
-    return user.save();
+    return await user.save();
   }
 
   async filtroUsers(filtroUserDto: FiltroUserDto): Promise<UserInterface[]> {
-    const filtro: any = {};
+    const filtro: any = {
+      status: { $ne: 'Recusado' },
+    };
 
     if (filtroUserDto.nome) {
       filtro.nome = { $regex: filtroUserDto.nome, $options: 'i' };
-    }
-
-    if (filtroUserDto.status) {
-      filtro.status = filtroUserDto.status;
     }
 
     if (filtroUserDto.typeUser) {
@@ -213,13 +219,15 @@ export class UsersService {
     }
 
     const users = await this.userModel.find(filtro).exec();
-    console.log('users', users);
 
     return users;
   }
 
   async findMentores(query: filtroMentorType, id: mongoose.Types.ObjectId) {
-    const filtro: any = { typeUser: EnumTypeUser.Mentor, disponivel: true };
+    const filtro: any = {
+      typeUser: EnumTypeUser.Mentor,
+      status: { $in: ['Aprovado', 'Inativo'] },
+    };
 
     if (query.nomeMentor) {
       filtro.nome = { $regex: query.nomeMentor, $options: 'i' };
@@ -229,6 +237,7 @@ export class UsersService {
     const aluno = await this.userModel
       .findById(id)
       .populate<{ areas: { nome: string }[] }>('areas');
+
     const areasInteresseAluno = aluno?.areas?.map((area) => area.nome) || [];
 
     let mentores: any[] = await this.userModel
@@ -257,6 +266,7 @@ export class UsersService {
       return matchCountB - matchCountA; // Ordena em ordem decrescente de match
     });
 
+    // Ordena as areas do mentor
     mentores.forEach((mentor) => {
       mentor.areas.sort((area1, area2) => {
         const hasArea1InAluno = areasInteresseAluno.includes(area1.nome);

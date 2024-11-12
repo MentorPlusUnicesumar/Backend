@@ -26,4 +26,5 @@ export interface UserInterface {
   linkedin: string;
   disponivel: boolean;
   estrela: number[];
+  motivoCadastro: string;
 }

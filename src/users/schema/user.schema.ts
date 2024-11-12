@@ -80,6 +80,9 @@ export class User {
 
   @Prop({ required: false, type: [Number], min: 1, max: 5 })
   estrela: number[];
+
+  @Prop({ required: true })
+  motivoCadastro: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

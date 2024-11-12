@@ -188,4 +188,11 @@ export class CreateUserDto {
   @Min(1, { each: true })
   @Max(5, { each: true })
   estrela: number[];
+
+  @ApiProperty({
+    example: 'Motivo por qual quer se juntar a plataforma',
+  })
+  @IsString()
+  @IsNotEmpty()
+  motivoCadastro: string;
 }

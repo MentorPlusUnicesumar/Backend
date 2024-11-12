@@ -45,6 +45,7 @@ aluno_renan = {
     "cpf": "11550847996",
     "fotos": "https://avatars.githubusercontent.com/u/77353839?v=4",
     "areas" : list(set([getRandomArea() for _ in range(3)])),
+    "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
 }
 
 admin_prisco = {
@@ -59,6 +60,7 @@ admin_prisco = {
   "cpf": "13413070932",
   "fotos": "https://avatars.githubusercontent.com/u/72769726?v=4",
   "areas": list(set([getRandomArea() for _ in range(3)])),
+  "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
 }
 
 mentor_men = {
@@ -79,6 +81,7 @@ mentor_men = {
     "trabDestaque": [],
     "areas": list(set([getRandomArea() for _ in range(3)])),
     "competencias": [''],
+    
 }
 
 mentores = [
@@ -101,6 +104,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(1)])),
         "competencias": [''],
+        
     },
     {
         "nome": "Anya Taylor-Joy",
@@ -111,8 +115,8 @@ mentores = [
         "cidade": "Mandaguari",
         "uf": "PR",
         "cpf": "68163716070",
-        "fotos": "",
-        "sobre": "https://static.stealthelook.com.br/wp-content/uploads/2021/11/o-segredo-do-loiro-platinado-e-sempre-hidratado-de-anya-taylor-joy-2-20211117221419.jpgSou desenvolvedora web com foco em front-end. Adoro ensinar e compartilhar conhecimento sobre React e CSS.",
+        "fotos": "https://static.stealthelook.com.br/wp-content/uploads/2021/11/o-segredo-do-loiro-platinado-e-sempre-hidratado-de-anya-taylor-joy-2-20211117221419.jpg",
+        "sobre": "Sou desenvolvedora web com foco em front-end. Adoro ensinar e compartilhar conhecimento sobre React e CSS.",
         "instagram": "https://www.instagram.com/anyataylorjoy/",
         "youtube": "https://www.youtube.com/c/anyataylorjoy",
         "linkedin": "https://www.linkedin.com/in/anyataylorjoy/",
@@ -121,6 +125,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
+        
     },
     {
         "nome": "Neil Tyson",
@@ -141,6 +146,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(4)])),
         "competencias": [''],
+        
     },
     {
         "nome": "Marshal Mathers",
@@ -166,6 +172,7 @@ mentores = [
             ],
         "areas": list(set([getRandomArea() for _ in range(6)])),
         "competencias": ['Graduado em Engenharia de Software', 'Rapper Profissional', 'Pós Graduação em Música'],
+        
     },
     {
         "nome": "Bill Gates",
@@ -186,6 +193,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
+        
     },
 ]
 
@@ -201,6 +209,7 @@ alunos = [
         "cpf": "65720110038",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
+        
     },
         {
         "nome": "Aluno 2",
@@ -213,6 +222,7 @@ alunos = [
         "cpf": "89958008017",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
+        
     },
         {
         "nome": "Aluno 3",
@@ -225,6 +235,7 @@ alunos = [
         "cpf": "14463803004",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
+        
     },
         {
         "nome": "Aluno 4",
@@ -237,6 +248,7 @@ alunos = [
         "cpf": "76832145071",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
+        
     },
         {
         "nome": "Aluno 5",
@@ -249,6 +261,7 @@ alunos = [
         "cpf": "94207098097",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
+        
     },
 ]
 
