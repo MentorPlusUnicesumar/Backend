@@ -170,6 +170,7 @@ export class UsersController {
     @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
   ) {
+    console.log('Teste', updateUserStatusDto);
     try {
       return this.usersService.updateUserStatus(id, updateUserStatusDto.status);
     } catch (error) {
