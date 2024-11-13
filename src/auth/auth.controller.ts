@@ -20,7 +20,6 @@ export class AuthController {
 
   @HttpCode(HttpStatus.OK)
   @Post('login')
-  // @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
   signIn(@Body() loginDto: LoginDto): Promise<AuthInterface> {
     return this.authService.signIn(loginDto);
   }

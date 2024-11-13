@@ -15,7 +15,6 @@ export class ChatService {
   ) {}
 
   async createChat(createChatDto: CreateChatDto): Promise<ChatDocument> {
-    // verificar se já existe um chat entre os usuários
     const chatExists = await this.chatModel
       .findOne({
         $or: [

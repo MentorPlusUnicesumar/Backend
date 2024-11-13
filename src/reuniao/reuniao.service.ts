@@ -1,6 +1,5 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateReuniaoDto } from './dto/create-reuniao.dto';
-//import { UpdateReuniaoDto } from './dto/update-reuniao.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Reuniao, ReuniaoDocument } from './schema/reuniao.schema';
 import mongoose, { Model } from 'mongoose';
@@ -74,20 +73,4 @@ export class ReuniaoService {
     reuniao.status = status;
     return reuniao.save();
   }
-
-  // findAll() {
-  //   return `This action returns all reuniao`;
-  // }
-
-  // findOne(id: number) {
-  //   return `This action returns a #${id} reuniao`;
-  // }
-
-  // update(id: number, updateReuniaoDto: UpdateReuniaoDto) {
-  //   return `This action updates a #${id} reuniao`;
-  // }
-
-  // remove(id: number) {
-  //   return `This action removes a #${id} reuniao`;
-  // }
 }

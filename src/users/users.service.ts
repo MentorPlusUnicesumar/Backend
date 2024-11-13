@@ -37,13 +37,6 @@ export class UsersService {
     const validCpf = await this.findByCpf(createUserDto.cpf);
     // eslint-disable-next-line
     const { status, mentoriasAtivas, ...userData } = createUserDto;
-    // let userResult = {}
-    // if (createUserDto.typeUser == EnumTypeUser.Aluno) {
-    //   userResult = new AlunoDadosInterface(createUserDto)
-    // } else {
-    //   const { status, mentoriasAtivas, ...userData } = createUserDto;
-
-    // }
 
     const errors = [];
     if (validEmail) {
