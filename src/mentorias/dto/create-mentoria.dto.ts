@@ -4,7 +4,6 @@ import {
   IsEnum,
   IsMongoId,
   IsNotEmpty,
-  IsNumber,
   IsOptional,
   IsString,
 } from 'class-validator';
@@ -57,6 +56,9 @@ export class CreateMentoriaDto {
     example: 10,
   })
   @IsNotEmpty()
-  @IsNumber()
   qtdtotal: number;
+
+  @IsString()
+  @IsNotEmpty()
+  descricao: string;
 }

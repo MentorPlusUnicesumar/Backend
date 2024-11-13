@@ -42,7 +42,6 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     const chats = await this.chatService.findChatsByUser(user._id);
 
     chats.forEach((chat) => {
-      console.log(`Client ${client.id} joined chat ${chat._id}`);
       client.join(chat._id.toString());
     });
   }
@@ -66,10 +65,5 @@ export class ChatGateway implements OnGatewayConnection, OnGatewayDisconnect {
     }
 
     this.server.to(chatRoomId).emit('newMessage', message);
-  }
-
-  @SubscribeMessage('message')
-  teste(client: Socket, data: any) {
-    console.log(data);
   }
 }
