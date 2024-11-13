@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { CreateMentoriaDto } from './dto/create-mentoria.dto';
-// import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Mentoria, MentoriaDocument } from './schema/mentoria.schema';
 import mongoose, { Model } from 'mongoose';
@@ -103,10 +102,6 @@ export class MentoriasService {
     await this.userService.addMentoriaAtiva(mentoria.idAluno, mentoria._id);
     return mentoria;
   }
-
-  // async findById(id: mongoose.Types.ObjectId) {
-  //   return this.mentoriaModel.findById(id).populate('reuniao idAluno idMentor');
-  // }
 
   async findById(id: mongoose.Types.ObjectId) {
     const mentoria = await this.mentoriaModel

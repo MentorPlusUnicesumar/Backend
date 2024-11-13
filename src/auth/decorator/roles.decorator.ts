@@ -3,7 +3,7 @@ import { EnumStatusUser } from 'src/users/enums/user-status';
 import { EnumTypeUser } from 'src/users/enums/user-type';
 
 export const ROLES_KEY = 'roles';
-export const STATUS_KEY = 'status'; // New key for status
+export const STATUS_KEY = 'status';
 
 export const Roles = (
   roles: EnumTypeUser[] = [],

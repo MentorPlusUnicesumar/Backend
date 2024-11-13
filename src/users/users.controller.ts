@@ -28,12 +28,11 @@ import { FiltroUserDto } from './dto/filtro-user.dto';
 
 @ApiTags('users')
 @Controller('users')
-// @Roles([EnumTypeUser.Admin], [EnumStatusUser.APROVADO])
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('name')
-  private findByName(@Body('name') name: string) {
+  findByName(@Body('name') name: string) {
     try {
       return this.usersService.findByName(name);
     } catch (error) {
@@ -67,26 +66,6 @@ export class UsersController {
       );
     }
   }
-
-  // @Get()
-  // async findAll(): Promise<UserReturnInterface | object> {
-  //   try {
-  //     return (await this.usersService.findAll()).map(
-  //       (userInterface) => new UserReturnInterface(userInterface),
-  //     );
-  //   } catch (error) {
-  //     throw new HttpException(
-  //       {
-  //         status: HttpStatus.FORBIDDEN,
-  //         error: 'Erro ao buscar todos os alunos',
-  //       },
-  //       HttpStatus.FORBIDDEN,
-  //       {
-  //         cause: error,
-  //       },
-  //     );
-  //   }
-  // }
 
   @Get('id/:id')
   findById(@Param('id', ValidateObjectIdPipe) id: string) {

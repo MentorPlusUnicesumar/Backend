@@ -7,10 +7,10 @@ export type MessageDocument = HydratedDocument<Message>;
 @Schema()
 export class Message {
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'Chat' })
-  chatId: mongoose.Types.ObjectId; // Referência ao ID do chat
+  chatId: mongoose.Types.ObjectId;
 
   @Prop({ required: true, type: mongoose.Types.ObjectId, ref: 'User' })
-  senderId: mongoose.Types.ObjectId; // Referência ao ID do usuário que envia a mensagem
+  senderId: mongoose.Types.ObjectId;
 
   @Prop({ required: true })
   content: string;
