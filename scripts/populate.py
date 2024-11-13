@@ -81,7 +81,7 @@ mentor_men = {
     "trabDestaque": [],
     "areas": list(set([getRandomArea() for _ in range(3)])),
     "competencias": [''],
-    
+    "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
 }
 
 mentores = [
@@ -104,7 +104,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(1)])),
         "competencias": [''],
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
     {
         "nome": "Anya Taylor-Joy",
@@ -125,7 +125,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",        
     },
     {
         "nome": "Neil Tyson",
@@ -146,7 +146,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(4)])),
         "competencias": [''],
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
     {
         "nome": "Marshal Mathers",
@@ -172,7 +172,7 @@ mentores = [
             ],
         "areas": list(set([getRandomArea() for _ in range(6)])),
         "competencias": ['Graduado em Engenharia de Software', 'Rapper Profissional', 'Pós Graduação em Música'],
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
     {
         "nome": "Bill Gates",
@@ -193,7 +193,7 @@ mentores = [
         "trabDestaque": [],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": [''],
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
 ]
 
@@ -209,7 +209,7 @@ alunos = [
         "cpf": "65720110038",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
         {
         "nome": "Aluno 2",
@@ -222,7 +222,7 @@ alunos = [
         "cpf": "89958008017",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
         {
         "nome": "Aluno 3",
@@ -235,7 +235,7 @@ alunos = [
         "cpf": "14463803004",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
         {
         "nome": "Aluno 4",
@@ -248,7 +248,7 @@ alunos = [
         "cpf": "76832145071",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
         {
         "nome": "Aluno 5",
@@ -261,7 +261,7 @@ alunos = [
         "cpf": "94207098097",
         "fotos": "foto.com.br",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
-        
+        "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
     },
 ]
 

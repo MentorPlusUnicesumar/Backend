@@ -8,6 +8,7 @@ import { UsersService } from 'src/users/users.service';
 import { CardMentoria } from './interface/card.interface';
 import { EnumStatusMentoria } from './enums/mentorias-status';
 import { UserInterface } from 'src/users/interface/user.interface';
+import { FiltroMentoriaDto } from './dto/filtro-mentoria.dto';
 
 @Injectable()
 export class MentoriasService {
@@ -51,6 +52,9 @@ export class MentoriasService {
     const mentorias = await this.mentoriaModel
       .find({
         $or: [{ idMentor: userId }, { idAluno: userId }],
+      })
+      .find({
+        status: EnumStatusMentoria.ATIVA,
       })
       .populate('reuniao');
 
@@ -134,5 +138,47 @@ export class MentoriasService {
       emailMentor: mentoria.idMentor.email,
     };
     return emails;
+  }
+
+  async findAllMentorias(query: FiltroMentoriaDto) {
+    const filtro: any = {};
+
+    // Encontrar todas as mentorias com os campos populados de aluno e mentor
+    const mentorias = await this.mentoriaModel
+      .find(filtro)
+      .populate({
+        path: 'idAluno', // Popula o campo 'idAluno' com os dados do aluno
+        select: 'nome', // Seleciona o campo 'nome' do aluno
+      })
+      .populate({
+        path: 'idMentor', // Popula o campo 'idMentor' com os dados do mentor
+        select: 'nome', // Seleciona o campo 'nome' do mentor
+      })
+      .exec();
+
+    // Filtra as mentorias por nome do aluno e mentor usando regex
+    let resultadoFiltrado: any = mentorias;
+
+    if (query.nomeAluno) {
+      // Filtra o nome do aluno usando regex
+      resultadoFiltrado = resultadoFiltrado.filter(
+        (mentoria) =>
+          mentoria.idAluno &&
+          mentoria.idAluno.nome &&
+          new RegExp(query.nomeAluno, 'i').test(mentoria.idAluno.nome),
+      );
+    }
+
+    if (query.nomeMentor) {
+      // Filtra o nome do mentor usando regex
+      resultadoFiltrado = resultadoFiltrado.filter(
+        (mentoria) =>
+          mentoria.idMentor &&
+          mentoria.idMentor.nome &&
+          new RegExp(query.nomeMentor, 'i').test(mentoria.idMentor.nome),
+      );
+    }
+
+    return resultadoFiltrado;
   }
 }

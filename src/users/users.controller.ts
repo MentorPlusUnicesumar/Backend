@@ -170,7 +170,6 @@ export class UsersController {
     @Param('id', ValidateObjectIdPipe) id: string,
     @Body() updateUserStatusDto: UpdateUserStatusDto,
   ) {
-    console.log('Teste', updateUserStatusDto);
     try {
       return this.usersService.updateUserStatus(id, updateUserStatusDto.status);
     } catch (error) {
@@ -215,6 +214,25 @@ export class UsersController {
   ) {
     try {
       return this.usersService.findMentores(query, id);
+    } catch (error) {
+      throw new HttpException(
+        {
+          status: HttpStatus.FORBIDDEN,
+          error: 'Erro ao buscar mentores',
+        },
+        HttpStatus.FORBIDDEN,
+        {
+          cause: error,
+        },
+      );
+    }
+  }
+
+  @Get('alunos')
+  @ApiBearerAuth('JWT-auth')
+  async findAlunos() {
+    try {
+      return await this.usersService.findAlunos();
     } catch (error) {
       throw new HttpException(
         {

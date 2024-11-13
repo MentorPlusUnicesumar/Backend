@@ -10,4 +10,5 @@ export interface MentoriaInterface {
   materialAnexado: string[];
   feedback: string;
   qtdtotal: number;
+  descricao: string;
 }

@@ -5,7 +5,7 @@ import {
   Body,
   Patch,
   Param,
-  //Delete,
+  Query,
 } from '@nestjs/common';
 import { MentoriasService } from './mentorias.service';
 import { CreateMentoriaDto } from './dto/create-mentoria.dto';
@@ -18,6 +18,7 @@ import { Roles } from 'src/auth/decorator/roles.decorator';
 import { CardMentoria } from './interface/card.interface';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
+import { FiltroMentoriaDto } from './dto/filtro-mentoria.dto';
 // import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
 @ApiTags('mentorias')
@@ -42,10 +43,10 @@ export class MentoriasController {
   @Post()
   @Roles([EnumTypeUser.Mentor], [EnumStatusUser.APROVADO])
   @ApiBearerAuth('JWT-auth')
-  create(
+  async create(
     @Body() createMentoriaDto: CreateMentoriaDto,
   ): Promise<MentoriaInterface | object> {
-    return this.mentoriasService.create(createMentoriaDto);
+    return await this.mentoriasService.create(createMentoriaDto);
   }
 
   @Patch(':id')
@@ -61,5 +62,10 @@ export class MentoriasController {
     @Param('id') id: mongoose.Types.ObjectId,
   ): Promise<MentoriaInterface> {
     return await this.mentoriasService.aceitarMentoria(id);
+  }
+
+  @Get()
+  async findAllMentorias(@Query() query: FiltroMentoriaDto) {
+    return await this.mentoriasService.findAllMentorias(query);
   }
 }

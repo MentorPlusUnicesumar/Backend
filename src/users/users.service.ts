@@ -285,4 +285,14 @@ export class UsersService {
 
     return mentores;
   }
+
+  async findAlunos() {
+    const alunos = await this.userModel
+      .find({
+        typeUser: EnumTypeUser.Aluno,
+        status: EnumStatusUser.APROVADO,
+      })
+      .select('-senha');
+    return alunos;
+  }
 }
