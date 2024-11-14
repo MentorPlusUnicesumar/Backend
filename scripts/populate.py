@@ -2,7 +2,7 @@ import random
 
 import requests
 
-url_base = 'http://localhost:3000/'
+url_base = 'http://localhost:3000/api/'
 
 areas_de_interesse = [
     'Aws',
@@ -28,6 +28,7 @@ areas_de_interesse = [
 ids_areas = []
 for area in areas_de_interesse:
     response_area = requests.post(url_base + 'areas', data={'nome': area})
+    print(response_area.content)
     ids_areas.append(response_area.json()['_id'])
 
 def getRandomArea():

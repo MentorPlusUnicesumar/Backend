@@ -13,7 +13,7 @@ import { ChatService } from './chat.service';
 import { SendMessageDto } from './dtos/send-message.dto';
 import { JwtService } from '@nestjs/jwt';
 
-@WebSocketGateway({
+@WebSocketGateway(3001, {
   cors: {
     origin: '*',
   },
