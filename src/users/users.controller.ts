@@ -14,7 +14,7 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { EnumTypeUser } from './enums/user-type';
-import { Roles } from 'src/auth/decorator/roles.decorator';
+import { Roles } from '../auth/decorator/roles.decorator';
 import { UserInterface } from './interface/user.interface';
 import { NewSenhaUserDto } from './dto/newsenha-user.dto';
 import mongoose from 'mongoose';
