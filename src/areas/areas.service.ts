@@ -45,8 +45,9 @@ export class AreasService {
       .exec();
   }
 
-  remove(id: string) {
-    return this.areaModel.deleteOne({ _id: id });
+  async remove(id: string) {
+    await this.userService.removeAreaFromUsers(id);
+    return await this.areaModel.deleteOne({ _id: id });
   }
 
   async findAreaDetalhes(query: FiltroAreaDto) {
@@ -83,7 +84,7 @@ export class AreasService {
         numeroDeAlunos: 0, // ou algum valor default
       };
     });
-    console.log('resultado', resultado);
+
     return resultado;
   }
 }

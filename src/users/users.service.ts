@@ -322,4 +322,13 @@ export class UsersService {
 
     return detalhes;
   }
+
+  async removeAreaFromUsers(id: string) {
+    // areas dentro de users é um array de ids de area
+
+    return await this.userModel.updateMany(
+      { areas: id },
+      { $pull: { areas: id } },
+    );
+  }
 }
