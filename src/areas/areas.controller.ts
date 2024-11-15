@@ -6,12 +6,14 @@ import {
   Patch,
   Param,
   Delete,
+  Query,
 } from '@nestjs/common';
 import { AreasService } from './areas.service';
 import { CreateAreaDto } from './dto/create-area.dto';
 import { UpdateAreaDto } from './dto/update-area.dto';
 import mongoose from 'mongoose';
 import { ApiTags } from '@nestjs/swagger';
+import { FiltroAreaDto } from './dto/filtro-area.dto';
 
 @ApiTags('areas')
 @Controller('areas')
@@ -52,7 +54,7 @@ export class AreasController {
   }
 
   @Get('detalhes')
-  async findAreasDetalhes() {
-    return await this.areasService.findAreaDetalhes();
+  async findAreasDetalhes(@Query() query: FiltroAreaDto) {
+    return await this.areasService.findAreaDetalhes(query);
   }
 }

@@ -6,6 +6,7 @@ import { Area, AreaDocument } from './schema/area.schema';
 import mongoose, { Model } from 'mongoose';
 import { AreaInterface } from './interface/area.interface';
 import { UsersService } from 'src/users/users.service';
+import { FiltroAreaDto } from './dto/filtro-area.dto';
 
 @Injectable()
 export class AreasService {
@@ -48,10 +49,10 @@ export class AreasService {
     return this.areaModel.deleteOne({ _id: id });
   }
 
-  async findAreaDetalhes() {
+  async findAreaDetalhes(query: FiltroAreaDto) {
     const areasDetalhes = await this.userService.getAreasDetalhes();
 
-    const areas = await this.findAll();
+    const areas = await this.areaModel.find(query).exec();
 
     const resultado = areas.map((area) => {
       // Encontra o detalhe correspondente para a área
