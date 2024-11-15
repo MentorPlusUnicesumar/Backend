@@ -5,12 +5,14 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Area, AreaDocument } from './schema/area.schema';
 import mongoose, { Model } from 'mongoose';
 import { AreaInterface } from './interface/area.interface';
+import { UsersService } from 'src/users/users.service';
+import { FiltroAreaDto } from './dto/filtro-area.dto';
 
 @Injectable()
 export class AreasService {
   constructor(
-    @InjectModel(Area.name)
-    private areaModel: Model<AreaDocument>,
+    @InjectModel(Area.name) private areaModel: Model<AreaDocument>,
+    private userService: UsersService,
   ) {}
 
   create(createAreaDto: CreateAreaDto): Promise<AreaInterface> {
@@ -43,7 +45,46 @@ export class AreasService {
       .exec();
   }
 
-  remove(id: string) {
-    return this.areaModel.deleteOne({ _id: id });
+  async remove(id: string) {
+    await this.userService.removeAreaFromUsers(id);
+    return await this.areaModel.deleteOne({ _id: id });
+  }
+
+  async findAreaDetalhes(query: FiltroAreaDto) {
+    const filtro: any = {};
+
+    if (query.nome) {
+      filtro.nome = { $regex: query.nome, $options: 'i' };
+    }
+    const areasDetalhes = await this.userService.getAreasDetalhes();
+
+    const areas = await this.areaModel.find(filtro).exec();
+
+    const resultado = areas.map((area) => {
+      // Encontra o detalhe correspondente para a área
+      const detalhe = areasDetalhes.find(
+        (d) => d.area.toString() === area._id.toString(),
+      );
+
+      // Se o detalhe for encontrado, adiciona os números de mentores e alunos
+      if (detalhe) {
+        return {
+          _id: area._id,
+          nome: area.nome,
+          numeroDeMentores: detalhe.numeroDeMentores,
+          numeroDeAlunos: detalhe.numeroDeAlunos,
+        };
+      }
+
+      // Caso não encontre o detalhe, apenas retorna a área sem números de mentores e alunos
+      return {
+        _id: area._id,
+        nome: area.nome,
+        numeroDeMentores: 0, // ou algum valor default
+        numeroDeAlunos: 0, // ou algum valor default
+      };
+    });
+
+    return resultado;
   }
 }

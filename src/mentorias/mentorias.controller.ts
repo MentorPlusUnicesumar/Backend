@@ -33,6 +33,12 @@ export class MentoriasController {
   ): Promise<CardMentoria[]> {
     return await this.mentoriasService.getCards(id);
   }
+
+  @Get('pendentes')
+  async findMentoriasPendentes(@UserId() id: mongoose.Types.ObjectId) {
+    return await this.mentoriasService.findMentoriasPendentes(id);
+  }
+
   @Get(':id')
   async findById(
     @Param('id', ValidateObjectIdPipe) id: mongoose.Types.ObjectId,

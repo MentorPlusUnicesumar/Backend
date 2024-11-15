@@ -136,7 +136,9 @@ export class MentoriasService {
   }
 
   async findAllMentorias(query: FiltroMentoriaDto) {
-    const filtro: any = {};
+    const filtro: any = {
+      status: EnumStatusMentoria.ATIVA,
+    };
 
     // Encontrar todas as mentorias com os campos populados de aluno e mentor
     const mentorias = await this.mentoriaModel
@@ -175,5 +177,21 @@ export class MentoriasService {
     }
 
     return resultadoFiltrado;
+  }
+
+  async findMentoriasPendentes(id: mongoose.Types.ObjectId) {
+    const mentorias = await this.mentoriaModel
+      .find({
+        idAluno: id,
+        status: EnumStatusMentoria.PENDENTE,
+      })
+      .populate({
+        path: 'idMentor',
+        select: 'nome',
+      })
+      .select('_id nome idMentor')
+      .exec();
+
+    return mentorias;
   }
 }
