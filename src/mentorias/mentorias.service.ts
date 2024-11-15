@@ -191,6 +191,8 @@ export class MentoriasService {
       })
       .select('_id nome idMentor')
       .exec();
+
+    console.log(mentorias);
     return mentorias;
   }
 }
