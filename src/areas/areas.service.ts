@@ -57,7 +57,7 @@ export class AreasService {
     }
     const areasDetalhes = await this.userService.getAreasDetalhes();
 
-    const areas = await this.areaModel.find(query).exec();
+    const areas = await this.areaModel.find(filtro).exec();
 
     const resultado = areas.map((area) => {
       // Encontra o detalhe correspondente para a área
