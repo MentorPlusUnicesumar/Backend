@@ -19,7 +19,6 @@ import { CardMentoria } from './interface/card.interface';
 import { ApiBearerAuth, ApiTags } from '@nestjs/swagger';
 import { ValidateObjectIdPipe } from 'src/common/pipes/validate-object-id.pipe';
 import { FiltroMentoriaDto } from './dto/filtro-mentoria.dto';
-// import { UpdateMentoriaDto } from './dto/update-mentoria.dto';
 
 @ApiTags('mentorias')
 @Controller('mentorias')
@@ -63,11 +62,18 @@ export class MentoriasController {
     return await this.mentoriasService.updateFeedbackMentoria(id, feedback);
   }
 
-  @Patch('accept/:id')
+  @Patch('aceitar/:id')
   async aceitarMentoria(
     @Param('id') id: mongoose.Types.ObjectId,
+    @Body('action') action,
   ): Promise<MentoriaInterface> {
-    return await this.mentoriasService.aceitarMentoria(id);
+    if (action === 'aceitar') {
+      return await this.mentoriasService.aceitarMentoria(id);
+    } else if (action === 'recusar') {
+      return await this.mentoriasService.recusarMentoria(id);
+    } else {
+      throw new Error('Ação inválida');
+    }
   }
 
   @Get()

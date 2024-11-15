@@ -103,6 +103,17 @@ export class MentoriasService {
     return mentoria;
   }
 
+  async recusarMentoria(id: mongoose.Types.ObjectId) {
+    const mentoria = await this.mentoriaModel
+      .findByIdAndUpdate(
+        id,
+        { $set: { status: EnumStatusMentoria.RECUSADA } },
+        { new: true },
+      )
+      .exec();
+    return mentoria;
+  }
+
   async findById(id: mongoose.Types.ObjectId) {
     const mentoria = await this.mentoriaModel
       .findById(id)
