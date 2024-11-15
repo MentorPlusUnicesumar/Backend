@@ -188,7 +188,9 @@ export class MentoriasService {
       .populate({
         path: 'idMentor',
         select: 'nome',
-      });
+      })
+      .select('_id nome idMentor')
+      .exec();
     return mentorias;
   }
 }
