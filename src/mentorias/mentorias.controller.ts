@@ -68,4 +68,9 @@ export class MentoriasController {
   async findAllMentorias(@Query() query: FiltroMentoriaDto) {
     return await this.mentoriasService.findAllMentorias(query);
   }
+
+  @Get('mentorias/pendentes')
+  async findMentoriasPendentes(@UserId() id: mongoose.Types.ObjectId) {
+    return await this.mentoriasService.findMentoriasPendentes(id);
+  }
 }

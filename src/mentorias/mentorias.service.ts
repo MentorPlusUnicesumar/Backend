@@ -178,4 +178,17 @@ export class MentoriasService {
 
     return resultadoFiltrado;
   }
+
+  async findMentoriasPendentes(id: mongoose.Types.ObjectId) {
+    const mentorias = await this.mentoriaModel
+      .find({
+        idAluno: id,
+        status: EnumStatusMentoria.PENDENTE,
+      })
+      .populate({
+        path: 'idMentor',
+        select: 'nome',
+      });
+    return mentorias;
+  }
 }
