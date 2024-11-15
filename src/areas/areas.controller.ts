@@ -50,4 +50,9 @@ export class AreasController {
   remove(@Param('id') id: string) {
     return this.areasService.remove(id);
   }
+
+  @Get('detalhes')
+  async findAreasDetalhes() {
+    return await this.areasService.findAreaDetalhes();
+  }
 }

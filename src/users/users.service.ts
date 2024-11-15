@@ -288,4 +288,38 @@ export class UsersService {
       .select('-senha');
     return alunos;
   }
+
+  async getAreasDetalhes() {
+    const detalhes = await this.userModel.aggregate([
+      {
+        $match: {
+          status: EnumStatusUser.APROVADO, // Filtrando apenas usuários ativos
+        },
+      },
+      {
+        $unwind: '$areas', // "Desconstruir" a lista de áreas para que cada área tenha um documento individual
+      },
+      {
+        $group: {
+          _id: '$areas', // Agrupar por área
+          numeroDeMentores: {
+            $sum: { $cond: [{ $eq: ['$typeUser', 'Mentor'] }, 1, 0] }, // Contar apenas mentores
+          },
+          numeroDeAlunos: {
+            $sum: { $cond: [{ $eq: ['$typeUser', 'Aluno'] }, 1, 0] }, // Contar apenas alunos
+          },
+        },
+      },
+      {
+        $project: {
+          area: '$_id', // Devolver a área com o nome, não o _id
+          numeroDeMentores: 1,
+          numeroDeAlunos: 1,
+          _id: 0, // Remover o _id gerado pelo group
+        },
+      },
+    ]);
+
+    return detalhes;
+  }
 }
