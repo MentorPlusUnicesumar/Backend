@@ -50,6 +50,11 @@ export class AreasService {
   }
 
   async findAreaDetalhes(query: FiltroAreaDto) {
+    const filtro: any = {};
+
+    if (query.nome) {
+      filtro.nome = { $regex: query.nome, $options: 'i' };
+    }
     const areasDetalhes = await this.userService.getAreasDetalhes();
 
     const areas = await this.areaModel.find(query).exec();
