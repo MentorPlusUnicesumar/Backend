@@ -136,7 +136,9 @@ export class MentoriasService {
   }
 
   async findAllMentorias(query: FiltroMentoriaDto) {
-    const filtro: any = {};
+    const filtro: any = {
+      status: EnumStatusMentoria.ATIVA,
+    };
 
     // Encontrar todas as mentorias com os campos populados de aluno e mentor
     const mentorias = await this.mentoriaModel
