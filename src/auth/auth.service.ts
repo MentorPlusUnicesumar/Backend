@@ -24,10 +24,13 @@ export class AuthService {
 
   async signIn(loginDto: LoginDto) {
     const user = await this.usersService.findByEmail(loginDto.email);
+    if (!user) {
+      throw new NotFoundException('Email ou senha invalidos');
+    }
     if (user.status === 'Aprovado') {
       const isMath = await bycript.compare(loginDto.senha, user.senha);
 
-      if (!user || !isMath) {
+      if (!isMath) {
         throw new NotFoundException('Email ou senha invalidos');
       }
 
