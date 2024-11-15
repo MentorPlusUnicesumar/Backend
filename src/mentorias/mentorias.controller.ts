@@ -69,9 +69,8 @@ export class MentoriasController {
     return await this.mentoriasService.findAllMentorias(query);
   }
 
-  @Get('mentorias/pendentes')
+  @Get('pendentes')
   async findMentoriasPendentes(@UserId() id: mongoose.Types.ObjectId) {
-    console.log('id', id);
     return await this.mentoriasService.findMentoriasPendentes(id);
   }
 }
