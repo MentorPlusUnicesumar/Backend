@@ -189,6 +189,13 @@ export class UsersService {
       user.disponivel = false;
     }
 
+    if (
+      user.typeUser === EnumTypeUser.Mentor &&
+      status === EnumStatusUser.APROVADO
+    ) {
+      user.disponivel = true;
+    }
+
     if (!user) {
       throw new NotFoundException('Usuário não encontrado');
     }
@@ -219,7 +226,7 @@ export class UsersService {
   async findMentores(query: filtroMentorType, id: mongoose.Types.ObjectId) {
     const filtro: any = {
       typeUser: EnumTypeUser.Mentor,
-      status: { $in: ['Aprovado', 'Inativo'] },
+      status: { $in: ['Aprovado'] },
     };
 
     if (query.nomeMentor) {
