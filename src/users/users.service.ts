@@ -182,17 +182,11 @@ export class UsersService {
     const user = await this.userModel.findById(id);
 
     // Quando muda o status do mentor para INativo, muda também o disponivel para mentorias
-    if (
-      user.typeUser === EnumTypeUser.Mentor &&
-      status === EnumStatusUser.INATIVO
-    ) {
+    if (status === EnumStatusUser.INATIVO) {
       user.disponivel = false;
     }
 
-    if (
-      user.typeUser === EnumTypeUser.Mentor &&
-      status === EnumStatusUser.APROVADO
-    ) {
+    if (status === EnumStatusUser.APROVADO) {
       user.disponivel = true;
     }
 
