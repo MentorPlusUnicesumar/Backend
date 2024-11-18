@@ -109,11 +109,11 @@ mentor_mazzurana = {
     ],
     "trabDestaque": [
         {
-            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/backend_arquitetura.jpg",
+            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/programacao.png",
             "descricao": "Desenvolvimento de uma plataforma de e-commerce com arquitetura serverless."
         },
         {
-            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dados.png",
+            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dadospng.png",
             "descricao": "Criação de um sistema de análise de dados em tempo real para uma fintech."
         }
     ],
