@@ -43,6 +43,7 @@ aluno_renan = {
     "typeUser": "Aluno",
     "cidade": "Maringá",
     "uf": "PR",
+    "disponivel": True,
     "cpf": "11550847996",
     "fotos": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/renanRocha.jpg",
     "areas" : list(set([getRandomArea() for _ in range(3)])),
@@ -86,6 +87,22 @@ mentor_men = {
     "competencias": ['React', 'React Native', 'NodeJS'],
     "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
 }
+
+aluno_mazzu = {
+    "nome": "Pedro Mazzurana",
+    "email": "pedro@gmail.com",
+    "senha": "Teste123!",
+    "telefone": "(44) 9999-9999",
+    "typeUser": "Mentor",
+    "cidade": "Maringá",
+    "uf": "PR",
+    "disponivel": True,
+    "cpf": "92345055065",
+    "fotos": 'https://mentorplus.s3.us-east-1.amazonaws.com/fotos/pedroMazzurana.jpg',
+    "areas" : list(set([getRandomArea() for _ in range(3)])),
+    "motivoCadastro": "Quero aprender com a experiência de quem já trilhou o caminho que estou começando, reduzindo erros e ganhando tempo no meu desenvolvimento.",
+}
+
 
 mentores = [
     {
@@ -245,7 +262,7 @@ alunos = [
         "motivoCadastro": "Tenho dificuldades em algumas áreas e acredito que, com a ajuda de um mentor, posso superar esses obstáculos de forma mais assertiva.",
     },
         {
-        "nome": "Aluno 3",
+        "nome": "Vitor Pereira",
         "email": "Aluno3@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-9999",
@@ -257,12 +274,12 @@ alunos = [
         "uf": "PR",
         "disponivel": True,
         "cpf": "14463803004",
-        "fotos": "foto.com.br",
+        "fotos": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/Aluno+3+Homem+Branco.webp",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
         "motivoCadastro": "Busco orientações práticas e diretas de alguém que entenda meu contexto e possa me ajudar a tomar decisões mais embasadas.",
     },
         {
-        "nome": "Aluno 4",
+        "nome": "Leticia Linhares",
         "email": "Aluno4@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-9999",
@@ -274,12 +291,12 @@ alunos = [
         "uf": "PR",
         "disponivel": True,
         "cpf": "76832145071",
-        "fotos": "foto.com.br",
+        "fotos": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/Aluna+4+Mulher+loira.webp",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
         "motivoCadastro": "Participar da mentoria é uma forma de me conectar com profissionais experientes e aumentar minhas oportunidades de networking.",
     },
         {
-        "nome": "Aluno 5",
+        "nome": "Murilo Esteves",
         "email": "Aluno5@gmail.com",
         "senha": "Teste123!",
         "telefone": "(44) 9999-9999",
@@ -291,7 +308,7 @@ alunos = [
         "uf": "PR",
         "disponivel": True,
         "cpf": "94207098097",
-        "fotos": "foto.com.br",
+        "fotos": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/Aluno+5+Homem+Ruivo.webp",
         "areas" : list(set([getRandomArea() for _ in range(3)])),
         "motivoCadastro": "Com a orientação certa, acredito que posso ter mais segurança nas minhas escolhas profissionais e mais clareza sobre o caminho a seguir.",
     },
