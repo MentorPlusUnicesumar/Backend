@@ -88,7 +88,7 @@ mentor_men = {
     "motivoCadastro": "Me cadastrar na plataforma de mentoria como mentor é uma oportunidade de retribuir à comunidade tudo o que a área de TI me proporcionou. Ao longo da minha jornada, tive a sorte de aprender com grandes profissionais e sei o quanto isso foi crucial para o meu crescimento. Agora, quero usar minha experiência para ajudar outros a trilhar o mesmo caminho.",
 }
 
-aluno_mazzu = {
+mentor_mazzurana = {
     "nome": "Pedro Mazzurana",
     "email": "pedro@gmail.com",
     "senha": "Teste123!",
@@ -99,8 +99,27 @@ aluno_mazzu = {
     "disponivel": True,
     "cpf": "92345055065",
     "fotos": 'https://mentorplus.s3.us-east-1.amazonaws.com/fotos/pedroMazzurana.jpg',
+    "sobre": "Sou especialista em desenvolvimento backend com foco em soluções escaláveis e de alto desempenho. Minha experiência inclui trabalhar com microsserviços, bancos de dados distribuídos e integração de APIs RESTful e GraphQL.",
+    "instagram": "https://www.instagram.com/mazzuranapmc/",
+    "linkedin": 'https://www.linkedin.com/in/pedro-mazzurana/',
+    "experiencias": [
+        "Desenvolvimento de microsserviços em Node.js e Python, utilizando arquitetura baseada em eventos.",
+        "Gerenciamento de bancos de dados SQL e NoSQL para aplicações de grande escala.",
+        "Implementação de pipelines CI/CD com ferramentas como Jenkins e GitHub Actions."
+    ],
+    "trabDestaque": [
+        {
+            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/backend_arquitetura.jpg",
+            "descricao": "Desenvolvimento de uma plataforma de e-commerce com arquitetura serverless."
+        },
+        {
+            "foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dados.png",
+            "descricao": "Criação de um sistema de análise de dados em tempo real para uma fintech."
+        }
+    ],
+    "competencias": ['Node.js', 'Python', 'Docker', 'Kubernetes', 'GraphQL'],
     "areas" : list(set([getRandomArea() for _ in range(3)])),
-    "motivoCadastro": "Quero aprender com a experiência de quem já trilhou o caminho que estou começando, reduzindo erros e ganhando tempo no meu desenvolvimento.",
+    "motivoCadastro": "Acredito no poder da mentoria para acelerar o aprendizado e a carreira de profissionais em tecnologia. Quero compartilhar meu conhecimento e contribuir para o crescimento de futuros desenvolvedores e engenheiros de software.",
 }
 
 
@@ -327,6 +346,10 @@ print(response_aluno_renan.json())
 response_mentor_men = requests.post(url_base + 'users', json=mentor_men)
 print(response_mentor_men)
 print(response_mentor_men.json())
+
+response_mentor_mazzurana = requests.post(url_base + 'users', json=mentor_mazzurana)
+print(response_mentor_mazzurana)
+print(response_mentor_mazzurana.json())
 
 response_admin_prisco = requests.post(url_base + 'users', json=admin_prisco)
 print(response_admin_prisco)
