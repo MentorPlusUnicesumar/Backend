@@ -101,7 +101,10 @@ mentores = [
         "linkedin": "https://www.linkedin.com",
         "disponivel": True,
         "experiencias": ["Desenvolvimento de interfaces responsivas", "Otimização de desempenho web", "Mentoria em front-end"],
-        "trabDestaque": [],
+        "trabDestaque": [
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/tec_educacao.jfif", "descricao": "Desenvolvimento de uma interface intuitiva para uma plataforma educacional"},
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/programacao.png", "descricao": "Criação de componentes reutilizáveis em React para uma fintech"},
+        ],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": ["HTML/CSS Avançado", "React.js", "Design Responsivo"],
         "motivoCadastro": "Acredito que orientar outros profissionais é uma excelente oportunidade de aprimorar minha comunicação, paciência e habilidades de liderança.",        
@@ -122,7 +125,10 @@ mentores = [
         "linkedin": "https://www.linkedin.com",
         "disponivel": True,
         "experiencias": ["Automação de testes com Selenium", "Desenvolvimento em Spring Boot", "Liderança técnica de equipes"],
-        "trabDestaque": [],
+        "trabDestaque": [
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/tec_educacao.jfif", "descricao": "Automação de testes para um sistema bancário com Selenium"},
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/programacao.png", "descricao": "Desenvolvimento de uma API de pagamento utilizando Spring Boot"}
+        ],
         "areas": list(set([getRandomArea() for _ in range(1)])),
         "competencias": ["Java Avançado", "Automação de Testes", "Arquitetura de Software"],
         "motivoCadastro": "Quero ajudar novos profissionais a crescer, compartilhando os aprendizados e desafios que enfrentei em minha carreira, e contribuir para o desenvolvimento da comunidade.",
@@ -143,7 +149,9 @@ mentores = [
         "linkedin": "https://www.linkedin.com",
         "disponivel": True,
         "experiencias": ["Criação de dashboards interativos", "Análise de grandes volumes de dados", "Automatização de relatórios"],
-        "trabDestaque": [],
+        "trabDestaque": [
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dadospng.png", "descricao": "Criação de dashboards interativos com Power BI"},
+        ],
         "areas": list(set([getRandomArea() for _ in range(4)])),
         "competencias": ["Python Avançado", "SQL", "Power BI"],
         "motivoCadastro": "Ser mentor me permite conectar com talentos promissores e outros profissionais da área, fortalecendo minha rede de relacionamentos na TI.",
@@ -165,12 +173,10 @@ mentores = [
         "disponivel": True,
         "experiencias": ["Criação de estratégias de marketing digital", "Gestão de campanhas online", "Mentoria em redes sociais"],
         "trabDestaque": [
-            {'foto': 'https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300', 'descricao': 'Como criar um site de sucesso'},
-            {'foto': 'https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300', 'descricao': 'Como criar um site de sucesso'},
-            {'foto': 'https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300', 'descricao': 'Como criar um site de sucesso'},
-            {'foto': 'https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300', 'descricao': 'Como criar um site de sucesso'},
-            {'foto': 'https://s.yimg.com/zb/imgv1/2d1bd1a5-7779-3c48-a638-0533ace5e563/t_500x300', 'descricao': 'Como criar um site de sucesso'},
-            ],
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/tec_educacao.jfif", "descricao": "Gestão de campanhas de marketing digital para uma startup"},
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dadospng.png", "descricao": "Estratégia de SEO para aumentar o tráfego de um blog corporativo"},
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/programacao.png", "descricao": "Criação de conteúdo para redes sociais de uma pequena empresa"}
+        ],
         "areas": list(set([getRandomArea() for _ in range(6)])),
         "competencias": ["SEO e SEM", "Marketing de Conteúdo", "Gestão de Mídias Pagas"],
         "motivoCadastro": "Enxergo a mentoria como uma via de mão dupla, onde não apenas ensino, mas também aprendo com as diferentes visões e desafios trazidos pelos mentorados.",
@@ -191,7 +197,9 @@ mentores = [
         "linkedin": "https://www.linkedin.com",
         "disponivel": True,
         "experiencias": ["Processamento de dados em larga escala", "Modelagem de dados", "Implementação de pipelines de dados"],
-        "trabDestaque": [],
+        "trabDestaque": [
+            {"foto": "https://mentorplus.s3.us-east-1.amazonaws.com/fotos/analise_dadospng.png", "descricao": "Implementação de um pipeline de dados para análise de Big Data"},
+        ],
         "areas": list(set([getRandomArea() for _ in range(5)])),
         "competencias": ["Big Data", "Apache Spark", "Modelagem de Dados"],
         "motivoCadastro": "Quero ser parte do crescimento de uma nova geração de profissionais, ajudando a formar um ecossistema mais forte, diverso e colaborativo.",
