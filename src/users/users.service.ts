@@ -182,11 +182,12 @@ export class UsersService {
     const user = await this.userModel.findById(id);
 
     // Quando muda o status do mentor para INativo, muda também o disponivel para mentorias
-    if (
-      user.typeUser === EnumTypeUser.Mentor &&
-      status === EnumStatusUser.INATIVO
-    ) {
+    if (status === EnumStatusUser.INATIVO) {
       user.disponivel = false;
+    }
+
+    if (status === EnumStatusUser.APROVADO) {
+      user.disponivel = true;
     }
 
     if (!user) {
@@ -219,7 +220,7 @@ export class UsersService {
   async findMentores(query: filtroMentorType, id: mongoose.Types.ObjectId) {
     const filtro: any = {
       typeUser: EnumTypeUser.Mentor,
-      status: { $in: ['Aprovado', 'Inativo'] },
+      status: { $in: ['Aprovado'] },
     };
 
     if (query.nomeMentor) {
